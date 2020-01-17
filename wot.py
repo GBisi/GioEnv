@@ -16,7 +16,7 @@ class Thing(BaseConverter):
         return value.get_id()
 
 def get_actions(request, thing, name):
-    return str(thing.get_action_descriptions(name))
+    return json.dumps(thing.get_action_descriptions(name))
 
 def post_actions(request, thing, name):
     response = {}
@@ -33,21 +33,20 @@ def post_actions(request, thing, name):
             threading.Thread(target=action.start).start()
             
 
-    return str(response)
+    return response
 
 def get_events(request, thing, name):
-    return str(thing.get_event_descriptions(name))
+    return json.dumps(thing.get_event_descriptions(name))
 
 def get_properties(request, thing, name):
     if name is None:
-        print(str(thing.get_properties()))
-        return str(thing.get_properties())
+        return thing.get_properties()
     else:
         prop = thing.get_property(name)
         if prop is None:
             abort(404)
         else:
-            return str({name:prop})
+            return {name:prop}
 
 def put_property(request, thing, name):
     if name is None:
@@ -60,9 +59,9 @@ def put_property(request, thing, name):
         except PropertyError:
             abort(400)
 
-        return str({
+        return {
             name: thing.get_property(name),
-        })
+        }
     else:
         self.set_status(404)
 
@@ -77,10 +76,7 @@ db.init()
 
 @app.route('/things')
 def parse_things():
-    things = "["
-    json_string = json.dumps([ob.as_thing_description() for ob in db.get_things()])
-
-    return json_string
+    return json.dumps([ob.as_thing_description() for ob in db.get_things()])
 
 @app.route('/things/<thing:thing>')
 def parse_thing(thing):
