@@ -4,10 +4,11 @@ from event import Event
 from property import Property
 from value import Value
 from errors import DatabaseError
+from timer import Timer
+from threading import Event
 import logging 
 import uuid
 import time
-import threading
 import random
 
 class Database:
@@ -165,19 +166,17 @@ class Database:
                             }))
 
                 logging.debug('starting the sensor update looping task')
-                threading.Thread(target=lambda _ : print("ciao"), args=(1,)).start()
-
-            def process(time):
-                time.sleep(time/1000)
-                self.update_level()
+                self.timer = Timer(self.update_level, 5000)
+                self.stop_flag = self.timer.get_flag()
+                #self.timer.start() #!
 
             def update_level(self):
                 new_level = self.read_from_gpio()
-                logging.debug('setting new humidity level: %s', new_level)
+                print('setting new humidity level: %s', new_level)
                 self.level.notify_of_external_update(new_level)
 
             def cancel_update_level_task(self):
-                self.timer.stop()
+                self.stop_flag.set()
 
             @staticmethod
             def read_from_gpio():

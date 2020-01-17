@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, request, abort
 from werkzeug.routing import BaseConverter
 import threading
 import json
