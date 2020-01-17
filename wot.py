@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, abort
 from werkzeug.routing import BaseConverter
 import threading
+import json
 
 from database import Database
 
@@ -76,12 +77,10 @@ db.init()
 
 @app.route('/things')
 def parse_things():
-    things = []
+    things = "["
+    json_string = json.dumps([ob.as_thing_description() for ob in db.get_things()])
 
-    for thing in db.get_things():
-        things.append(thing.as_thing_description())
-
-    return str(things)
+    return json_string
 
 @app.route('/things/<thing:thing>')
 def parse_thing(thing):
