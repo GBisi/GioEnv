@@ -40,7 +40,7 @@ class Value(EventEmitter):
         """
         if self.value_forwarder is not None:
             self.value_forwarder(value)
-            self.notify_of_external_update(value) #! MODIFIED
+        self.notify_of_external_update(value) 
 
     def get(self):
         """Return the last known value from the underlying thing."""

@@ -5,7 +5,6 @@ from property import Property
 from value import Value
 from errors import DatabaseError
 from timer import Timer
-from threading import Event
 import logging 
 import uuid
 import time
@@ -172,7 +171,7 @@ class Database:
 
             def update_level(self):
                 new_level = self.read_from_gpio()
-                print('setting new humidity level: %s', new_level)
+                logging.debug('setting new humidity level: %s', new_level)
                 self.level.notify_of_external_update(new_level)
 
             def cancel_update_level_task(self):

@@ -439,8 +439,14 @@ class Thing:
 
         :param property_: the property that changed
         """
+
+        response = {}
+        response["messageType"] = "propertyStatus"
+        response["data"] = {property_.name : self.get_property(property_.name)}
+        response = json.dumps(response)
+
         for subscriber in list(self.subscribers):
-            subscriber.update_property(property_)
+            subscriber.send(response)
 
     def action_notify(self, action):
         """
@@ -448,8 +454,14 @@ class Thing:
 
         :param action: The action whose status changed
         """
+
+        response = {}
+        response["messageType"] = "actionStatus"
+        response["data"] = action.as_action_description()
+        response = json.dumps(response)
+
         for subscriber in list(self.subscribers):
-            subscriber.update_action(action)
+            subscriber.send(response)
 
     def event_notify(self, event):
         """
@@ -460,7 +472,12 @@ class Thing:
         if event.name not in self.available_events:
             return
 
+        response = {}
+        response["messageType"] = "event"
+        response["data"] = event.as_event_description()
+        response = json.dumps(response)
+
         for subscriber in self.available_events[event.name]['subscribers']:
-            subscriber.update_event(event)
+            subscriber.send(response)
 
         

@@ -2,8 +2,14 @@ from flask import Flask, request, abort
 from werkzeug.routing import BaseConverter
 import threading
 import json
+import time
+from flask_sockets import Sockets
 
 from database import Database
+
+from gevent import pywsgi
+from geventwebsocket import WebSocketError
+from geventwebsocket.handler import WebSocketHandler
 
 class Thing(BaseConverter):
     def to_python(self, value):
@@ -14,6 +20,9 @@ class Thing(BaseConverter):
 
     def to_url(self, value):
         return value.get_id()
+
+def perform_action(action):
+    threading.Thread(target=action.start).start()
 
 def get_actions(request, thing, name):
     return json.dumps(thing.get_action_descriptions(name))
@@ -30,7 +39,7 @@ def post_actions(request, thing, name):
         if action:
             response.update(action.as_action_description())
             # Start the action
-            threading.Thread(target=action.start).start()
+            perform_action(action)
             
 
     return response
@@ -60,7 +69,7 @@ def put_property(request, thing, name):
             abort(400)
 
         return {
-            name: thing.get_property(name),
+            name: thing.get_property(name)
         }
     else:
         self.set_status(404)
@@ -73,6 +82,9 @@ operations = {"properties":{"GET": get_properties, "PUT": put_property},
 
 db = Database()
 db.init()
+
+sockets = Sockets(app)
+
 
 @app.route('/things')
 def parse_things():
@@ -99,7 +111,7 @@ def action_request(thing,name,id_):
         if request.method == 'GET':
             return action.as_action_description()
         elif request.method == 'PUT':
-            abort(500, 'Not yet in the spec')
+            abort(501, 'Not yet in the spec')
         elif request.method == 'DELETE':
             if thing.remove_action(name, id_):
                 return '',204
@@ -112,6 +124,105 @@ def parse(request, thing, operation, name=None):
     else:
         abort(400)
 
+def on_socket_open(thing, ws):
+    thing.add_subscriber(ws)
+
+def on_socket_close(thing, ws):
+    thing.remove_subscriber(ws)
+
+def on_socket_message(thing, ws, message):
+    try:
+        message = json.loads(message)
+    except ValueError:
+        return json.dumps({
+                    'messageType': 'error',
+                    'data': {
+                        'status': '400 Bad Request',
+                        'message': 'Parsing request failed',
+                    }})
+    
+    if 'messageType' not in message or 'data' not in message:
+        return json.dumps({
+            'messageType': 'error',
+            'data': {
+                'status': '400 Bad Request',
+                'message': 'Invalid message',
+                'request': message,
+            }})
+
+    msg_type = message['messageType']
+
+    if msg_type == 'setProperty':
+        for property_name, property_value in message['data'].items():
+
+            try:
+                thing.set_property(property_name, property_value)
+            except PropertyError as e:
+                return json.dumps({
+                    'messageType': 'error',
+                    'data': {
+                        'status': '400 Bad Request',
+                        'message': str(e),
+                    },
+                })
+
+    elif msg_type == 'requestAction':
+        for action_name, action_params in message['data'].items():
+            input_ = None
+            if 'input' in action_params:
+                input_ = action_params['input']
+
+            action = thing.perform_action(action_name, input_)
+            if action:
+                perform_action(action)
+            else:
+                return json.dumps({
+                    'messageType': 'error',
+                    'data': {
+                        'status': '400 Bad Request',
+                        'message': 'Invalid action request',
+                        'request': message,
+                    },
+                })
+    elif msg_type == 'addEventSubscription':
+        for event_name in message['data'].keys():
+            thing.add_event_subscriber(event_name, ws)
+    else:
+        return json.dumps({
+                'messageType': 'error',
+                'data': {
+                    'status': '400 Bad Request',
+                    'message': 'Unknown messageType: ' + msg_type,
+                    'request': message,
+                },
+            })
+    
+
+@sockets.route('/things/<thing>')
+def on_socket_connection(ws, thing):
+
+    thing = db.get_thing('localhost:5000/things/'+thing)
+    if thing is None:
+        ws.send(json.dumps({
+                    'messageType': 'error',
+                    'data': {
+                        'status': '404 Not Found',
+                    }}))
+
+
+    on_socket_open(thing, ws)
+    try:
+        while not ws.closed:
+            message = ws.receive()
+            if message is not None:
+                resp = on_socket_message(thing, ws, message)
+                if resp is not None:
+                    ws.send(resp)
+    except WebSocketError:
+        pass
+
+    on_socket_close(thing, ws)
 
 if __name__ == '__main__':
-    app.run()
+    server = pywsgi.WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+    server.serve_forever()
