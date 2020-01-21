@@ -43,7 +43,7 @@ class Thing:
         Returns the state as a dictionary.
         """
         thing = {
-            'id': self.id,
+            'id': self.href_prefix,
             'title': self.title,
             '@context': self.context,
             'properties': self.get_property_descriptions(),
@@ -139,6 +139,13 @@ class Thing:
         Returns the ID as a string.
         """
         return self.id
+
+    def set_id(self, id_):
+        
+        old_id = self.id
+        self.id = id_
+        if self.href_prefix == old_id:
+            self.href_prefix = id_
 
     def get_title(self):
         """

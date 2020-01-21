@@ -5,6 +5,7 @@ import json
 import time
 from flask_sockets import Sockets
 
+from microbitmanager import Manager
 from database import Database
 
 from gevent import pywsgi
@@ -13,7 +14,7 @@ from geventwebsocket.handler import WebSocketHandler
 
 class Thing(BaseConverter):
     def to_python(self, value):
-        thing = db.get_thing('localhost:5000/things/'+value)
+        thing = db.get_thing(value)
         if thing is None:
             abort(404)
         return thing
@@ -80,9 +81,7 @@ operations = {"properties":{"GET": get_properties, "PUT": put_property},
 "events":{"GET": get_events},
 "actions":{"GET": get_actions, "POST":post_actions}}
 
-db = Database()
-db.init()
-
+db = Database("localhost:5000/things/")
 sockets = Sockets(app)
 
 
@@ -224,5 +223,6 @@ def on_socket_connection(ws, thing):
     on_socket_close(thing, ws)
 
 if __name__ == '__main__':
+    threading.Thread(target=Manager(db,"COM3").run).start()
     server = pywsgi.WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
     server.serve_forever()

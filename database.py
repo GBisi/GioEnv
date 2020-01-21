@@ -1,21 +1,17 @@
-from thing import Thing
-from action import Action
-from event import Event
-from property import Property
-from value import Value
 from errors import DatabaseError
-from timer import Timer
-import logging 
-import uuid
-import time
-import random
 
 class Database:
 
-    def __init__(self):
+    def __init__(self, prefix):
         self.things = {}
+        self.prefix = "localhost:5000/things/"
+
+    def get_prefix():
+        return self.prefix
 
     def add_thing(self, thing):
+
+        thing.set_href_prefix(self.prefix+thing.get_id())
 
         if thing.get_id() in self.things:
             raise DatabaseError()
@@ -39,9 +35,7 @@ class Database:
             things.append(thing)
 
         return things
-
-    def init(self):
-        
+"""
         class OverheatedEvent(Event):
 
             def __init__(self, thing, data):
@@ -60,12 +54,12 @@ class Database:
 
 
         class ExampleDimmableLight(Thing):
-            """A dimmable light that logs received commands to stdout."""
+           #A dimmable light that logs received commands to stdout.
 
             def __init__(self):
                 Thing.__init__(
                     self,
-                    'localhost:5000/things/lamp',
+                    'lamp',
                     'My Lamp',
                     'A web connected lamp',
                     'https://iot.mozilla.org/schemas',
@@ -136,12 +130,12 @@ class Database:
 
 
         class FakeGpioHumiditySensor(Thing):
-            """A humidity sensor which updates its measurement every few seconds."""
+            #A humidity sensor which updates its measurement every few seconds
 
             def __init__(self):
                 Thing.__init__(
                     self,
-                    'localhost:5000/things/sensor',
+                    'sensor',
                     'My Humidity Sensor',
                     'A web connected humidity sensor',
                     'https://iot.mozilla.org/schemas',
@@ -179,7 +173,7 @@ class Database:
 
             @staticmethod
             def read_from_gpio():
-                """Mimic an actual sensor updating its reading every couple seconds."""
+                #Mimic an actual sensor updating its reading every couple seconds
                 return abs(70.0 * random.random() * (-0.5 + random.random()))
 
         # Create a thing that represents a dimmable light
@@ -192,7 +186,7 @@ class Database:
         self.add_thing(sensor)
 
 
-    """ needs database of action/event/property/value
+    #needs database of action/event/property/value
     Why? put in properties
          post in things
     @staticmethod
