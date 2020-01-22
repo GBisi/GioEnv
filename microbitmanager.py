@@ -5,22 +5,24 @@ import json
 
 class Manager:
 
-
     def __init__(self, db, port):
         self.MICROBIT_PORT = port
         self.microbits = {}
         self.db = db
 
     def ReadSerial(self):
-        with serial.Serial(self.MICROBIT_PORT, 115200) as s:
-            print("connected")
-            while True:
-                byte = s.readline()
-                line = json.loads(byte.decode().strip())
-                try:
-                    yield int(line["s"]), line["n"], int(line["v"])
-                except:
-                    pass
+        try:
+            with serial.Serial(self.MICROBIT_PORT, 115200) as s:
+                print("Serial: connected")
+                while True:
+                    try:
+                        byte = s.readline()
+                        line = json.loads(byte.decode().strip())
+                        yield int(line["s"]), line["n"], int(line["v"])
+                    except:
+                        pass
+        except:
+             print("Serial: not connected")
 
 
     def run(self):

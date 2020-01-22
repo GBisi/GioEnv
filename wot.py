@@ -12,6 +12,9 @@ from gevent import pywsgi
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
+MICROBIT_PORT = "COM3"
+PREFIX = "localhost:5000/things/"
+
 class Thing(BaseConverter):
     def to_python(self, value):
         thing = db.get_thing(value)
@@ -76,12 +79,13 @@ def put_property(request, thing, name):
         self.set_status(404)
 
 app = Flask(__name__)
+app.debug = True
 app.url_map.converters["thing"] = Thing
 operations = {"properties":{"GET": get_properties, "PUT": put_property}, 
 "events":{"GET": get_events},
 "actions":{"GET": get_actions, "POST":post_actions}}
 
-db = Database("localhost:5000/things/")
+db = Database(PREFIX)
 sockets = Sockets(app)
 
 
@@ -223,6 +227,6 @@ def on_socket_connection(ws, thing):
     on_socket_close(thing, ws)
 
 if __name__ == '__main__':
-    threading.Thread(target=Manager(db,"COM3").run).start()
-    server = pywsgi.WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+    threading.Thread(target=Manager(db,MICROBIT_PORT).run).start()
+    server = pywsgi.WSGIServer(('0.0.0.0', 5000), app, handler_class=WebSocketHandler)
     server.serve_forever()
