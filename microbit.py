@@ -4,10 +4,6 @@ from event import Event
 from property import Property
 from value import Value
 from timer import Timer
-import logging 
-import uuid
-import time
-import random
 
 class Microbit(Thing):
 
