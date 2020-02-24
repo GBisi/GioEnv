@@ -13,7 +13,7 @@ from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 MICROBIT_PORT = "COM7"
-PREFIX = "localhost:5000/things/"
+PREFIX = "localhost:5000/"
 
 class Thing(BaseConverter):
     def to_python(self, value):
@@ -84,7 +84,7 @@ operations = {"properties":{"GET": get_properties, "PUT": put_property},
 "events":{"GET": get_events},
 "actions":{"GET": get_actions, "POST":post_actions}}
 
-db = Database(PREFIX)
+db = Database(PREFIX+"things/")
 sockets = Sockets(app)
 
 

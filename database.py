@@ -2,9 +2,9 @@ from errors import DatabaseError
 
 class Database:
 
-    def __init__(self, prefix):
+    def __init__(self, prefix = "localhost:5000/things/"):
         self.things = {}
-        self.prefix = "localhost:5000/things/"
+        self.prefix = prefix
 
     def get_prefix():
         return self.prefix

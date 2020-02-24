@@ -43,7 +43,6 @@ class Microbit(Thing):
         return self.friendly_name
 
     def update(self, name, value):
-        print(self.friendly_name,name,value)
         self.set_property(name, value)
 
     #https://github.com/lancaster-university/microbit-dal/blob/master/source/core/MicroBitDevice.cpp
