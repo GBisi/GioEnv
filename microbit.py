@@ -4,6 +4,7 @@ from event import Event
 from property import Property
 from value import Value
 from timer import Timer
+import math
 
 class Microbit(Thing):
 
@@ -48,7 +49,7 @@ class Microbit(Thing):
     #https://github.com/lancaster-university/microbit-dal/blob/master/source/core/MicroBitDevice.cpp
     @staticmethod
     def get_microbit_name(serial_number):
-        n = int(serial_number)
+        n = math.ceil(serial_number)
         name_len = 5
         code_letters = 5
         codebook = [
@@ -72,8 +73,8 @@ class Microbit(Thing):
 
         return name
 """
-print(get_microbit_name(384933164)) #puvit
-print(get_microbit_name(1252840479.9999999)) #tetoz
-print(get_microbit_name(671265031)) #tuvov
-print(get_microbit_name(20458004765.9999998)) #gezev
+print(Microbit.get_microbit_name(384933164)) #puvit
+print(Microbit.get_microbit_name(1252840479.9999999)) #tetoz
+print(Microbit.get_microbit_name(671265031)) #tuvov
+print(Microbit.get_microbit_name(20458004765.9999998)) #gezev
 """

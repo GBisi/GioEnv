@@ -20,7 +20,7 @@ class Manager:
                     try:
                         byte = s.readline()
                         line = json.loads(byte.decode().strip())
-                        yield int(line["s"]), line["n"], int(line["v"])
+                        yield line["s"], line["n"], int(line["v"])
                     except:
                         pass
         except:

@@ -4,6 +4,7 @@ import threading
 import json
 import time
 from flask_sockets import Sockets
+from flask_cors import CORS
 
 from microbitmanager import Manager
 from database import Database
@@ -13,7 +14,7 @@ from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 MICROBIT_PORT = "COM7"
-PREFIX = "localhost:5000/"
+PREFIX = "localhost:4242/"
 
 class Thing(BaseConverter):
     def to_python(self, value):
@@ -79,6 +80,7 @@ def put_property(request, thing, name):
         self.set_status(404)
 
 app = Flask(__name__)
+CORS(app)
 app.url_map.converters["thing"] = Thing
 operations = {"properties":{"GET": get_properties, "PUT": put_property}, 
 "events":{"GET": get_events},
@@ -227,5 +229,5 @@ def on_socket_connection(ws, thing):
 
 if __name__ == '__main__':
     threading.Thread(target=Manager(db,MICROBIT_PORT).run).start()
-    server = pywsgi.WSGIServer(('localhost', 5000), app, handler_class=WebSocketHandler)
+    server = pywsgi.WSGIServer(('localhost', 4242), app, handler_class=WebSocketHandler)
     server.serve_forever()
