@@ -26,6 +26,7 @@ class Microbit(Thing):
                             metadata={
                                 'title': 'Light',
                                 'type': 'number',
+                                'readOnly': True,
                             }))
 
         self.add_property(
@@ -35,6 +36,7 @@ class Microbit(Thing):
                             metadata={
                                 'title': 'temperature',
                                 'type': 'number',
+                                'readOnly': True,
                             }))
 
     def get_serial_number(self):
@@ -42,9 +44,6 @@ class Microbit(Thing):
 
     def get_friendly_name(self):
         return self.friendly_name
-
-    def update(self, name, value):
-        self.set_property(name, value)
 
     #https://github.com/lancaster-university/microbit-dal/blob/master/source/core/MicroBitDevice.cpp
     @staticmethod

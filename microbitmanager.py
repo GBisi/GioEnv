@@ -39,6 +39,7 @@ class Manager:
                     self.db.add_thing(self.rooms[n])
 
         for serial_number, name, val in self.ReadSerial():
+            
             if serial_number not in self.microbits:
                 self.microbits[serial_number] = Microbit(serial_number)
                 self.db.add_thing(self.microbits[serial_number])

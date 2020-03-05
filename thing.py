@@ -487,4 +487,8 @@ class Thing:
         for subscriber in self.available_events[event.name]['subscribers']:
             subscriber.send(response)
 
+
+    def update(self, name, value):
+        self.get_property(name).get_value().notify_of_external_update(value)
+
         
