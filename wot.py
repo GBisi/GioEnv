@@ -14,7 +14,7 @@ from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 MICROBIT_PORT = "COM7"
-PREFIX = "localhost:4242/"
+PREFIX = "http://localhost:4242/"
 
 class Thing(BaseConverter):
     def to_python(self, value):

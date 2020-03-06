@@ -3,6 +3,7 @@
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 import json
+from event import Event
 
 class Thing:
     """A Web Thing."""
@@ -324,6 +325,17 @@ class Thing:
         self.events.append(event)
         self.event_notify(event)
 
+
+    def add_new_event(self, name, data=None):
+        """
+        Add a new event and notify subscribers.
+
+        event -- the event that occurred
+        """
+        event = Event(self,name,data)
+        self.events.append(event)
+        self.event_notify(event)
+
     def add_available_event(self, name, metadata):
         """
         Add an available event.
@@ -489,6 +501,8 @@ class Thing:
 
 
     def update(self, name, value):
-        self.get_property(name).get_value().notify_of_external_update(value)
+        prop = self.find_property(name)
+        if prop:
+            prop.set_external_value(value)
 
         

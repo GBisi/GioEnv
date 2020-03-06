@@ -112,3 +112,6 @@ class Property:
     def get_metadata(self):
         """Get the metadata associated with this property."""
         return self.metadata
+
+    def set_external_value(self, value):
+        return self.value.set(value)

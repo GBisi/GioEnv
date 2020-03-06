@@ -22,7 +22,7 @@ class Microbit(Thing):
         self.add_property(
                     Property(self,
                             'light',
-                            Value(0, lambda v: print(self.friendly_name,'Light: ', v)),
+                            Value(0),
                             metadata={
                                 'title': 'Light',
                                 'type': 'number',
@@ -32,7 +32,7 @@ class Microbit(Thing):
         self.add_property(
                     Property(self,
                             'temp',
-                            Value(0, lambda v: print(self.friendly_name,'Temp: ', v)),
+                            Value(0),
                             metadata={
                                 'title': 'temperature',
                                 'type': 'number',
