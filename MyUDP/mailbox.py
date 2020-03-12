@@ -4,6 +4,7 @@ from random import randrange
 import time 
 import json
 from math import log
+import threading
 
 class Mailbox:
 
@@ -25,6 +26,8 @@ class Mailbox:
 
         self._delta = delta
         self._timer = None
+
+        self._timer_lock = threading.RLock()
 
     #RFC1982 3.2 https://tools.ietf.org/html/rfc1982
     def _check(self, message):
@@ -88,21 +91,55 @@ class Mailbox:
 
     def start_timer(self):
 
+        self._timer_lock.acquire()
+
         self._timer = time.time()*1000.0
 
+        self._timer_lock.release()
+
     def stop_timer(self):
-    
+
+        self._timer_lock.acquire()
+
+        delta = -1
+
+        if self._timer is not None:
+
+            now = time.time()*1000.0
+            delta =  now - self._timer
+
         self._timer = None
+
+        self._timer_lock.release()
+
+        return delta
+
+        
+
+    def set_timeout(self, delta):
+
+        self._timer_lock.acquire()
+
+        self._delta = delta
+
+        self._timer_lock.release()
         
     def timeout(self):
 
-        if self._timer == None: 
+        self._timer_lock.acquire()
+
+        if self._timer is None: 
+            self._timer_lock.release()
             return True
 
         now = time.time()*1000.0
 
-        if now - self._timer > self._delta:
-            self._timer = None
+        delta = now - self._timer
+
+        self._timer_lock.release()
+
+        if delta > self._delta:
+            self.stop_timer()
             return True
 
         return False

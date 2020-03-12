@@ -5,6 +5,9 @@ class Connection:
 
     _max_seq = 1024
 
+    _alpha = 1/8
+    _beta = 1/4
+
     def __init__(self, addr, mb_len, mb_num):
 
         self._addr = addr
@@ -17,6 +20,12 @@ class Connection:
         self._next_out_w_mailbox = 0
         self._next_out_r_mailbox = 0
         self._next_in_mailbox = 0
+
+        self._estimated_rtt = 1
+        self._rtt_dev = 1
+        self._rto = 3000
+
+        self.set_timeout(self._rto)
 
     def get_mailbox(self, i):
 
@@ -85,6 +94,20 @@ class Connection:
         mailbox = self.get_mailbox(mailbox)
 
         return mailbox, mailbox.get_output().next()
+
+    def set_timeout(self, delta):
+
+        for m in self._mailboxes:
+            m.set_timeout(delta)
+
+    def calculate_rto(self, rtt):
+        
+        self._estimated_rtt = (1-Connection._alpha)*self._estimated_rtt + Connection._alpha*rtt
+        self._rtt_dev = (1-Connection._beta)*self._rtt_dev + Connection._beta*abs(rtt-self._estimated_rtt)
+
+        self._rto = self._estimated_rtt + 4*self._rtt_dev
+
+        return self._rto
 
     def __repr__(self):
         return str(self._mailboxes)

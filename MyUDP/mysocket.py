@@ -34,6 +34,8 @@ class MySocket:
         self._send_callback = lambda msg: ()
         self._rcv_callback = lambda msg: ()
 
+        self._socket_lock = threading.RLock()
+
 
     def get_connection(self, addr):
 
@@ -74,14 +76,15 @@ class MySocket:
 
     def start(self):
 
-        threading.Thread(target=self._run).start()
+        threading.Thread(target=self._socket_receiver).start()
+        threading.Thread(target=self._socket_sender).start()
 
-    def _run(self):
-
+    def _socket_receiver(self):
+        
         while not self._shutdown:
 
             msg = self._sock_receive()
-            
+                
             if msg is not None:
 
                 if msg.get_channel() < 0:
@@ -92,14 +95,16 @@ class MySocket:
                 
                     self._rcv_callback(msg)
 
-                    mailbox = self.get_connection(msg.get_sender()).get_mailbox(msg.get_channel())
+                    conn =  self.get_connection(msg.get_sender())
+
+                    mailbox = conn.get_mailbox(msg.get_channel())
 
                     if msg.is_ack():
                         
                         if not mailbox.get_output().is_empty() and mailbox.get_output().next().get_sequence() == msg.get_ack():
                             
                             mailbox.get_output().get()
-                            mailbox.stop_timer()
+                            conn.calculate_rto(mailbox.stop_timer())
                     else:
                         mailbox.post(msg)
                         message = Message(-1,channel=msg.get_channel(),ack=msg.get_sequence())
@@ -107,20 +112,29 @@ class MySocket:
                         message.set_dest(msg.get_sender())
                         self._sock_send(message,msg.get_sender())
 
-            for a,c in self._connections.items():
+        self._sock.close()
 
+
+    def _socket_sender(self):
+
+        while not self._shutdown:
+            
+            for a,c in self._connections.items():
+            
                 mailbox,message = c.next()
                 
                 if message is not None and mailbox.timeout():
 
                     mailbox.start_timer()
                     if self._sock_send(message, message.get_dest()):
-                        self._send_callback(msg)
+                        self._send_callback(message)
 
         self._sock.close()
 
-    def shutdown(self):
+    def _task(self, f):
+        threading.Thread(target=f).start()
 
+    def shutdown(self):
         self._shutdown = True
 
     def error_callback(self, func):
@@ -137,16 +151,21 @@ class MySocket:
 
         try:
             message = str(message).encode("utf-8")
+            self._socket_lock.acquire()
             self._sock.sendto(message, dest)
+            self._socket_lock.release()
             if self._debug:
                 print(self._addr,"send:",message)
             return True
         except:
-            False
+            self._socket_lock.release()
+            return False
 
     def _sock_receive(self):
         try:
+            self._socket_lock.acquire()
             msg = self._sock.recv(MySocket._max_msg_size)
+            self._socket_lock.release()
             msg = json.loads(msg.decode("utf-8").replace("\'", "\""))
             if self._debug:
                 print(self._addr,"receive:",msg)
@@ -156,6 +175,7 @@ class MySocket:
 
             return msg
         except:
+            self._socket_lock.release()
             return None
 
     def __repr__(self):
@@ -179,9 +199,9 @@ s3.send(1,("127.0.0.1",p2))
 s3.send(2,("127.0.0.1",p1))
 s3.start()"""
 i = 0
-s1.error_callback(lambda message:print("cmd",message))
-s1.send_callback(lambda message:print("send",message))
-s1.receive_callback(lambda message:print("receive",message))
+s2.error_callback(lambda message:print("error",message))
+s2.send_callback(lambda message:print("send",message))
+s2.receive_callback(lambda message:print("receive",message))
 while True:
     s2.send(i,("127.0.0.1",p1))
     #s3.send(i,("127.0.0.1",p1))
