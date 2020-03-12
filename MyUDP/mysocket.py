@@ -29,6 +29,11 @@ class MySocket:
         self._sock.bind(self._addr)
         self._sock.setblocking(False)
         self._debug = debug
+        
+        self._err_callback = lambda msg: ()
+        self._send_callback = lambda msg: ()
+        self._rcv_callback = lambda msg: ()
+
 
     def get_connection(self, addr):
 
@@ -45,6 +50,10 @@ class MySocket:
         message = Message(-1, data = message)
         message.set_dest(dest)
         message.set_sender(self._addr)
+
+        if mailbox < -1:
+            return self._sock_send(message, dest)
+            
 
         return self.get_connection(dest).send(message,mailbox)
 
@@ -74,21 +83,29 @@ class MySocket:
             msg = self._sock_receive()
             
             if msg is not None:
-                
-                mailbox = self.get_connection(msg.get_sender()).get_mailbox(msg.get_channel())
-                
-                if msg.is_ack():
-                    
-                    if not mailbox.get_output().is_empty() and mailbox.get_output().next().get_sequence() == msg.get_ack():
-                        
-                        mailbox.get_output().get()
-                        mailbox.stop_timer()
+
+                if msg.get_channel() < 0:
+
+                    self._err_callback(msg)
+
                 else:
-                    mailbox.post(msg)
-                    message = Message(-1,channel=msg.get_channel(),ack=msg.get_sequence())
-                    message.set_sender(self._addr)
-                    message.set_dest(msg.get_sender())
-                    self._sock_send(message,msg.get_sender())
+                
+                    self._rcv_callback(msg)
+
+                    mailbox = self.get_connection(msg.get_sender()).get_mailbox(msg.get_channel())
+
+                    if msg.is_ack():
+                        
+                        if not mailbox.get_output().is_empty() and mailbox.get_output().next().get_sequence() == msg.get_ack():
+                            
+                            mailbox.get_output().get()
+                            mailbox.stop_timer()
+                    else:
+                        mailbox.post(msg)
+                        message = Message(-1,channel=msg.get_channel(),ack=msg.get_sequence())
+                        message.set_sender(self._addr)
+                        message.set_dest(msg.get_sender())
+                        self._sock_send(message,msg.get_sender())
 
             for a,c in self._connections.items():
 
@@ -97,13 +114,23 @@ class MySocket:
                 if message is not None and mailbox.timeout():
 
                     mailbox.start_timer()
-                    self._sock_send(message, message.get_dest())
+                    if self._sock_send(message, message.get_dest()):
+                        self._send_callback(msg)
 
         self._sock.close()
 
     def shutdown(self):
 
         self._shutdown = True
+
+    def error_callback(self, func):
+        self._err_callback = func
+
+    def send_callback(self, func):
+        self._send_callback = func
+
+    def receive_callback(self, func):
+        self._rcv_callback = func
 
 
     def _sock_send(self, message, dest):
@@ -113,8 +140,9 @@ class MySocket:
             self._sock.sendto(message, dest)
             if self._debug:
                 print(self._addr,"send:",message)
+            return True
         except:
-            pass
+            False
 
     def _sock_receive(self):
         try:
@@ -151,11 +179,14 @@ s3.send(1,("127.0.0.1",p2))
 s3.send(2,("127.0.0.1",p1))
 s3.start()"""
 i = 0
+s1.error_callback(lambda message:print("cmd",message))
+s1.send_callback(lambda message:print("send",message))
+s1.receive_callback(lambda message:print("receive",message))
 while True:
     s2.send(i,("127.0.0.1",p1))
     #s3.send(i,("127.0.0.1",p1))
     i=i+1
     msg = s1.receive()
-    while msg is None:
+    """while msg is None:
         msg = s1.receive()
-    print(msg)
+    print(msg)"""
