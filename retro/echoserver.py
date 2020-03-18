@@ -1,5 +1,6 @@
 from mysocket import MySocket
 import sys
+import time
 
 class EchoServer:
     
@@ -17,11 +18,11 @@ class EchoServer:
         print("--- ECHO SERVER ONLINE AT PORT "+str(port)+" ---")
 
 
-    def start(self):
+    def start(self, delta):
         print("--- ECHO SERVER START ---")
         self.socket.start()
-
-        while True:
+        start = time.time()
+        while time.time()-start < delta:
 
             msg = self.socket.receive()
             
@@ -30,11 +31,11 @@ class EchoServer:
             
                 self.socket.send(str(msg.get_data())+self.header,msg.get_sender())
 
-
+        print("--- ECHO SERVER CLOSE ---")
     
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
-        print("echoserver [port]")
+    if len(sys.argv) != 3:
+        print("echoserver [port] [time]")
     else:
-        EchoServer(sys.argv[1]).start()
+        EchoServer(int(sys.argv[1])).start(int(sys.argv[2]))
