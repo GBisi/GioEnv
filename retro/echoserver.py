@@ -39,7 +39,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 4 and len(sys.argv) != 5:
         print("echoserver [ip] [port] [time] [[debug]]")
     elif len(sys.argv) == 4:
-        EchoServer(int(sys.argv[1]),int(sys.argv[2])).start(int(sys.argv[3]))
+        EchoServer(str(sys.argv[1]),int(sys.argv[2])).start(int(sys.argv[3]))
     else:
-        EchoServer(int(sys.argv[1]),int(sys.argv[2]),True).start(int(sys.argv[3]))
+        EchoServer(str(sys.argv[1]),int(sys.argv[2]),True).start(int(sys.argv[3]))
 
