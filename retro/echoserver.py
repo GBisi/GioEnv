@@ -14,7 +14,7 @@ class EchoServer:
             self.header = header
 
         self.socket = MySocket(port,n,m)
-        self.debug = debig
+        self.debug = debug
         print("--- ECHO SERVER ONLINE AT PORT "+str(port)+" ---")
 
 
