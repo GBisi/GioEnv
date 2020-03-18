@@ -4,7 +4,7 @@ from mysocket import MySocket
 
 class EchoServer:
     
-    def __init__(self, port, n=1, m=1, header = None, debug = False):
+    def __init__(self, ip, port, n=1, m=1, header = None, debug = False):
 
         if header is None:
             
@@ -13,7 +13,7 @@ class EchoServer:
         else:
             self.header = header
 
-        self.socket = MySocket(port,n,m)
+        self.socket = MySocket(port,n,m, ip=ip)
         self.debug = debug
         print("--- ECHO SERVER ONLINE AT PORT "+str(port)+" ---")
 
@@ -36,10 +36,10 @@ class EchoServer:
     
 if __name__ == "__main__":
 
-    if len(sys.argv) != 3 and len(sys.argv) != 4:
-        print("echoserver [port] [time] [[debug]]")
-    elif len(sys.argv) == 3:
-        EchoServer(int(sys.argv[1])).start(int(sys.argv[2]))
+    if len(sys.argv) != 4 and len(sys.argv) != 5:
+        print("echoserver [ip] [port] [time] [[debug]]")
+    elif len(sys.argv) == 4:
+        EchoServer(int(sys.argv[1]),int(sys.argv[2])).start(int(sys.argv[3]))
     else:
-         EchoServer(int(sys.argv[1]),True).start(int(sys.argv[2]))
+        EchoServer(int(sys.argv[1]),int(sys.argv[2]),True).start(int(sys.argv[3]))
 
