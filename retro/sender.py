@@ -1,6 +1,6 @@
 import time
 import threading
-
+from mysocket import MySocket
 class Sender:
 
     def __init__(self, port, n=1, m=1):
@@ -35,7 +35,7 @@ def sender_factory(port, dest, n, it):
         port = port+1
 
 port = 4201
-dest = ("127.0.0.1",4200)
+dest = ("131.114.73.148",4200)
 n = 1
-it = 100
+it = 1
 sender_factory(port,dest,n,it)
