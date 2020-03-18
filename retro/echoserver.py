@@ -1,4 +1,3 @@
-from mysocket import MySocket
 import sys
 import time
 

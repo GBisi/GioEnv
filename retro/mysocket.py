@@ -1,13 +1,13 @@
-from channel import Channel
-from mailbox import Mailbox
-from message import Message
-from connection import Connection
 from random import randrange
 import socket
 import time
 import json
 import threading
 from itertools import cycle
+from message import Message
+from connection import Connection
+from mailbox import Mailbox
+from channel import Channel
 
 class MySocket:
 
@@ -202,7 +202,10 @@ class MySocket:
 
             return msg
         except:
-            self._socket_lock.release()
+            try:
+                self._socket_lock.release()
+            except:
+                pass
             return None
 
     def __repr__(self):

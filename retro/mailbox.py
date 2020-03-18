@@ -1,10 +1,9 @@
-from channel import Channel
-from message import Message
 from random import randrange
 import time 
 import json
 from math import log
 import threading
+from channel import Channel
 
 class Mailbox:
 

@@ -6,15 +6,17 @@ import time
 from flask_sockets import Sockets
 from flask_cors import CORS
 
-from microbitmanager import Manager
+from servermanager import ServerManager
 from database import Database
 
 from gevent import pywsgi
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
-MICROBIT_PORT = "COM7"
-PREFIX = "http://localhost:4242/"
+MY_IP = "127.0.0.1"
+RETRO_PORT = 4200
+WOT_PORT = 4242
+PREFIX = "http://"+MY_IP+":"+str(WOT_PORT)+"/"
 
 class Thing(BaseConverter):
     def to_python(self, value):
@@ -228,6 +230,6 @@ def on_socket_connection(ws, thing):
     on_socket_close(thing, ws)
 
 if __name__ == '__main__':
-    threading.Thread(target=Manager(db,MICROBIT_PORT).run).start()
-    server = pywsgi.WSGIServer(('localhost', 4242), app, handler_class=WebSocketHandler)
+    threading.Thread(target=ServerManager(db,RETRO_PORT).run).start()
+    server = pywsgi.WSGIServer((MY_IP, WOT_PORT), app, handler_class=WebSocketHandler)
     server.serve_forever()
