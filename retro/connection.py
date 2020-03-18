@@ -101,7 +101,7 @@ class Connection:
             m.set_timeout(delta)
 
     def calculate_rto(self, rtt):
-        
+        return 5000
         self._estimated_rtt = (1-Connection._alpha)*self._estimated_rtt + Connection._alpha*rtt
         self._rtt_dev = (1-Connection._beta)*self._rtt_dev + Connection._beta*abs(rtt-self._estimated_rtt)
 

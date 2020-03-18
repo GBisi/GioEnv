@@ -35,16 +35,44 @@ class MySocket:
         self._rcv_callback = lambda msg: ()
 
         self._socket_lock = threading.RLock()
+        self._conn_lock = threading.RLock()
 
 
     def get_connection(self, addr):
+
+        self._conn_lock.acquire()
 
         if addr not in self._connections:
 
             self._connections[addr] = Connection(addr, self._mb_len, self._mb_num)
             self._conn_iterator = cycle(self._connections)
 
-        return self._connections[addr]
+        data = self._connections[addr]
+
+        self._conn_lock.release()
+
+        return data
+
+
+    def get_connections_size(self):
+    
+        self._conn_lock.acquire()
+
+        size = len(self._connections)
+
+        self._conn_lock.release()
+
+        return size
+
+    def get_connections_copy(self):
+        
+        self._conn_lock.acquire()
+
+        copy = self._connections.copy()
+
+        self._conn_lock.release()
+
+        return copy
 
 
     def send(self, message, dest, mailbox = -1):
@@ -64,8 +92,8 @@ class MySocket:
 
         if addr is None:
 
-            for i in range(len(self._connections)):
-                c = self._connections[next(self._conn_iterator)]
+            for i in range(self.get_connections_size()):
+                c = self.get_connection(next(self._conn_iterator))
                 msg =  c.receive(mailbox)
                 if msg is not None:
                     return msg
@@ -76,8 +104,8 @@ class MySocket:
 
     def start(self):
 
-        threading.Thread(target=self._socket_receiver).start()
-        threading.Thread(target=self._socket_sender).start()
+        threading.Thread(daemon=True, target=self._socket_receiver).start()
+        threading.Thread(daemon=True, target=self._socket_sender).start()
 
     def _socket_receiver(self):
         
@@ -92,8 +120,6 @@ class MySocket:
                     self._err_callback(msg)
 
                 else:
-                
-                    self._rcv_callback(msg)
 
                     conn =  self.get_connection(msg.get_sender())
 
@@ -106,6 +132,7 @@ class MySocket:
                             mailbox.get_output().get()
                             conn.calculate_rto(mailbox.stop_timer())
                     else:
+                        self._rcv_callback(msg)
                         mailbox.post(msg)
                         message = Message(-1,channel=msg.get_channel(),ack=msg.get_sequence())
                         message.set_sender(self._addr)
@@ -119,7 +146,7 @@ class MySocket:
 
         while not self._shutdown:
             
-            for a,c in self._connections.items():
+            for a,c in self.get_connections_copy().items():
             
                 mailbox,message = c.next()
                 
@@ -181,32 +208,33 @@ class MySocket:
     def __repr__(self):
         return str(self._connections)
 
-       
-p1 = 4242
-p2 = 4343
-p3 = 4444
-s1 = MySocket(p1,3,64,debug=False)
-#s1.send(1,("127.0.0.1",p2))
-s1.start()
-s2 = MySocket(p2,3,3)
-#s2.send(1,("127.0.0.1",p1))
-s2.start()
-"""while s1.receive() is None:
-    pass
-s3 = MySocket(p3,3,3)
-s3.send(1,("127.0.0.1",p1))
-s3.send(1,("127.0.0.1",p2))
-s3.send(2,("127.0.0.1",p1))
-s3.start()"""
-i = 0
-s2.error_callback(lambda message:print("error",message))
-s2.send_callback(lambda message:print("send",message))
-s2.receive_callback(lambda message:print("receive",message))
-while True:
-    s2.send(i,("127.0.0.1",p1))
-    #s3.send(i,("127.0.0.1",p1))
-    i=i+1
-    msg = s1.receive()
-    """while msg is None:
+
+if __name__ == "__main__":   
+    p1 = 4242
+    p2 = 4343
+    p3 = 4444
+    s1 = MySocket(p1,3,64,debug=False)
+    #s1.send(1,("127.0.0.1",p2))
+    s1.start()
+    s2 = MySocket(p2,3,3)
+    #s2.send(1,("127.0.0.1",p1))
+    s2.start()
+    """while s1.receive() is None:
+        pass
+    s3 = MySocket(p3,3,3)
+    s3.send(1,("127.0.0.1",p1))
+    s3.send(1,("127.0.0.1",p2))
+    s3.send(2,("127.0.0.1",p1))
+    s3.start()"""
+    i = 0
+    s2.error_callback(lambda message:print("error",message))
+    s2.send_callback(lambda message:print("send",message))
+    s2.receive_callback(lambda message:print("receive",message))
+    while True:
+        s2.send(i,("127.0.0.1",p1))
+        #s3.send(i,("127.0.0.1",p1))
+        i=i+1
         msg = s1.receive()
-    print(msg)"""
+        """while msg is None:
+            msg = s1.receive()
+        print(msg)"""

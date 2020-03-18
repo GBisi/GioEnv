@@ -1,4 +1,5 @@
 from random import randrange
+import threading
 
 class Channel:
 
@@ -7,6 +8,8 @@ class Channel:
     def __init__(self, _max_size=_max_len):
         self._max_size = min(_max_size, Channel._max_len)
         self._queue = []
+        self._lock = threading.RLock()
+
 
     @staticmethod
     def max_len():
@@ -18,8 +21,10 @@ class Channel:
         return self._max_size
 
     def size(self):
-
-        return len(self._queue)
+        self._lock.acquire()
+        data = len(self._queue)
+        self._lock.release()
+        return data
         
     def is_full(self):
         
@@ -30,33 +35,43 @@ class Channel:
         return (self.size() == 0)
 
     def next(self):
-
+        self._lock.acquire()
         if self.is_empty():
+            self._lock.release()
             return None
-        return self._queue[0]
+        data = self._queue[0]
+        self._lock.release()
+        return data
 
     def last(self):
-
+        self._lock.acquire()
         if self.is_empty():
+            self._lock.release()
             return None
-        return self._queue[-1]
+        data = self._queue[-1]
+        self._lock.release()
+        return data
 
     def get(self):
-
+        self._lock.acquire()
         if self.is_empty():
+            self._lock.release()
             return None
-        return self._queue.pop(0)
+        data = self._queue.pop(0)
+        self._lock.release()
+        return data
 
     def put(self, elem):
-
+        self._lock.acquire()
         if elem is None:
+            self._lock.release()
             return False
 
         if(self.is_full()):
             self.get()
 
         self._queue.append(elem)
-
+        self._lock.release()
         return True
 
     def __repr__(self):
