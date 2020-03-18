@@ -36,7 +36,7 @@ class EchoServer:
     
 if __name__ == "__main__":
 
-    if len(sys.argv) != 3 or len(sys.argv) != 4:
+    if len(sys.argv) != 3 and len(sys.argv) != 4:
         print("echoserver [port] [time] [[debug]]")
     elif len(sys.argv) == 3:
         EchoServer(int(sys.argv[1])).start(int(sys.argv[2]))
