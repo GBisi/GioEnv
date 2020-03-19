@@ -1,14 +1,9 @@
 flask
 flask-sockets
 gevent
-time
-datetime
-socket
 jsonschema
 serial
-logging
 uuid
-time
-random
 websocket_client
-threading
+flask_cors
+pyee
