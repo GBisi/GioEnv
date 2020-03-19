@@ -232,4 +232,5 @@ def on_socket_connection(ws, thing):
 if __name__ == '__main__':
     threading.Thread(target=ServerManager(db,RETRO_PORT).run).start()
     server = pywsgi.WSGIServer((MY_IP, WOT_PORT), app, handler_class=WebSocketHandler)
+    print("WoT Server ONLINE @ "+MY_IP+":"+WOT_PORT)
     server.serve_forever()
