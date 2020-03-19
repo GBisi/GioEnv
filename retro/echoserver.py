@@ -41,5 +41,5 @@ if __name__ == "__main__":
     elif len(sys.argv) == 4:
         EchoServer(str(sys.argv[1]),int(sys.argv[2])).start(int(sys.argv[3]))
     else:
-        EchoServer(str(sys.argv[1]),int(sys.argv[2]),True).start(int(sys.argv[3]))
+        EchoServer(str(sys.argv[1]),int(sys.argv[2]),debug=True).start(int(sys.argv[3]))
 

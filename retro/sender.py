@@ -5,7 +5,7 @@ class Sender:
 
     def __init__(self, port, n=1, m=1):
 
-        self.socket = MySocket(port,n,m)
+        self.socket = MySocket(port,n,m,ip="127.0.0.1")
 
 
     def start(self, dest, num):
@@ -14,13 +14,14 @@ class Sender:
 
         start = time.time()
         for i in range(num):
+            print(i)
             self.socket.send(i,dest)
-
             msg = None
 
             while msg is None:
                 msg = self.socket.receive()
-                
+            print(msg)
+            print(i)
         end = time.time()
         print(end-start)
         return end-start
@@ -35,7 +36,7 @@ def sender_factory(port, dest, n, it):
         port = port+1
 
 port = 4201
-dest = ("131.114.73.148",4200)
+dest = ("127.0.0.1",4200)
 n = 1
 it = 1
 sender_factory(port,dest,n,it)
