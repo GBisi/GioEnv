@@ -8,11 +8,11 @@ from retro.mysocket import MySocket
 
 class ClientManager:
 
-    def __init__(self, serialport, retroport, server):
+    def __init__(self, serialport, retroport, server, ip="127.0.0.1"):
         self.MICROBIT_PORT = serialport
         self.RETRO_PORT = retroport
         self.SERVER = server
-        self.socket = MySocket(retroport,1,100)
+        self.socket = MySocket(retroport,1,100,ip=ip)
 
     def ReadSerial(self):
         try:
@@ -40,7 +40,7 @@ class ClientManager:
 
 if __name__ == "__main__":
     
-    if len(sys.argv) != 5:
-        print("clientmanager [serial_port] [retro_port] [server_ip] [server_port]")
+    if len(sys.argv) != 6:
+        print("clientmanager [serial_port] [my_ip] [retro_port] [server_ip] [server_port]")
     else:
-        ClientManager(str(sys.argv[1]),int(sys.argv[2]),(str(sys.argv[3]),int(sys.argv[4]))).run()
+        ClientManager(str(sys.argv[1]),int(sys.argv[3]),(str(sys.argv[4]),int(sys.argv[5])), ip=sys.argv[2]).run()

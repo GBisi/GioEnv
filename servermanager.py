@@ -8,9 +8,9 @@ from retro.mysocket import MySocket
 
 class ServerManager:
 
-    def __init__(self, db, retroport):
+    def __init__(self, db, ip, retroport):
         self.RETRO_PORT = retroport
-        self.socket = MySocket(retroport,1,1000)
+        self.socket = MySocket(retroport,1,1000,ip=ip)
         self.microbits = {}
         self.rooms = {}
         self.db = db

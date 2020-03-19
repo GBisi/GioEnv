@@ -230,7 +230,7 @@ def on_socket_connection(ws, thing):
     on_socket_close(thing, ws)
 
 if __name__ == '__main__':
-    threading.Thread(target=ServerManager(db,RETRO_PORT).run).start()
+    threading.Thread(target=ServerManager(db,MY_IP,RETRO_PORT).run).start()
     server = pywsgi.WSGIServer((MY_IP, WOT_PORT), app, handler_class=WebSocketHandler)
     print("WoT Server ONLINE @ "+MY_IP+":"+str(WOT_PORT))
     server.serve_forever()
