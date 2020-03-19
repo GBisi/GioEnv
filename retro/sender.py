@@ -1,11 +1,13 @@
 import time
 import threading
 from mysocket import MySocket
+import sys
 class Sender:
 
-    def __init__(self, port, n=1, m=1):
-
-        self.socket = MySocket(port,n,m,ip="127.0.0.1")
+    def __init__(self, port, n=1, m=1, debug = False, ip="127.0.0.1"):
+        print("--- SENDER ONLINE ---")
+        self.socket = MySocket(port,n,m,ip=ip)
+        self.debug = debug
 
 
     def start(self, dest, num):
@@ -14,29 +16,34 @@ class Sender:
 
         start = time.time()
         for i in range(num):
-            print(i)
+            if self.debug:
+                print("send:",i)
             self.socket.send(i,dest)
             msg = None
 
             while msg is None:
                 msg = self.socket.receive()
-            print(msg)
-            print(i)
+            if self.debug:
+                print("recived:",msg)
         end = time.time()
-        print(end-start)
+        print("time:",end-start)
         return end-start
 
 
-def start_sender(port, dest, num):
-    threading.Thread(target=Sender(port).start,args=(dest,num,)).start()
+def start_sender(ip, port, dest, num, debug = False):
+    threading.Thread(target=Sender(port,ip=ip, debug=debug).start,args=(dest,num,)).start()
 
-def sender_factory(port, dest, n, it):
+def sender_factory(ip, port, dest, n, it, debug = False):
     for i in range(n):
-        start_sender(port,dest,it)
+        start_sender(ip, port,dest,it, debug = debug)
         port = port+1
 
-port = 4201
-dest = ("127.0.0.1",4200)
-n = 1
-it = 1
-sender_factory(port,dest,n,it)
+
+if __name__ == "__main__":
+    
+    if len(sys.argv) != 6 and len(sys.argv) != 7:
+        print("sender [my_ip] [my_port] [server_ip] [server_port] [iteration] [[debug]]")
+    elif len(sys.argv) == 6:
+        sender_factory(str(sys.argv[1]),int(sys.argv[2]),(str(sys.argv[3]),int(sys.argv[4])),1,int(sys.argv[5]),debug=False)
+    else:
+        sender_factory(str(sys.argv[1]),int(sys.argv[2]),(str(sys.argv[3]),int(sys.argv[4])),1,int(sys.argv[5]),debug=True)
