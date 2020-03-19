@@ -13,7 +13,7 @@ from gevent import pywsgi
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
-MY_IP = "127.0.0.1"
+MY_IP = "131.114.73.148"
 RETRO_PORT = 2001
 WOT_PORT = 2000
 PREFIX = "http://"+MY_IP+":"+str(WOT_PORT)+"/"
