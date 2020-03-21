@@ -40,9 +40,9 @@ class Connection:
 
         return self._mailboxes[i]
 
-    def send(self, message, mailbox=-1):
+    def send(self, message, mailbox=None):
 
-        if mailbox < 0 or mailbox >= self._mb_num:
+        if mailbox is None or mailbox < 0 or mailbox >= self._mb_num:
     
             mailbox=-1
             for i in range(0,self._mb_num):
@@ -65,9 +65,9 @@ class Connection:
         return self.get_mailbox(mailbox).send(message)
 
 
-    def receive(self, mailbox = -1):
+    def receive(self, mailbox=None):
 
-        if mailbox < 0 or mailbox >= self._mb_num:
+        if mailbox is None or mailbox < 0 or mailbox >= self._mb_num:
 
             mailbox=-1
             for i in range(0,self._mb_num):
@@ -84,9 +84,9 @@ class Connection:
         return self.get_mailbox(mailbox).receive()
 
 
-    def next(self, mailbox=-1):
+    def next(self, mailbox=None):
 
-        if mailbox < 0 or mailbox >= self._mb_num:
+        if mailbox is None or mailbox < 0 or mailbox >= self._mb_num:
         
             mailbox=-1
             for i in range(0,self._mb_num):
@@ -110,7 +110,7 @@ class Connection:
             m.set_timeout(delta)
 
     def calculate_rto(self, rtt):
-        return 5000
+        
         self._estimated_rtt = (1-Connection._alpha)*self._estimated_rtt + Connection._alpha*rtt
         self._rtt_dev = (1-Connection._beta)*self._rtt_dev + Connection._beta*abs(rtt-self._estimated_rtt)
 

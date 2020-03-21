@@ -8,6 +8,8 @@ class Sender:
     def __init__(self, port, n=1, m=1, debug = False, ip="127.0.0.1"):
         print("--- SENDER ONLINE ---")
         self.socket = MySocket(port,n,m,ip=ip)
+        self.n = n
+        self.m = m
         self.debug = debug
 
 
@@ -19,15 +21,37 @@ class Sender:
         for i in range(num):
             times.append(self.send(i,dest))
         end = time.time()
+
+        res = None
+        while res is None:
+            self.socket.send(1,dest,mailbox=-1)
+            timer = time.time()
+            while time.time() - timer < 5 and res is None:
+                res = self.socket.get_cmd()
+
+        server_spec = res.get_data()
+
+        stat = "Client Spec: {} {}\n\
+Server Spec: {} {}\n\
+Timestamp: {}\n\
+Total Packets: {}\n\
+Total Time: {:0.2f}\n\
+min: {:0.2f}\n\
+avg: {:0.2f}\n\
+max: {:0.2f}\n\
+median: {:0.2f}\n\
+variance: {:0.2f}\n\
+stdev: {:0.2f}\n\
+".format(self.n,self.m,server_spec["len"],server_spec["num"],time.time()*1000.0,len(times),sum(times),min(times),mean(times),max(times),median(times),pvariance(times),pstdev(times))
         print("-------------------------------")
-        print("Total Packets:",len(times))
-        print("Total Time:",sum(times))
-        print("min:",min(times))
-        print("avg:",mean(times))
-        print("max:",max(times))
-        print("median:",median(times))
-        print("variance:",pvariance(times))
-        print("dev:",pstdev(times))
+        print(stat)
+
+        f = open("stats.txt", "a")
+        f.write("-----------------------------\n")
+        f.write(stat)
+        f.write(str(times)+"\n")
+        f.close
+
         return end-start
 
     def send(self, i,dest):

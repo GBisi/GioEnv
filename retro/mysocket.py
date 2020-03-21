@@ -30,12 +30,38 @@ class MySocket:
         self._sock.setblocking(False)
         self._debug = debug
         
-        self._err_callback = lambda msg: ()
+        self._cmd_callback = lambda msg: ()
         self._send_callback = lambda msg: ()
         self._rcv_callback = lambda msg: ()
 
+        self._cmd_queue = []
+
         self._socket_lock = threading.RLock()
         self._conn_lock = threading.RLock()
+        self._cmd_lock = threading.RLock()
+
+
+    def _put_cmd(self, msg):
+
+        self._cmd_lock.acquire()
+
+        self._cmd_queue.append(msg)
+
+        self._cmd_lock.release()
+
+    def get_cmd(self):
+    
+        self._cmd_lock.acquire()
+
+        cmd = None
+        try:
+            cmd = self._cmd_queue.pop(0)
+        except:
+            pass
+
+        self._cmd_lock.release()
+
+        return cmd
 
 
     def get_connection(self, addr):
@@ -85,20 +111,21 @@ class MySocket:
         return copy
 
 
-    def send(self, message, dest, mailbox = -1):
+    def send(self, message, dest, mailbox = None):
 
         message = Message(-1, data = message)
         message.set_dest(dest)
         message.set_sender(self._addr)
 
-        if mailbox < -1:
+        if mailbox is not None and mailbox < 0:
+            message.set_mailbox(mailbox)
             return self._sock_send(message, dest)
             
 
         return self.get_connection(dest).send(message,mailbox)
 
 
-    def receive(self, addr=None, mailbox = -1):
+    def receive(self, addr=None, mailbox = None):
 
         if addr is None:
 
@@ -133,9 +160,12 @@ class MySocket:
                 conn =  self.get_connection(msg.get_sender())
 
                 if msg.get_mailbox() < 0:
+                    self._cmd_callback(msg)
 
-                    self._err_callback(msg)
-
+                    if msg.get_mailbox() == -1:
+                        self.send({"len":self._mb_len,"num":self._mb_num},msg.get_sender(),mailbox=-2)
+                    else:
+                        self._put_cmd(msg)
                 else:
 
                     mailbox = conn.get_mailbox(msg.get_mailbox())
@@ -182,8 +212,8 @@ class MySocket:
     def shutdown(self):
         self._shutdown = True
 
-    def error_callback(self, func):
-        self._err_callback = func
+    def command_callback(self, func):
+        self._cmd_callback = func
 
     def send_callback(self, func):
         self._send_callback = func
@@ -248,14 +278,16 @@ if __name__ == "__main__":
     s3.send(2,("127.0.0.1",p1))
     s3.start()"""
     i = 0
-    s2.error_callback(lambda message:print("error",message))
+    s2.command_callback(lambda message:print("command",message))
     s2.send_callback(lambda message:print("send",message))
-    s2.receive_callback(lambda message:print("receive",message))
+    s1.receive_callback(lambda message:print("receive",message))
     while True:
-        s2.send(i,("127.0.0.1",p1))
+        time.sleep(1)
+        s2.send(i,("127.0.0.1",p1),mailbox=-1)
         #s3.send(i,("127.0.0.1",p1))
         i=i+1
         msg = s1.receive()
+        #print("recived command:",s2.get_cmd())
         """while msg is None:
             msg = s1.receive()
         print(msg)"""
