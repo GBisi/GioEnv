@@ -170,7 +170,7 @@ class MySocket:
                     self._cmd_callback(msg)
 
                     if msg.get_mailbox() == -1:
-                        self.send({"len":self._mb_len,"num":self._mb_num},msg.get_sender(),mailbox=-2)
+                        self.send({"len":self._mb_len,"num":self._mb_num,"standby":Connection._closing_time},msg.get_sender(),mailbox=-2)
                     else:
                         self._put_cmd(msg)
                 else:

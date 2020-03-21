@@ -3,6 +3,7 @@ import threading
 from mysocket import MySocket
 import sys
 from statistics import *
+import subprocess 
 class Sender:
 
     def __init__(self, port, mblen=1, mbnum=1, debug = False, ip="127.0.0.1"):
@@ -40,11 +41,17 @@ max: {:0.2f}\n\
 median: {:0.2f}\n\
 variance: {:0.2f}\n\
 stdev: {:0.2f}\n\
-".format(self.socket.get_mb_len(),self.socket.get_mb_num(),server_spec["len"],server_spec["num"],time.time()*1000.0,len(times),sum(times),min(times),mean(times),max(times),median(times),pvariance(times),pstdev(times))
+{}\n\
+".format(self.socket.get_mb_len(),self.socket.get_mb_num(),server_spec["len"],server_spec["num"],time.time()*1000.0,len(times),sum(times),min(times),mean(times),max(times),median(times),pvariance(times),pstdev(times),subprocess.check_output(["ping",dest[0]]).decode("utf-8"))
         print("-------------------------------")
         print(stat)
 
         f = open("stats.txt", "a")
+        f.write("-----------------------------\n")
+        f.write(stat)
+        f.close
+
+        f = open("stats-data.txt", "a")
         f.write("-----------------------------\n")
         f.write(stat)
         f.write(str(times)+"\n")
