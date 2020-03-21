@@ -2,6 +2,7 @@ import time
 import threading
 from mysocket import MySocket
 import sys
+from statistics import *
 class Sender:
 
     def __init__(self, port, n=1, m=1, debug = False, ip="127.0.0.1"):
@@ -13,21 +14,38 @@ class Sender:
     def start(self, dest, num):
 
         self.socket.start()
-
+        times = []
         start = time.time()
         for i in range(num):
-            msg = self.socket.send(i,dest)
-            if self.debug:
-                print("send:",msg)
-            msg = None
-
-            while msg is None:
-                msg = self.socket.receive()
-            if self.debug:
-                print("recived:",msg)
+            times.append(self.send(i,dest))
         end = time.time()
-        print("time:",end-start)
+        print("-------------------------------")
+        print("Total Packets:",len(times))
+        print("Total Time:",sum(times))
+        print("min:",min(times))
+        print("avg:",mean(times))
+        print("max:",max(times))
+        print("median:",median(times))
+        print("variance:",pvariance(times))
+        print("dev:",pstdev(times))
         return end-start
+
+    def send(self, i,dest):
+        start = time.time()
+        msg = None
+        while msg is None:
+            msg = self.socket.send(i,dest)
+        if self.debug:
+            print("send:",msg)
+        msg = None
+        while msg is None:
+            msg = self.socket.receive()
+        if self.debug:
+            print("recived:",msg)
+        end = time.time()
+        t = (end-start)*1000.0
+        print(i,"-","time:",t,"ms")
+        return t
 
 
 def start_sender(ip, port, dest, num, debug = False):

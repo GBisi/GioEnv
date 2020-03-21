@@ -53,7 +53,7 @@ class Connection:
                     break
 
             if mailbox == -1:
-                return False
+                return None
 
         self._next_out_w_mailbox = (mailbox+1) % self._mb_num
 
