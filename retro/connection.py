@@ -37,8 +37,10 @@ class Connection:
         return self._addr
 
     def get_mailbox(self, i):
-
-        return self._mailboxes[i]
+        try:
+            return self._mailboxes[i]
+        except:
+            return self._mailboxes[0] #if msg.mailbox > conn.mailbox (alternative return None ad cmd_callback)
 
     def send(self, message, mailbox=None):
 

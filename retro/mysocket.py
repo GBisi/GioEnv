@@ -271,7 +271,7 @@ if __name__ == "__main__":
     p1 = 4242
     p2 = 4343
     p3 = 4444
-    s1 = MySocket(p1,3,64,debug=False)
+    s1 = MySocket(p1,1,1,debug=False)
     #s1.send(1,("127.0.0.1",p2))
     s1.start()
     s2 = MySocket(p2,3,3)
@@ -290,7 +290,7 @@ if __name__ == "__main__":
     s1.receive_callback(lambda message:print("receive",message))
     while True:
         time.sleep(1)
-        s2.send(i,("127.0.0.1",p1),mailbox=-1)
+        s2.send(i,("127.0.0.1",p1))
         #s3.send(i,("127.0.0.1",p1))
         i=i+1
         msg = s1.receive()
