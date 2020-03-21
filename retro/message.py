@@ -48,7 +48,7 @@ class Message:
 
     def is_syn(self):
 
-        return self._syn != 0
+        return self._syn > 0
 
     def get_data(self):
 

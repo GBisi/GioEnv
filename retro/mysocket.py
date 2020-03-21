@@ -53,6 +53,16 @@ class MySocket:
 
         return data
 
+    def remove_connection(self, addr):
+
+        self._conn_lock.acquire()
+
+        if addr in self._connections:
+            del self._connections[addr]
+            self._conn_iterator = cycle(self._connections)
+
+        self._conn_lock.release()
+
 
     def get_connections_size(self):
     
@@ -95,8 +105,13 @@ class MySocket:
             for i in range(self.get_connections_size()):
                 c = self.get_connection(next(self._conn_iterator))
                 msg =  c.receive(mailbox)
+
                 if msg is not None:
                     return msg
+
+                if c.is_close():
+                    self.remove_connection(c.get_addr())
+
             return None
         
         return self.get_connection(addr).receive(mailbox)
@@ -115,13 +130,13 @@ class MySocket:
                 
             if msg is not None:
 
+                conn =  self.get_connection(msg.get_sender())
+
                 if msg.get_mailbox() < 0:
 
                     self._err_callback(msg)
 
                 else:
-
-                    conn =  self.get_connection(msg.get_sender())
 
                     mailbox = conn.get_mailbox(msg.get_mailbox())
 
@@ -139,6 +154,8 @@ class MySocket:
                         message.set_sender(self._addr)
                         message.set_dest(msg.get_sender())
                         self._sock_send(message,msg.get_sender())
+
+                conn.standby()
 
         self._sock.close()
 

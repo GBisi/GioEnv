@@ -1,5 +1,6 @@
 from mailbox import Mailbox
 from random import randrange
+import time
 
 class Connection:
 
@@ -7,6 +8,8 @@ class Connection:
 
     _alpha = 1/8
     _beta = 1/4
+
+    _closing_time = 900 # 15 min
 
     def __init__(self, addr, mb_len, mb_num):
 
@@ -26,6 +29,12 @@ class Connection:
         self._rto = 3000
 
         self.set_timeout(self._rto)
+
+        self._standby = time.time()
+
+    def get_addr(self):
+
+        return self._addr
 
     def get_mailbox(self, i):
 
@@ -108,6 +117,15 @@ class Connection:
         self._rto = self._estimated_rtt + 4*self._rtt_dev
 
         return self._rto
+
+    def is_close(self):
+        
+        return (time.time() - self._standby) > Connection._closing_time 
+
+    def standby(self):
+        old = self._standby
+        self._standby = time.time()
+        return old
 
     def __repr__(self):
         return str(self._mailboxes)
