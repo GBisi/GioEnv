@@ -17,7 +17,7 @@ class MySocket:
     def __init__(self, port, mb_len = 1, mb_num = 1, ip = "127.0.0.1", debug = False):
 
         self._mb_num = min(mb_num,MySocket._max_mb)
-        self._mb_len = mb_len
+        self._mb_len = min(mb_len,Connection._max_seq)
         self._connections = {}
 
         self._conn_iterator = cycle(self._connections)
@@ -40,6 +40,13 @@ class MySocket:
         self._conn_lock = threading.RLock()
         self._cmd_lock = threading.RLock()
 
+    def get_mb_len(self):
+    
+        return self._mb_len
+
+    def get_mb_num(self):
+    
+        return self._mb_num
 
     def _put_cmd(self, msg):
 
