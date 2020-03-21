@@ -115,7 +115,7 @@ class MySocket:
                 
             if msg is not None:
 
-                if msg.get_channel() < 0:
+                if msg.get_mailbox() < 0:
 
                     self._err_callback(msg)
 
@@ -123,18 +123,19 @@ class MySocket:
 
                     conn =  self.get_connection(msg.get_sender())
 
-                    mailbox = conn.get_mailbox(msg.get_channel())
+                    mailbox = conn.get_mailbox(msg.get_mailbox())
 
                     if msg.is_ack():
                         
                         if not mailbox.get_output().is_empty() and mailbox.get_output().next().get_sequence() == msg.get_ack():
                             
+                            mailbox.ack(msg.get_ack())
                             mailbox.get_output().get()
                             conn.calculate_rto(mailbox.stop_timer())
                     else:
                         self._rcv_callback(msg)
                         mailbox.post(msg)
-                        message = Message(-1,channel=msg.get_channel(),ack=msg.get_sequence())
+                        message = Message(-1,mailbox=msg.get_mailbox(),ack=msg.get_sequence())
                         message.set_sender(self._addr)
                         message.set_dest(msg.get_sender())
                         self._sock_send(message,msg.get_sender())

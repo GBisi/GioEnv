@@ -28,10 +28,15 @@ class Mailbox:
 
         self._timer_lock = threading.RLock()
 
+        self._first = True
+
     #RFC1982 3.2 https://tools.ietf.org/html/rfc1982
     def _check(self, message):
 
         if self._last_in is None:
+            return True
+
+        if message.is_syn():
             return True
 
         i1 = message.get_sequence()
@@ -64,11 +69,18 @@ class Mailbox:
 
     def send(self, message):
 
+        if(self._first):
+
+            message.set_syn()
+
         message.set_sequence(self._next_out)
 
         self._next_out = (self._next_out+1) % self._max_seq
 
-        return self._output.put(message)
+        if self._output.put(message):
+            return message
+        
+        return None
 
     def receive(self):
 
@@ -79,7 +91,7 @@ class Mailbox:
         return message
 
     def post(self, message):
-
+    
         if self._check(message):
 
             self._input.put(message)
@@ -142,6 +154,10 @@ class Mailbox:
             return True
 
         return False
+
+    def ack(self, n):
+
+        self._first = False
 
 
     def __repr__(self):

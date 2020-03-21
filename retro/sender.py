@@ -17,8 +17,7 @@ class Sender:
         start = time.time()
         for i in range(num):
             if self.debug:
-                print("send:",i)
-            self.socket.send(i,dest)
+                print("send:",self.socket.send(i,dest))
             msg = None
 
             while msg is None:

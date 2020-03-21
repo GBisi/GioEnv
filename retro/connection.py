@@ -49,7 +49,7 @@ class Connection:
         self._next_out_w_mailbox = (mailbox+1) % self._mb_num
 
         message.set_global(self._next_seq)
-        message.set_channel(mailbox)
+        message.set_mailbox(mailbox)
 
         self._next_seq = (self._next_seq+1) % Connection._max_seq
 
