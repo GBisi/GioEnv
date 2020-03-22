@@ -13,7 +13,7 @@ class Mailbox:
     _k = log(_max_seq,2)
     _threshold = pow(2,_k-1)
 
-    def __init__(self, size, delta=_delta):
+    def __init__(self, size, standby_time, delta=_delta):
 
         self._input = Channel(size)
         self._output = Channel(size)
@@ -29,6 +29,8 @@ class Mailbox:
         self._timer_lock = threading.RLock()
 
         self._first = True
+        self._standby_time = standby_time
+        self._last_send = time.time()
 
     #RFC1982 3.2 https://tools.ietf.org/html/rfc1982
     def _check(self, message):
@@ -68,6 +70,14 @@ class Mailbox:
         return self._next_out
 
     def send(self, message):
+
+        now = time.time()
+
+        if now-self._last_send > self._standby_time/2:
+
+            self.reset()
+
+        self._last_send = now 
 
         if(self._first):
 
@@ -147,17 +157,27 @@ class Mailbox:
 
         delta = now - self._timer
 
-        self._timer_lock.release()
-
         if delta > self._delta:
             self.stop_timer()
+            self._timer_lock.release()
             return True
+
+        self._timer_lock.release()
 
         return False
 
     def ack(self, n):
 
         self._first = False
+
+
+    def reset(self):
+
+        self._first = True
+
+    def set_standby_time(self, time):
+
+        self._standby_time = time
 
 
     def __repr__(self):

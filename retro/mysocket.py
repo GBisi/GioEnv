@@ -96,6 +96,9 @@ class MySocket:
 
         self._conn_lock.release()
 
+        if self._debug:
+            print("removed:",addr)
+
 
     def get_connections_size(self):
     

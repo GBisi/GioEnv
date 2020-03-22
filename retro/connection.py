@@ -16,7 +16,7 @@ class Connection:
         self._addr = addr
         self._mb_num = mb_num
         self._mb_len = mb_len
-        self._mailboxes = [Mailbox(self._mb_len) for i in range(self._mb_num)]
+        self._mailboxes = [Mailbox(self._mb_len,Connection._closing_time) for i in range(self._mb_num)]
 
         self._next_seq = randrange(Connection._max_seq)
 
@@ -118,6 +118,8 @@ class Connection:
 
         self._rto = self._estimated_rtt + 4*self._rtt_dev
 
+        self.set_timeout(self._rto)
+
         return self._rto
 
     def is_close(self):
@@ -128,6 +130,12 @@ class Connection:
         old = self._standby
         self._standby = time.time()
         return old
+
+    def set_standby_time(self, time):
+
+        for m in self._mailboxes:
+
+            m.set_standby_time(time)
 
     def __repr__(self):
         return str(self._mailboxes)

@@ -9,7 +9,7 @@ class EchoServer:
             self.header = "\nEchoed by "+str(port)
         else:
             self.header = header
-        self.socket = MySocket(port,mblen,mbnum, ip=ip)
+        self.socket = MySocket(port,mblen,mbnum, ip=ip,debug=debug)
         self.debug = debug
         print("--- ECHO SERVER ONLINE AT PORT "+str(port)+" ---")
 
@@ -23,7 +23,7 @@ class EchoServer:
             if msg is not None:
                 self.socket.send(str(msg.get_data())+self.header,msg.get_sender(),mailbox=msg.get_mailbox())
                 if self.debug:
-                    print(msg)
+                    print("echoed:",msg)
         print("--- ECHO SERVER CLOSE ---")
     
 if __name__ == "__main__":

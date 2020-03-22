@@ -63,7 +63,7 @@ stdev: {:0.2f}\n\
         start = time.time()
         msg = None
         while msg is None:
-            msg = self.socket.send(0,dest)
+            msg = self.socket.send(i,dest)
         if self.debug:
             print("send:",msg)
         msg = None
