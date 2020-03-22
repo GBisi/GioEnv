@@ -69,9 +69,11 @@ stdev: {:0.2f}\n\
         msg = None
         while msg is None:
             msg = self.socket.receive()
+            if msg is not None and int(msg.get_data()) != i:
+                msg = None
+        end = time.time()
         if self.debug:
             print("recived:",msg)
-        end = time.time()
         t = (end-start)*1000.0
         print(i,"-","time:",t,"ms")
         return t
