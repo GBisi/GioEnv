@@ -18,7 +18,7 @@ class Room(Thing):
                 )
 
         self.add_param("light",[25,80], ["LOW","MEDIUM","HIGH"])
-        self.add_param("temp",[18,20,22,24], ["FREEZING","COLD","MEDIUM","WARM","HOT"])
+        self.add_param("temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"])
 
     def add_param(self, name, threshold, label):
 
