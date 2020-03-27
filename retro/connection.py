@@ -4,7 +4,7 @@ import time
 
 class Connection:
 
-    _max_seq = 1024
+    _max_seq = 1024 #10 bit
 
     _alpha = 1/8
     _beta = 1/4

@@ -8,6 +8,7 @@ class Sender:
 
     def __init__(self, port, mblen=1, mbnum=1, debug = False, ip="127.0.0.1"):
         print("--- SENDER ONLINE ---")
+        print(ip,port)
         self.socket = MySocket(port,mblen,mbnum,ip=ip)
         self.debug = debug
 

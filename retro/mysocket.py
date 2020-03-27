@@ -11,7 +11,7 @@ from channel import Channel
 
 class MySocket:
 
-    _max_mb = 16
+    _max_mb = 16 #4 bit
     _max_msg_size = 2048
 
     def __init__(self, port, mb_len = 1, mb_num = 1, ip = "127.0.0.1", debug = False):

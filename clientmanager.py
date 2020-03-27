@@ -14,26 +14,30 @@ class ClientManager:
         self.SERVER = server
         self.socket = MySocket(retroport,1,100,ip=ip)
 
-    def ReadSerial(self):
-        try:
-            with serial.Serial(self.MICROBIT_PORT, 115200) as s:
-                print("Serial: connected")
-                while True:
-                    try:
-                        byte = s.readline()
-                        yield byte
-                    except:
-                        pass
-        except:
-             print("Serial: not connected")
+    def ReadSerial(self,timeout):
+        with serial.Serial(self.MICROBIT_PORT, 115200,timeout=timeout) as s:
+            #print("read")
+            byte = s.readline()
+            #print("byte",byte)
+            if byte is not None and byte != b'':
+                return byte
+            return None
 
 
     def run(self):
         self.socket.start()
-        for packet in self.ReadSerial():
-            msg = json.loads(packet.decode().strip())
-            print("send:",msg)
-            self.socket.send(msg,self.SERVER)
+        while True:
+            packet = self.ReadSerial(1)
+            if packet is not None:
+                msg = None
+                try:
+                    msg = json.loads(packet.decode().strip())
+                except:
+                    print("error",packet)
+                
+                if msg is not None:
+                    print("send:",msg)
+                    self.socket.send(msg,self.SERVER)
 
 
 # python Desktop/WoT/clientmanager.py COM7 4201 127.0.0.1 4200

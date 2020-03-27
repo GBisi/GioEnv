@@ -7,7 +7,7 @@ from channel import Channel
 
 class Mailbox:
 
-    _max_seq = 1024
+    _max_seq = 65536 #16 bit
     _delta = 5000
 
     _k = log(_max_seq,2)
