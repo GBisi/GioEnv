@@ -2,14 +2,21 @@
 
 % START with test(R).
 
-test(R) :- solve([temperature(very_low)],R).
+% test(R) :- solve([temperature(very_low)],R). doesn't work!
+
+test(L) :- compute([temperature(very_low)],L).
+
+compute(F,L) :-
+    retractall(do(_)), 
+    solve(F,_), 
+    do(L).
 
 solve(Facts, Results) :-
     solve(Facts, [], Results).
 
 solve(_,_,R) :- 
     is_list(R),
-    write(R),nl,nl.
+    assert(do(R)).
 
 solve(A,L,_) :-
     rule(P,C),
