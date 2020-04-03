@@ -37,14 +37,20 @@ solve(Goal) :-
     write(' With Certainty = '),write(C),nl,nl,
     ask_for_trace(Goal).
 
+solve(Goal, Facts) :-
+    init,
+    load_facts(Facts),
+    solve(Goal,C,[],1),
+    nl,write('Solved '),write(Goal),
+    write(' With Certainty = '),write(C),nl,nl.
+
 solve(Goal, Facts, Untrues) :-
     init,
     load_facts(Facts),
     load_untrues(Untrues),
     solve(Goal,C,[],1),
     nl,write('Solved '),write(Goal),
-    write(' With Certainty = '),write(C),nl,nl,
-    ask_for_trace(Goal).
+    write(' With Certainty = '),write(C),nl,nl.
 
 % init
 % purges all facts from working memory.
@@ -88,11 +94,19 @@ solve(A,C,Rules,T) :-
     rule((A), C),
     above_threshold(C,T).
 
+/*
 solve(A,C,Rules,T) :- 
     askable(A), 
     not(known(A)), 
     ask(A,Answer),
     respond(Answer,A,C,Rules).
+*/
+
+solve(A,C,Rules,T) :- 
+    askable(A), 
+    not(known(A)), 
+    respond(no,A,C,Rules).
+
 
 % respond( Answer, Query, CF, Rule_stack).
 % respond will process Answer (yes, no, how, why, help).
@@ -356,7 +370,10 @@ load([H|B]) :- assert(H), load(B).
 load_facts([]).
 load_facts([H|B]) :- assert(fact(H)), load_facts(B).
 
+load_untrues :- askable(A), 
+                not(known(A)),
+                print(A),
+                assert(untrue(A)).
 load_untrues([]).
 load_untrues([H|B]) :- assert(untrue(H)), load_untrues(B).
 
-:- consult('rulebook.pl').

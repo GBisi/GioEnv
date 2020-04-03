@@ -1,10 +1,10 @@
 import sys
 import re
 
-def write_rule(w,cf):
+def write_rule(w):
     w = w.replace(".","")
     w = w.replace("\n","")
-    string = "rule( {} , {} ).".format(w,cf)
+    string = "rule({}).".format(w)
     print(string)
     return string
 
@@ -26,30 +26,34 @@ def compile(file_name):
             if starter == "ASK":
                 text = text + write_ask(cmd[1])+"\n"
             elif starter == "DEFINE":
-                text = text + write_rule(cmd[1],100)+"\n"
+                text = text + write_rule(cmd[1])+"\n"
             elif starter == "IF":
                 cond = [cmd[1]]
                 i = 2
-                while cmd[i] != "THEN":
+                while cmd[i] != "THEN" and cmd[i] != "DO":
                     if cmd[i] == "and":
                         pass
                     else:
                         cond.append(cmd[i])
                     i = i+1
+                token = cmd[i]
                 i = i+1
                 conc = cmd[i]
                 conds = ""
                 for c in cond:
                     conds = conds+", "+c
-                string = "({} :- {})".format(conc,conds[1:])
-                text = text + write_rule(string,100)+"\n"
+                if token == "DO":
+                    string = "[{} ] , do({})".format(conds[1:],conc)
+                else:
+                    string = "[{} ] , fact({})".format(conds[1:],conc)
+                text = text + write_rule(string)+"\n"
             elif starter == "ANSWER":
                 conc = cmd[1]
                 conds = ""
                 for c in list(filter(lambda a: a != "and", cmd[3:])):
                     conds = conds+", "+c
-                string = "({} :- {})".format(conc,conds[1:])
-                text = text + write_rule(string,100)+"\n"
+                string = "[{} ] , {}".format(conds[1:],conc)
+                text = text + write_rule(string)+"\n"
 
     return text
 
@@ -62,12 +66,10 @@ if __name__ == "__main__":
         file_name = sys.argv[1]
     except:
         print("compiler.py [input] [output]")
-        exit()
 
     try:
         output_file = sys.argv[2]
     except:
         print("compiler.py [input] [output]")
-        exit()
 
     open(output_file,"w").write(compile(file_name))
