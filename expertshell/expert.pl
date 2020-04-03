@@ -1,20 +1,21 @@
 :- consult('rulebook.pl').
 
-% START with solve(R).
+% START with test(R).
 
-solve(R) :- solve([temperature(very_low)],R).
+test(R) :- solve([temperature(very_low)],R).
 
 solve(Facts, Results) :-
     solve(Facts, [], Results).
 
-solve(A,L,R) :-
-    (
+solve(_,_,R) :- 
+    is_list(R),
+    write(R),nl,nl.
+
+solve(A,L,_) :-
     rule(P,C),
     not_in(C,A),
-    verify(P,A),!,   % cut here? 
-    conclude(A,L,C)
-    );
-    print(R).
+    verify(P,A),  % cut here? 
+    conclude(A,L,C).
 
 not_in(do(C),A) :-
     not(member(C,A)).
