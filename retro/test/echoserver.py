@@ -1,4 +1,7 @@
 import sys
+sys.path.insert(0, "../")
+
+import sys
 import time
 from mysocket import MySocket
 

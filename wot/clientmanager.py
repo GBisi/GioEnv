@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, "../")
+
 import serial
 from microbit import Microbit
 from room import Room

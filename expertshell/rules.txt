@@ -1,0 +1,33 @@
+ANSWER actionTemperature(A) CHECKING bad_temperature(T) and fix_temperature(T,A).
+ANSWER actionLight(A) CHECKING bad_light(L) and fix_light(L,A).
+ANSWER action(A) CHECKING actionLight(A).
+ANSWER action(A) CHECKING actionTemperature(A).
+
+IF temperature(very_low) THEN bad_temperature(very_low).
+IF temperature(low) and outdoor_temperature(medium) THEN bad_temperature(low).
+IF temperature(low) and outdoor_temperature(very_low) THEN bad_temperature(low).
+IF temperature(high) and outdoor_temperature(medium) THEN bad_temperature(high).
+IF temperature(high) and outdoor_temperature(very_high) THEN bad_temperature(high).
+IF temperature(very_high) THEN bad_temperature(very_high).
+
+IF light(low) and outdoor_light(medium) THEN bad_light(low).
+IF light(low) and outdoor_light(low) THEN bad_light(low).
+IF light(medium) and outdoor_light(low) THEN bad_light(mediumL).
+IF light(medium) and outdoor_light(high) THEN bad_light(mediumH).
+IF light(high) and outdoor_light(high) THEN bad_light(high).
+IF light(high) and outdoor_light(medium) THEN bad_light(high).
+
+DEFINE fix_temperature(very_low,'temperature(low)').
+DEFINE fix_temperature(low,'temperature(medium)').
+DEFINE fix_temperature(high,'temperature(medium)').
+DEFINE fix_temperature(very_high,'temperature(high)').
+
+DEFINE fix_light(low,'light(medium)').
+DEFINE fix_light(mediumL,'light(high)').
+DEFINE fix_light(high,'light(medium)').
+DEFINE fix_light(mediumH,'light(low)').
+
+ASK temperature(T).
+ASK outdoor_temperature(T).
+ASK light(L).
+ASK outdoor_light(L).

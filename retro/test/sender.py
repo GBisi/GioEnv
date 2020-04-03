@@ -1,7 +1,9 @@
+import sys
+sys.path.insert(0, "../")
+
 import time
 import threading
 from mysocket import MySocket
-import sys
 from statistics import *
 import subprocess 
 class Sender:

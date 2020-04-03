@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(0, "../")
+sys.path.insert(0, "../../")
+
 from flask import Flask, request, abort
 from werkzeug.routing import BaseConverter
 import threading
@@ -14,6 +18,7 @@ from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 MY_IP = "131.114.73.148"
+#MY_IP = "127.0.0.1"
 RETRO_PORT = 2001
 WOT_PORT = 2000
 PREFIX = "http://"+MY_IP+":"+str(WOT_PORT)+"/"

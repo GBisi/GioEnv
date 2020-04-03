@@ -25,7 +25,7 @@ class ServerManager:
     def run(self):
         self.socket.start()
         print("Socket: connected")
-        with open('rooms.json') as file:
+        with open('../rooms.json') as file:
             self.data = json.load(file)
         
         for microbit in self.data:
