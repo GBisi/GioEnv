@@ -5,18 +5,16 @@ def write_rule(w):
     w = w.replace(".","")
     w = w.replace("\n","")
     string = "rule({}).".format(w)
-    print(string)
     return string
 
 def write_ask(w):
     w = w.replace(".","")
     w = w.replace("\n","")
     string = "askable( {} ).".format(w)
-    print(string)
     return string
 
 
-def compile(file_name):
+def Compile(file_name):
     text = "" 
     with open(file_name,"r") as file:
         for line in file: 

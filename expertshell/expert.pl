@@ -1,5 +1,3 @@
-:- consult('rulebook.pl').
-
 % START with test(R).
 
 % test(R) :- solve([temperature(very_low)],R). doesn't work!
@@ -7,22 +5,22 @@
 test(L) :- compute([temperature(very_low)],L).
 
 compute(F,L) :-
-    retractall(do(_)), 
+    %retractall(do(_)), 
     solve(F,_), 
     do(L).
 
 solve(Facts, Results) :-
     solve(Facts, [], Results).
 
-solve(_,_,R) :- 
-    is_list(R),
-    assert(do(R)).
-
-solve(A,L,_) :-
+solve(A,L,R) :-
+    (
     rule(P,C),
     not_in(C,A),
-    verify(P,A),  % cut here? 
-    conclude(A,L,C).
+    verify(P,A),  % cut here? Yes!
+    conclude(A,L,C)
+    );
+    is_list(R),
+    assertz(do(R)).
 
 not_in(do(C),A) :-
     not(member(C,A)).
