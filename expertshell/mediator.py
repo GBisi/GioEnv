@@ -43,5 +43,5 @@ class Mediator:
 
 if __name__ == "__main__":
     e = Mediator("rules-io")
-    s = e.mediate("[set_temperature(high)]","[set_temperature(medium)]")
-     #print(s)
+    s = e.mediate("[set_temperature(high), set_light(high)]","[set_temperature(medium), set_temperature(medium)]")
+    print(s)

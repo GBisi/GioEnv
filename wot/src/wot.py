@@ -18,14 +18,20 @@ from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 MY_IP = "131.114.73.148"
-#MY_IP = "127.0.0.1"
+MY_IP = "127.0.0.1"
 RETRO_PORT = 2001
 WOT_PORT = 2000
 PREFIX = "http://"+MY_IP+":"+str(WOT_PORT)+"/"
 
+def get_thing_from_db(value):
+    thing = db.get_thing(value)
+    if(hasattr(thing, 'update_params')):
+            thing.update_params()
+    return thing
+
 class Thing(BaseConverter):
     def to_python(self, value):
-        thing = db.get_thing(value)
+        thing = get_thing_from_db(value)
         if thing is None:
             abort(404)
         return thing
@@ -212,7 +218,7 @@ def on_socket_message(thing, ws, message):
 @sockets.route('/things/<thing>')
 def on_socket_connection(ws, thing):
 
-    thing = db.get_thing(thing)
+    thing = get_thing_from_db(thing)
     if thing is None:
         ws.send(json.dumps({
                     'messageType': 'error',
