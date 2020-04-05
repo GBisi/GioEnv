@@ -1,0 +1,1 @@
+IF es(set_temperature(high)) and su(set_temperature(medium)) DO set_temperature(low).

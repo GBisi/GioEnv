@@ -8,6 +8,7 @@ import time
 from flask_cors import CORS
 
 from expertsystem import ExpertSystem
+from mediator import Mediator
 
 MY_IP = "131.114.73.148"
 MY_IP = "127.0.0.1"
@@ -20,6 +21,7 @@ CORS(app)
 
 es = ExpertSystem("rules-es")
 superio = ExpertSystem("rules-superio")
+io = Mediator("rules-io")
 
 @app.route('/', methods=['GET'])
 def parse():
@@ -50,9 +52,9 @@ def parse():
         su_ans = superio.solve(req)
         print("es:",es_ans)
         print("superio:",su_ans)
-
-
-    ans = "[]"
+        med = io.mediate(es_ans,su_ans)
+        print("mediating:",med)
+        ans = med
 
     print("answer:",ans)
 
