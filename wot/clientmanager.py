@@ -16,7 +16,7 @@ class ClientManager:
         self.MICROBIT_PORT = serialport
         self.RETRO_PORT = retroport
         self.SERVER = server
-        self.socket = MySocket(retroport,1,100,ip=ip)
+        self.socket = MySocket(retroport,1,1000,ip=ip)
 
     def ReadSerial(self,timeout):
         with serial.Serial(self.MICROBIT_PORT, 115200,timeout=timeout) as s:

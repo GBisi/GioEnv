@@ -20,35 +20,41 @@ MEDIATOR_PORT = 1999
 # MORE INFO per Call
 # FEEL LIKE TEMP WRONG?
 def call_weatherapi():
-    API_KEY = "e5dec06056da4e81be1171342200504"
-    api_call = "http://api.weatherapi.com/v1/current.json?q="+LAT+","+LON+"&key="+API_KEY
-    report = requests.get(api_call)
-    if report.status_code == requests.codes.ok:
-        report = report.json()
-        temp = report["current"]["temp_c"]
-        light = (float(report["current"]["uv"])/11)*255 # uv index max 11
-        return True,temp,light
+    try:
+        API_KEY = "e5dec06056da4e81be1171342200504"
+        api_call = "http://api.weatherapi.com/v1/current.json?q="+LAT+","+LON+"&key="+API_KEY
+        report = requests.get(api_call)
+        if report.status_code == requests.codes.ok:
+            report = report.json()
+            temp = report["current"]["temp_c"]
+            light = (float(report["current"]["uv"])/11)*255 # uv index max 11
+            return True,temp,light
+    except:
+        pass
     return False,None,None
 
 # OPEN WEATHER MAP (60 calls/min) (30 because two calls for request: weather and uv)
 # or 1.000/day with one call api
 # MORE PRECISE
 def call_openweathermap():
-    API_KEY = "647aa595e78b34e517dad92e1cf5e65c"
-    api_call_temp = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat="+LAT+"&lon="+LON+"&appid="+API_KEY
-    api_call_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat="+LAT+"&lon="+LON+"&appid="+API_KEY
-    report_temp = requests.get(api_call_temp)
-    report_uvi = requests.get(api_call_uvi)
-    if report_temp.status_code == requests.codes.ok or report_uvi.status_code == requests.codes.ok:
-        temp = None
-        light = None
-        if report_temp.status_code == requests.codes.ok:
-            report_temp = report_temp.json()
-            temp = report_temp["main"]["temp"]
-        if report_uvi.status_code == requests.codes.ok:
-            report_uvi = report_uvi.json()
-            light = (float(report_uvi["value"])/11)*255 # uv index max 11
-        return True,temp,light
+    try:
+        API_KEY = "647aa595e78b34e517dad92e1cf5e65c"
+        api_call_temp = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat="+LAT+"&lon="+LON+"&appid="+API_KEY
+        api_call_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat="+LAT+"&lon="+LON+"&appid="+API_KEY
+        report_temp = requests.get(api_call_temp)
+        report_uvi = requests.get(api_call_uvi)
+        if report_temp.status_code == requests.codes.ok or report_uvi.status_code == requests.codes.ok:
+            temp = None
+            light = None
+            if report_temp.status_code == requests.codes.ok:
+                report_temp = report_temp.json()
+                temp = report_temp["main"]["temp"]
+            if report_uvi.status_code == requests.codes.ok:
+                report_uvi = report_uvi.json()
+                light = (float(report_uvi["value"])/11)*255 # uv index max 11
+            return True,temp,light
+    except:
+        pass
 
     return False,None,None
 
@@ -136,6 +142,7 @@ class Room(Thing):
     def set_param(self, name, val, threshold, label):
 
         if name == "temp" or name == "light":
+            self.update_params()
             self.update(("last_outdoor_update"),str(datetime.datetime.now()))
 
         value = label[len(threshold)]
@@ -152,10 +159,13 @@ class Room(Thing):
             self.change(name,old,value)
 
     def change(self, name, old, new):
-        mediator = "http://"+MY_IP+":"+str(MEDIATOR_PORT)+"/"
-        r = requests.get(mediator, json=self.get_properties())
-        text = r.text
-        self.add_new_event("fix", text)
+        try:
+            mediator = "http://"+MY_IP+":"+str(MEDIATOR_PORT)+"/"
+            r = requests.get(mediator, json=self.get_properties())
+            text = r.text
+            self.add_new_event("fix", text)
+        except:
+            pass
 
     def update_params(self):
         now = datetime.datetime.now()

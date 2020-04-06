@@ -1,8 +1,8 @@
 { "tuvov": {
     "temp": ["329A",284], 
-    "light":[279],
-    "ac":[278], 
-    "windows":[279,278]
+    "light":[],
+    "ac":["329A",284], 
+    "windows":[]
 },
 
   "tetoz":{

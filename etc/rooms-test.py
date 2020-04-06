@@ -42,8 +42,7 @@ class ServerManager:
                 self.db.add_thing(self.microbits[serial_number])
 
             self.microbits[serial_number].update(name, val)
-            microbit = Microbit.get_microbit_name(serial_number)
-            if name in self.data[ microbit]:
-                for r in self.data[microbit][name]:
-                    print(microbit,r,name)
+            microbit_number = Microbit.get_microbit_name(serial_number)
+            if name in self.data[ microbit_number]:
+                for r in self.data[ microbit_number][name]:
                     self.rooms[r].update(name,val)
