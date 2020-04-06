@@ -7,17 +7,50 @@ from timer import Timer
 import requests
 import time
 import datetime
+import json
 
 LAT = "43.720664"
 LON = "10.408427"
 
-# OPEN WEATHER MAP
-API_KEY = "647aa595e78b34e517dad92e1cf5e65c"
-api_call = "http://api.openweathermap.org/data/2.5/weather?lat="+LAT+"&lon="+LON+"&appid="+API_KEY+"?"
+MY_IP = "131.114.73.148"
+MY_IP = "127.0.0.1"
+MEDIATOR_PORT = 1999
 
-# WEATHER API
-API_KEY = "e5dec06056da4e81be1171342200504"
-api_call = "http://api.weatherapi.com/v1/current.json?q="+LAT+","+LON+"&key="+API_KEY
+# WEATHER API (10.000 calls/month)
+# MORE INFO per Call
+# FEEL LIKE TEMP WRONG?
+def call_weatherapi():
+    API_KEY = "e5dec06056da4e81be1171342200504"
+    api_call = "http://api.weatherapi.com/v1/current.json?q="+LAT+","+LON+"&key="+API_KEY
+    report = requests.get(api_call)
+    if report.status_code == requests.codes.ok:
+        report = report.json()
+        temp = report["current"]["temp_c"]
+        light = (float(report["current"]["uv"])/11)*255 # uv index max 11
+        return True,temp,light
+    return False,None,None
+
+# OPEN WEATHER MAP (60 calls/min) (30 because two calls for request: weather and uv)
+# or 1.000/day with one call api
+# MORE PRECISE
+def call_openweathermap():
+    API_KEY = "647aa595e78b34e517dad92e1cf5e65c"
+    api_call_temp = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat="+LAT+"&lon="+LON+"&appid="+API_KEY
+    api_call_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat="+LAT+"&lon="+LON+"&appid="+API_KEY
+    report_temp = requests.get(api_call_temp)
+    report_uvi = requests.get(api_call_uvi)
+    if report_temp.status_code == requests.codes.ok or report_uvi.status_code == requests.codes.ok:
+        temp = None
+        light = None
+        if report_temp.status_code == requests.codes.ok:
+            report_temp = report_temp.json()
+            temp = report_temp["main"]["temp"]
+        if report_uvi.status_code == requests.codes.ok:
+            report_uvi = report_uvi.json()
+            light = (float(report_uvi["value"])/11)*255 # uv index max 11
+        return True,temp,light
+
+    return False,None,None
 
 class Room(Thing):
 
@@ -58,6 +91,12 @@ class Room(Thing):
                                 'type': 'number',
                                 'readOnly': True,
                             }))
+
+        self.add_available_event(
+                "fix",
+                {
+                    'description': ""
+                })
 
     def add_param(self, name, threshold, label):
 
@@ -106,24 +145,42 @@ class Room(Thing):
                 value = label[i]
                 break
         
-        
-        if value != self.get_property(name+"L"):
+        old = self.get_property(name+"L")
+        if value != old:
             self.update((name+"L"),value)
             self.add_new_event(value+"_"+name, val)
+            self.change(name,old,value)
+
+    def change(self, name, old, new):
+        mediator = "http://"+MY_IP+":"+str(MEDIATOR_PORT)+"/"
+        r = requests.get(mediator, json=self.get_properties())
+        text = r.text
+        self.add_new_event("fix", text)
 
     def update_params(self):
-
-        report = requests.get(api_call)
         now = datetime.datetime.now()
         self.update("time",now.hour)
+        
+        light_backup = None
+        temp_backup = None
+        status_backup = False
 
+        status,temp,light = call_openweathermap()
 
-        if report.status_code == requests.codes.ok:
-            report = report.json()
-            temp = report["current"]["feelslike_c"]
-            light = (float(report["current"]["vis_km"])/10)*255 #visibility max 10 km
+        if not status or temp is None or light is None:
 
-            self.update("outdoor_light",light)
-            self.update("outdoor_temp",temp)
+            status_backup,temp_backup,light_backup = call_weatherapi()
+        
+        if status or status_backup:
+
+            if light is not None:
+                self.update("outdoor_light",light)
+            elif light_backup is not None:
+                self.update("outdoor_light",light_backup)
+
+            if temp is not None:
+                self.update("outdoor_temp",temp)
+            elif temp_backup is not None:
+                self.update("outdoor_light",temp_backup)
 
             self.update(("last_outdoor_update"),str(now))

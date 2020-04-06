@@ -1,1 +1,9 @@
-IF es(set_temperature(high)) and su(set_temperature(medium)) DO set_temperature(low).
+IF es(set_temperature(very_high)) DO set_temperature(very_high).
+IF es(set_temperature(high)) DO set_temperature(high).
+IF es(set_temperature(medium)) DO set_temperature(medium).
+IF es(set_temperature(low)) DO set_temperature(low).
+IF es(set_temperature(very_low)) DO set_temperature(very_low).
+
+IF su(set_light(high)) DO set_light(high).
+IF su(set_light(medium)) DO set_light(medium).
+IF su(set_light(low)) DO set_light(low).

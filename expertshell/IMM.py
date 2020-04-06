@@ -28,26 +28,27 @@ def parse():
 
     data = request.get_json()
     
-    print("request:",data)
+    if data is not None:
 
-    req = "["
+        print("request:",data)
 
-    if "tempL" in data:
-        req = req+"temperature("+data["tempL"].lower()+"),"
-    if "lightL" in data:
-        req = req+"light("+data["lightL"].lower()+"),"
-    if "outdoor_tempL" in data:
-        req = req+"outdoor_temperature("+data["outdoor_tempL"].lower()+"),"
-    if "outdoor_lightL" in data:
-        req = req+"outdoor_light("+data["outdoor_lightL"].lower()+"),"
+        req = "["
 
-    req = req[:-1]+"]"
+        if "tempL" in data:
+            req = req+"temperature("+data["tempL"].lower()+"),"
+        if "lightL" in data:
+            req = req+"light("+data["lightL"].lower()+"),"
+        if "outdoor_tempL" in data:
+            req = req+"outdoor_temperature("+data["outdoor_tempL"].lower()+"),"
+        if "outdoor_lightL" in data:
+            req = req+"outdoor_light("+data["outdoor_lightL"].lower()+"),"
 
-    print("parsing:",req)
+        if req == "[":
+            return "[]"
 
-    ans = "[]"
-
-    if req != "[]":
+        req = req[:-1]+"]"
+        print("parsing:",req)
+    
         es_ans = es.solve(req)
         su_ans = superio.solve(req)
         print("es:",es_ans)
@@ -56,9 +57,11 @@ def parse():
         print("mediating:",med)
         ans = med
 
-    print("answer:",ans)
+        print("answer:",ans)
 
-    return ans
+        return ans
+    
+    abort(400)
 
 if __name__ == '__main__':
     print("IMM Server ONLINE @ "+MY_IP+":"+str(PORT))
