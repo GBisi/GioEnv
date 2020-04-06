@@ -1,0 +1,10 @@
+Ecco una serie di appunti a commento del codice:
+- i file rules-*.pl sono solo i "compilati" degli analoghi txt e contengono solo le regole, la logica è expert.pl e mediator.pl
+- le regole dei sistemi, sopratutto per quanto riguarda il mediatore, sono appena abbozzate giusto epr effettuare i test.
+- le regole del sistema "Es" le ho create per simulare l'interazione con un utente. In produzione saranno sostituite da auelle dei singoli utenti + gestione dei conflitti
+-il retractall commentato 
+- in expert.pl compute è l'analogo di solve. La differenza è che compute restituisce i risultati solve no.
+- per far funzionare compute ho dovuto aggiungere retractall e assertz, che nella versione "ufficiale" non ci stanno
+- retractall penso serva, ma non funziona in problog ed in effetti per l'utilizzo che ne faccio potrebbeessere inutile. Infatti serve se si fanno più chiamate di solve/compute, ma per come utilizzo il sistema per ogni chiamata si rinizia da capo, e se si risolve con solve allora non serve sicuramente
+- mediator per ora è implementato come un particolare sistema esperto, ma non sono convinto di questa forma, volendo si può trasformare in un qualcosa di diverso
+- in mediator.pl sarebbe interessante riuscire a creare un'unica funzione di parsing (remapping) passondogli in input il predicato che incapsula gli elementi

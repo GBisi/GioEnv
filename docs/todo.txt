@@ -1,8 +1,8 @@
-- Parametri esterni, orario (fasce orarie)
+- Parametri esterni, orario (fasce orarie) X
 - Sistemare rooms.json
 ------------------------------------------------ Testabile
 Divisione stanze 
-Testing WoT
+Testing WoT (??)
 -------------------------------------------------
 - Integrare prefernze utenti
 - "Dove sone negli uffici"

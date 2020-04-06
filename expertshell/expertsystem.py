@@ -42,5 +42,5 @@ class ExpertSystem:
 
 
 if __name__ == "__main__":
-    e = ExpertSystem("rules")
+    e = ExpertSystem("rules-es")
     print(e.solve("[temperature(very_low),light(high)]"))
