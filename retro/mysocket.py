@@ -183,10 +183,10 @@ class MySocket:
                     if msg.is_ack():
                         
                         if not mailbox.get_output().is_empty() and mailbox.get_output().next().get_sequence() == msg.get_ack():
-                            
                             mailbox.ack(msg.get_ack())
                             mailbox.get_output().get()
                             conn.calculate_rto(mailbox.stop_timer())
+                            #print(int(time.time()*1000.0))
                     else:
                         self._rcv_callback(msg)
                         mailbox.post(msg)
@@ -212,6 +212,7 @@ class MySocket:
 
                     mailbox.start_timer()
                     if self._sock_send(message, message.get_dest()):
+                        #print(int(time.time()*1000.0))
                         self._send_callback(message)
 
         self._sock.close()

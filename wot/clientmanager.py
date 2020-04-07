@@ -31,7 +31,7 @@ class ClientManager:
     def run(self):
         self.socket.start()
         while True:
-            packet = self.ReadSerial(1)
+            packet = self.ReadSerial(0.5)
             if packet is not None:
                 msg = None
                 try:

@@ -14,11 +14,11 @@ class Sender:
         self.socket = MySocket(port,mblen,mbnum,ip=ip)
         self.debug = debug
 
-
     def start(self, dest, num):
 
         self.socket.start()
         times = []
+        
         start = time.time()
         for i in range(num):
             times.append(self.send(i,dest))
@@ -78,7 +78,7 @@ stdev: {:0.2f}\n\
         if self.debug:
             print("recived:",msg)
         t = (end-start)*1000.0
-        print(i,"-","time:",t,"ms")
+         #print(i,"-","time:",t,"ms")
         return t
 
 

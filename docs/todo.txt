@@ -1,5 +1,5 @@
 - Parametri esterni, orario (fasce orarie) X
-- Sistemare rooms.json
+- Sistemare rooms.json X
 ------------------------------------------------ Testabile
 Divisione stanze 
 Testing WoT (??)

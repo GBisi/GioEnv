@@ -18,8 +18,8 @@ assumes true.
 % TEST: Start with test(R).
 
 % test(R) :- solve([temperature(very_low)],R). doesn't work! doesn't return R.
-
-test(L) :- compute([temperature(very_low)],L).
+:- consult('rules-es').
+test(L) :- compute([temperature(very_low), light(high)],L).
 
 % compute(Facts,Results): receives a list of Fact in input, 
 % then apllies the rules and return it's Results
@@ -40,26 +40,17 @@ solve(Facts, Context, Results) :-
     (
     rule(Preconditions,Conclusion), %get a rule
     not_in(Conclusion,Facts), %if not inferred this conclusion
-    verify(Preconditions,Facts), %verify if the preconditions are true  % cut here? Yes!
+    subset(Preconditions,Facts), %verify if the preconditions are true  % cut here? Yes!
     conclude(Facts,Context,Conclusion) %infer that conclusion is true
-    );
-    is_list(Results), %maybe not useful
-    assertz(do(Results)). %needs for compute
+    ).
 
 % not_in(Conclusion, Facts): Verify that the conclusion is not in the Facts already inferred
 % it is necessary to decapsulate the conclusion because the facts in input are 
 not_in(do(Conclusion),Facts) :-
-    not(member(Conclusion,Facts)).
+    \+member(Conclusion,Facts).
 
 not_in(fact(Conclusion),Facts) :-
-    not(member(Conclusion,Facts)).
-
-% verify(Preconditions, Facts): verify that all the precondition in Preconditions are in Facts.
-verify([],_).
-
-verify([H|T],Facts) :- 
-    member(H,Facts),
-    verify(T,Facts).
+    \+member(Conclusion,Facts).
 
 % conclude(Facts, Context, Conclusion): add Conclusion in Facts, if Conclusion is in the do(_) form, 
 % add Conclusion in Results and 

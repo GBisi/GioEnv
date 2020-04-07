@@ -1,0 +1,425 @@
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586184351324.3804
+Total Packets: 100
+Total Time: 8852.24
+min: 23.94
+avg: 88.52
+max: 143.62
+median: 88.26
+variance: 741.49
+stdev: 27.23
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586184392288.7534
+Total Packets: 100
+Total Time: 8143.02
+min: 34.91
+avg: 81.43
+max: 173.54
+median: 78.79
+variance: 614.59
+stdev: 24.79
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586184649708.6875
+Total Packets: 100
+Total Time: 9847.58
+min: 35.91
+avg: 98.48
+max: 291.22
+median: 93.25
+variance: 1485.56
+stdev: 38.54
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586184732914.5374
+Total Packets: 100
+Total Time: 11976.02
+min: 29.92
+avg: 119.76
+max: 355.05
+median: 95.74
+variance: 4853.14
+stdev: 69.66
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586184797868.7593
+Total Packets: 100
+Total Time: 8579.06
+min: 23.94
+avg: 85.79
+max: 197.47
+median: 77.79
+variance: 1059.68
+stdev: 32.55
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586184957361.534
+Total Packets: 100
+Total Time: 8682.78
+min: 12.97
+avg: 86.83
+max: 160.57
+median: 84.77
+variance: 712.95
+stdev: 26.70
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586185033027.2373
+Total Packets: 100
+Total Time: 12310.09
+min: 41.89
+avg: 123.10
+max: 628.32
+median: 103.22
+variance: 6861.20
+stdev: 82.83
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586185473153.3591
+Total Packets: 100
+Total Time: 10891.87
+min: 35.90
+avg: 108.92
+max: 213.43
+median: 106.71
+variance: 1084.32
+stdev: 32.93
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586185734268.1096
+Total Packets: 100
+Total Time: 10707.37
+min: 48.87
+avg: 107.07
+max: 205.41
+median: 101.23
+variance: 1095.04
+stdev: 33.09
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586185832425.4946
+Total Packets: 100
+Total Time: 9488.63
+min: 25.93
+avg: 94.89
+max: 192.49
+median: 92.76
+variance: 726.43
+stdev: 26.95
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586185914410.8232
+Total Packets: 100
+Total Time: 13160.36
+min: 19.95
+avg: 131.60
+max: 653.25
+median: 103.22
+variance: 12391.93
+stdev: 111.32
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 1
+Server Spec: 1024 16
+Timestamp: 1586185960929.6597
+Total Packets: 100
+Total Time: 8175.15
+min: 17.95
+avg: 81.75
+max: 262.30
+median: 72.31
+variance: 1368.29
+stdev: 36.99
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 1
+Server Spec: 1024 16
+Timestamp: 1586186026580.0962
+Total Packets: 100
+Total Time: 9452.72
+min: 30.92
+avg: 94.53
+max: 202.46
+median: 85.27
+variance: 1482.29
+stdev: 38.50
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 1
+Server Spec: 1024 16
+Timestamp: 1586186110990.3071
+Total Packets: 100
+Total Time: 9733.96
+min: 11.97
+avg: 97.34
+max: 203.46
+median: 89.76
+variance: 1397.40
+stdev: 37.38
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 1
+Server Spec: 1024 16
+Timestamp: 1586186149851.7292
+Total Packets: 100
+Total Time: 8767.54
+min: 29.92
+avg: 87.68
+max: 173.54
+median: 83.77
+variance: 941.61
+stdev: 30.69
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 1
+Server Spec: 1024 16
+Timestamp: 1586186205726.2625
+Total Packets: 100
+Total Time: 8982.97
+min: 35.90
+avg: 89.83
+max: 195.46
+median: 82.78
+variance: 1044.57
+stdev: 32.32
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 1
+Server Spec: 1024 16
+Timestamp: 1586186256852.6677
+Total Packets: 100
+Total Time: 8573.07
+min: 23.94
+avg: 85.73
+max: 222.41
+median: 77.79
+variance: 1497.64
+stdev: 38.70
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
