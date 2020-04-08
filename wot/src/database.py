@@ -5,6 +5,7 @@ class Database:
     def __init__(self, prefix = "localhost:5000/things/"):
         self.things = {}
         self.prefix = prefix
+        print("DATABASE ONLINE @",prefix)
 
     def get_prefix():
         return self.prefix

@@ -10,8 +10,6 @@ from flask_cors import CORS
 from expertsystem import ExpertSystem
 from mediator import Mediator
 
-PREFIX = "http://"+MY_IP+":"+str(PORT)+"/"
-
 app = Flask(__name__)
 CORS(app)
 
@@ -59,6 +57,28 @@ def parse():
     
     abort(400)
 
+def configuration():
+    global MY_IP
+    global PORT
+    global PREFIX
+
+    config = configparser.ConfigParser()
+    config.read('../config.ini')
+
+    test = config["TEST"].getboolean("TEST")
+
+    if test:
+        MY_IP = config["TEST"]["MY_IP"]
+    else:
+        MY_IP = config["DEFAULT"]["MY_IP"]
+
+    PORT = int(config["MEDIATOR"]["PORT"])
+    
+    PREFIX = "http://"+MY_IP+":"+str(PORT)+"/"
+    
+
 if __name__ == '__main__':
+    
+    configuration()
     print("IMM Server ONLINE @ "+MY_IP+":"+str(PORT))
     app.run(host=MY_IP,port=PORT)

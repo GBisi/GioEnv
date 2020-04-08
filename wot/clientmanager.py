@@ -52,10 +52,13 @@ class ClientManager:
 
 # python Desktop/WoT/clientmanager.py COM7 4201 127.0.0.1 4200
 
-def configuration(test = False):
+def configuration():
 
     config = configparser.ConfigParser()
     config.read('../config.ini')
+
+    test = config["TEST"].getboolean("TEST")
+
     if test:
         MY_IP = config["TEST"]["MY_IP"]
         SERVER_IP = config["TEST"]["MY_IP"]
@@ -72,11 +75,7 @@ def configuration(test = False):
 if __name__ == "__main__":
     
     if len(sys.argv) != 6:
-        if len(sys.argv) == 2 and sys.argv[1] == "test":
-            configuration(True)
-        elif len(sys.argv) == 2 and sys.argv[1] == "deploy":
-            configuration()
-        else:
-            print("clientmanager [serial_port] [my_ip] [retro_port] [server_ip] [server_port]")
+        print("clientmanager [serial_port] [my_ip] [retro_port] [server_ip] [server_port]")
+        configuration()
     else:
         ClientManager(str(sys.argv[1]),int(sys.argv[3]),(str(sys.argv[4]),int(sys.argv[5])), ip=sys.argv[2]).run()

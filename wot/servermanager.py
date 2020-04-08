@@ -15,6 +15,8 @@ class ServerManager:
         self.rooms = {}
         self.db = db
 
+        print("SERVER MANAGER ONLINE @ "+ip+":"+str(retroport))
+
     def ReadSocket(self):
         while True:
             msg = self.socket.receive()

@@ -8,6 +8,7 @@ import requests
 import time
 import datetime
 import json
+import configparser
 
 # WEATHER API (10.000 calls/month)
 # MORE INFO per Call
@@ -152,6 +153,19 @@ class Room(Thing):
             self.change(name,old,value)
 
     def change(self, name, old, new):
+
+        config = configparser.ConfigParser()
+        config.read('../../config.ini')
+
+        test = config["TEST"].getboolean("TEST")
+
+        if test:
+            MY_IP = config["TEST"]["MY_IP"]
+        else:
+            MY_IP = config["DEFAULT"]["MY_IP"]
+
+        MEDIATOR_PORT = config["MEDIATOR"]["PORT"]
+
         try:
             mediator = "http://"+MY_IP+":"+str(MEDIATOR_PORT)+"/"
             r = requests.get(mediator, json=self.get_properties())
@@ -161,6 +175,16 @@ class Room(Thing):
             pass
 
     def update_params(self):
+
+        config = configparser.ConfigParser()
+        config.read('../../config.ini')
+
+        global LAT
+        global LON
+
+        LAT = config["PLACE"]["LAT"]
+        LON = config["PLACE"]["LON"]
+
         now = datetime.datetime.now()
         self.update("time",now.hour)
         

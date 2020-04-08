@@ -234,7 +234,7 @@ def on_socket_connection(ws, thing):
 
     on_socket_close(thing, ws)
 
-def configuration(test = False):
+def configuration():
     global MY_IP
     global RETRO_PORT
     global WOT_PORT
@@ -243,6 +243,9 @@ def configuration(test = False):
 
     config = configparser.ConfigParser()
     config.read('../../config.ini')
+
+    test = config["TEST"].getboolean("TEST")
+
     if test:
         MY_IP = config["TEST"]["MY_IP"]
     else:
@@ -254,11 +257,8 @@ def configuration(test = False):
 
 if __name__ == '__main__':
     
-    if len(sys.argv) == 2 and sys.argv[1] == "test":
-        configuration(True)
-    else:
-        configuration()
-        
+    configuration()
+
     threading.Thread(target=ServerManager(db,MY_IP,RETRO_PORT).run).start()
     server = pywsgi.WSGIServer((MY_IP, WOT_PORT), app, handler_class=WebSocketHandler)
     print("WoT Server ONLINE @ "+MY_IP+":"+str(WOT_PORT))
