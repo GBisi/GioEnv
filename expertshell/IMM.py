@@ -10,10 +10,6 @@ from flask_cors import CORS
 from expertsystem import ExpertSystem
 from mediator import Mediator
 
-MY_IP = "131.114.73.148"
-MY_IP = "127.0.0.1"
-
-PORT = 1999
 PREFIX = "http://"+MY_IP+":"+str(PORT)+"/"
 
 app = Flask(__name__)

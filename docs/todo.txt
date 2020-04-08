@@ -8,3 +8,5 @@ Testing WoT (??)
 - "Dove sone negli uffici"
 ------------------------------------------------
 - Mediatore (media, media pesata, estensibilità)
+
+expert(Rules, Facts, TargetState, Actions).

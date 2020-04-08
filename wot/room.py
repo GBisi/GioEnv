@@ -9,13 +9,6 @@ import time
 import datetime
 import json
 
-LAT = "43.720664"
-LON = "10.408427"
-
-MY_IP = "131.114.73.148"
-MY_IP = "127.0.0.1"
-MEDIATOR_PORT = 1999
-
 # WEATHER API (10.000 calls/month)
 # MORE INFO per Call
 # FEEL LIKE TEMP WRONG?
