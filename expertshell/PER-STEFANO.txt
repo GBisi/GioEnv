@@ -1,3 +1,7 @@
+
+- Per ora la postcondizione è considerata un singolo termine e non una lista per avere retrocompatibilità con le vecchie regole. appena posso "ricompilo" permettendo lal presenza di liste come post.
+
+**************************** OLD ***************************************
 Ecco una serie di appunti a commento del codice:
 - i file rules-*.pl sono solo i "compilati" degli analoghi txt e contengono solo le regole, la logica è expert.pl e mediator.pl
 - le regole dei sistemi, sopratutto per quanto riguarda il mediatore, sono appena abbozzate giusto epr effettuare i test.

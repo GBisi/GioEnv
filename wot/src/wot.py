@@ -17,7 +17,7 @@ from gevent import pywsgi
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
-PREFIX = "http://"+MY_IP+":"+str(WOT_PORT)+"/"
+import configparser
 
 def get_thing_from_db(value):
     thing = db.get_thing(value)
@@ -95,9 +95,7 @@ operations = {"properties":{"GET": get_properties, "PUT": put_property},
 "events":{"GET": get_events},
 "actions":{"GET": get_actions, "POST":post_actions}}
 
-db = Database(PREFIX+"things/")
 sockets = Sockets(app)
-
 
 @app.route('/things')
 def parse_things():
@@ -236,7 +234,31 @@ def on_socket_connection(ws, thing):
 
     on_socket_close(thing, ws)
 
+def configuration(test = False):
+    global MY_IP
+    global RETRO_PORT
+    global WOT_PORT
+    global PREFIX
+    global db
+
+    config = configparser.ConfigParser()
+    config.read('../../config.ini')
+    if test:
+        MY_IP = config["TEST"]["MY_IP"]
+    else:
+        MY_IP = config["DEFAULT"]["MY_IP"]
+    WOT_PORT = int(config["WOT"]["WOT_PORT"])
+    RETRO_PORT = int(config["WOT"]["RETRO_PORT"])
+    PREFIX = "http://"+MY_IP+":"+str(WOT_PORT)+"/"
+    db = Database(PREFIX+"things/")
+
 if __name__ == '__main__':
+    
+    if len(sys.argv) == 2 and sys.argv[1] == "test":
+        configuration(True)
+    else:
+        configuration()
+        
     threading.Thread(target=ServerManager(db,MY_IP,RETRO_PORT).run).start()
     server = pywsgi.WSGIServer((MY_IP, WOT_PORT), app, handler_class=WebSocketHandler)
     print("WoT Server ONLINE @ "+MY_IP+":"+str(WOT_PORT))
