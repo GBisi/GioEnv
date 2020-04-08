@@ -1,7 +1,15 @@
-test(F,R) :- start_loop([temperature(very_low), light(high)],F,R). 
+test(F,R) :- resolve([temperature(very_low), light(high)],F,R). 
+testRules(N,R) :- resolve([ rule([ temperature(very_low) ] , [ do(set_temperature(high)) ]), rule([ temperature(low), outdoor_temperature(very_low) ] , [ do(set_temperature(high)) ]), rule([ temperature(high), outdoor_temperature(very_high) ] , [ do(set_temperature(low)) ]), rule([ temperature(very_high) ] , [ do(set_temperature(low)) ]), rule([ light(low), outdoor_light(medium) ] , [ do(set_light(medium)) ]), rule([ light(low), outdoor_light(low) ] , [ do(set_light(high)) ]), rule([ light(medium), outdoor_light(low) ] , [ do(set_light(high)) ]), rule([ light(medium), outdoor_light(high) ] , [ do(set_light(medium)) ]), rule([ light(high), outdoor_light(high) ] , [ do(set_light(medium)) ]), rule([ light(high), outdoor_light(medium) ] , [ do(set_light(medium)) ]) ],[temperature(very_low),light(high)],N,R).
+
+resolve(F,N,A) :-
+    start_loop(F,N,A).
+
+resolve(R,F,N,A) :-
+    start_loop(R,F,N,A).
+
 
 start_loop(Facts,NewFacts,Actions) :-
-    findall(r(Pre,Post), rule(Pre,Post), Rules), %very expensive
+    findall(rule(Pre,Post), rule(Pre,Post), Rules), %very expensive
     start_loop(Rules,Facts,NewFacts,Actions).
 
 start_loop(Rules,Facts,NewFacts,Actions) :-
@@ -38,11 +46,11 @@ dewrap([H|T],Actions, NewActions) :-
 
 solve([], F, F). %changed GB
 
-solve([r(Pre, Post)|Rs], Facts, NewFacts) :-
+solve([rule(Pre, Post)|Rs], Facts, NewFacts) :-
     \+subset(Post,Facts), 
     subset(Pre,Facts),
     append(Post, Facts, Merged), %changed GB
     solve(Rs, Merged, NewFacts). %changed GB
 
-solve([r(_, _)|Rs], Facts, NewFacts) :- %added GB
+solve([rule(_, _)|Rs], Facts, NewFacts) :- %added GB
     solve(Rs, Facts, NewFacts). %added GB

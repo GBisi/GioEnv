@@ -43,9 +43,17 @@ def Compile(file_name):
 
     return text
 
+
+def CompileList(file_name):
+    text = Compile(file_name)
+
+    text = "[ "+ text.replace(".\n",", ")[:-2]+" ]"
+
+    return text
+
 if __name__ == "__main__":
 
-    file_name = "./expertshell/rules-es.txt"
+    file_name = "rules-es.txt"
     output_file = "rulebook.pl"
 
     try:
@@ -59,3 +67,4 @@ if __name__ == "__main__":
         print("compiler.py [input] [output]")
 
     open(output_file,"w").write(Compile(file_name))
+    print(CompileList(file_name))
