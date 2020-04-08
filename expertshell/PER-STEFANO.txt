@@ -1,5 +1,4 @@
-
-- Per ora la postcondizione è considerata un singolo termine e non una lista per avere retrocompatibilità con le vecchie regole. appena posso "ricompilo" permettendo lal presenza di liste come post.
+- PEr verificare la differenza tra i due sistemi (expertS e newexpert) usa consult('rulebook.pl'),test(F,R). 
 
 **************************** OLD ***************************************
 Ecco una serie di appunti a commento del codice:
