@@ -423,3 +423,178 @@ Statistiche Ping per 127.0.0.1:
 Tempo approssimativo percorsi andata/ritorno in millisecondi:
     Minimo = 0ms, Massimo =  0ms, Medio =  0ms
 
+-----------------------------
+Client Spec: 1 1
+Server Spec: 1024 16
+Timestamp: 1586614682216.6133
+Total Packets: 1
+Total Time: 67.82
+min: 67.82
+avg: 67.82
+max: 67.82
+median: 67.82
+variance: 0.00
+stdev: 0.00
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1 1
+Server Spec: 1024 16
+Timestamp: 1586614700727.1548
+Total Packets: 1
+Total Time: 77.32
+min: 77.32
+avg: 77.32
+max: 77.32
+median: 77.32
+variance: 0.00
+stdev: 0.00
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1 1
+Server Spec: 1024 16
+Timestamp: 1586614743189.298
+Total Packets: 1
+Total Time: 74.80
+min: 74.80
+avg: 74.80
+max: 74.80
+median: 74.80
+variance: 0.00
+stdev: 0.00
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1 1
+Server Spec: 1024 16
+Timestamp: 1586614749917.3938
+Total Packets: 1
+Total Time: 59.84
+min: 59.84
+avg: 59.84
+max: 59.84
+median: 59.84
+variance: 0.00
+stdev: 0.00
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1 1
+Server Spec: 1024 16
+Timestamp: 1586614806137.397
+Total Packets: 100
+Total Time: 10202.27
+min: 5.98
+avg: 102.02
+max: 1384.01
+median: 76.05
+variance: 20376.55
+stdev: 142.75
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 100 16
+Server Spec: 1024 16
+Timestamp: 1586614829237.7163
+Total Packets: 100
+Total Time: 9376.11
+min: 17.95
+avg: 93.76
+max: 185.51
+median: 90.51
+variance: 979.04
+stdev: 31.29
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+
+-----------------------------
+Client Spec: 1024 16
+Server Spec: 1024 16
+Timestamp: 1586614934111.3481
+Total Packets: 1000
+Total Time: 85595.51
+min: 17.95
+avg: 85.60
+max: 198.47
+median: 83.65
+variance: 781.69
+stdev: 27.96
+
+Esecuzione di Ping 127.0.0.1 con 32 byte di dati:
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+Risposta da 127.0.0.1: byte=32 durata<1ms TTL=128
+
+Statistiche Ping per 127.0.0.1:
+    Pacchetti: Trasmessi = 4, Ricevuti = 4, 
+    Persi = 0 (0% persi),
+Tempo approssimativo percorsi andata/ritorno in millisecondi:
+    Minimo = 0ms, Massimo =  0ms, Medio =  0ms
+

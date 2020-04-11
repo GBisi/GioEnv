@@ -6,6 +6,7 @@ import threading
 from mysocket import MySocket
 from statistics import *
 import subprocess 
+import json
 class Sender:
 
     def __init__(self, port, mblen=1, mbnum=1, debug = False, ip="127.0.0.1"):
@@ -26,12 +27,12 @@ class Sender:
 
         res = None
         while res is None:
-            self.socket.send(1,dest,mailbox=-1)
+            self.socket.send(b'\x01',dest,mailbox=-1)
             timer = time.time()
             while time.time() - timer < 5 and res is None:
                 res = self.socket.get_cmd()
 
-        server_spec = res.get_data()
+        server_spec = json.loads(res.get_data().decode("utf-8"))
 
         stat = "Client Spec: {} {}\n\
 Server Spec: {} {}\n\
@@ -66,14 +67,15 @@ stdev: {:0.2f}\n\
         start = time.time()
         msg = None
         while msg is None:
-            msg = self.socket.send(i,dest)
+            msg = self.socket.send(i.to_bytes(sys.getsizeof(i),"big"),dest)
         if self.debug:
             print("send:",msg)
         msg = None
         while msg is None:
             msg = self.socket.receive()
-            if msg is not None and int(msg.get_data()) != i:
-                msg = None
+            if msg is not None:
+                if int.from_bytes(msg.get_data(),"big") != i:
+                    msg = None
         end = time.time()
         if self.debug:
             print("recived:",msg)

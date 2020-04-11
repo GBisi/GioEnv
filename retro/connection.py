@@ -1,10 +1,11 @@
 from mailbox import Mailbox
 from random import randrange
 import time
+from header import header
 
 class Connection:
 
-    _max_seq = 1024 #10 bit
+    _max_seq = 2**header["global"] #10 bit
 
     _alpha = 1/8
     _beta = 1/4

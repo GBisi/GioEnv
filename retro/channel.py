@@ -1,5 +1,6 @@
 from random import randrange
 import threading
+from header import header
 
 class Channel:
 
@@ -62,6 +63,7 @@ class Channel:
         return data
 
     def put(self, elem):
+        
         self._lock.acquire()
         if elem is None:
             self._lock.release()

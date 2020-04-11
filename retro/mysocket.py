@@ -8,10 +8,12 @@ from message import Message
 from connection import Connection
 from mailbox import Mailbox
 from channel import Channel
+from header import header
+import sys
 
 class MySocket:
 
-    _max_mb = 16 #4 bit
+    _max_mb = 2**header["mailbox"] #4 bit
     _max_msg_size = 2048
 
     def __init__(self, port, mb_len = 1, mb_num = 1, ip = "127.0.0.1", debug = False):
@@ -122,7 +124,7 @@ class MySocket:
 
 
     def send(self, message, dest, mailbox = None):
-
+        
         message = Message(-1, data = message)
         message.set_dest(dest)
         message.set_sender(self._addr)
@@ -142,8 +144,8 @@ class MySocket:
             for i in range(self.get_connections_size()):
                 c = self.get_connection(next(self._conn_iterator))
                 msg =  c.receive(mailbox)
-
                 if msg is not None:
+                    
                     return msg
 
                 if c.is_close():
@@ -164,16 +166,16 @@ class MySocket:
         while not self._shutdown:
 
             msg = self._sock_receive()
-                
+            
             if msg is not None:
-
+                
                 conn =  self.get_connection(msg.get_sender())
 
                 if msg.get_mailbox() < 0:
                     self._cmd_callback(msg)
 
                     if msg.get_mailbox() == -1:
-                        self.send({"len":self._mb_len,"num":self._mb_num,"standby":Connection._closing_time},msg.get_sender(),mailbox=-2)
+                        self.send(('{"len":'+str(self._mb_len)+',"num":'+str(self._mb_num)+',"standby":'+str(Connection._closing_time)+'}').encode("utf-8"),msg.get_sender(),mailbox=-2)
                     else:
                         self._put_cmd(msg)
                 else:
@@ -188,9 +190,9 @@ class MySocket:
                             conn.calculate_rto(mailbox.stop_timer())
                             #print(int(time.time()*1000.0))
                     else:
-                        self._rcv_callback(msg)
+                        self._rcv_callback(msg.json())
                         mailbox.post(msg)
-                        message = Message(-1,mailbox=msg.get_mailbox(),ack=msg.get_sequence())
+                        message = Message(-1, mailbox=msg.get_mailbox(), ack=1, seq=msg.get_sequence())
                         message.set_sender(self._addr)
                         message.set_dest(msg.get_sender())
                         self._sock_send(message,msg.get_sender())
@@ -211,9 +213,10 @@ class MySocket:
                 if message is not None and mailbox.timeout():
 
                     mailbox.start_timer()
+                    
                     if self._sock_send(message, message.get_dest()):
                         #print(int(time.time()*1000.0))
-                        self._send_callback(message)
+                        self._send_callback(message.json())
 
         self._sock.close()
 
@@ -234,9 +237,10 @@ class MySocket:
 
 
     def _sock_send(self, message, dest):
-
+        
         try:
-            message = str(message).encode("utf-8")
+            
+            message = message.get()
             self._socket_lock.acquire()
             self._sock.sendto(message, dest)
             self._socket_lock.release()
@@ -250,15 +254,17 @@ class MySocket:
     def _sock_receive(self):
         try:
             self._socket_lock.acquire()
-            msg = self._sock.recv(MySocket._max_msg_size)
+            msg,addr = self._sock.recvfrom(MySocket._max_msg_size)
             self._socket_lock.release()
-            msg = json.loads(msg.decode("utf-8").replace("\'", "\""))
+            
+            msg = Message.make(msg)
+            
             if self._debug:
                 print(self._addr,"receive:",msg)
-            msg = Message.make(msg)
-            if self._addr != msg.get_dest():
-                return None
-
+            
+            msg.set_dest(self._addr)
+            msg.set_sender(addr)
+            
             return msg
         except:
             try:
@@ -289,12 +295,13 @@ if __name__ == "__main__":
     s3.send(2,("127.0.0.1",p1))
     s3.start()"""
     i = 0
-    s2.command_callback(lambda message:print("command",message))
+    s1.command_callback(lambda message:print("command",message))
     s2.send_callback(lambda message:print("send",message))
     s1.receive_callback(lambda message:print("receive",message))
     while True:
+    
         time.sleep(1)
-        s2.send(i,("127.0.0.1",p1))
+        s2.send(i.to_bytes(sys.getsizeof(i),"big"),("127.0.0.1",p1))
         #s3.send(i,("127.0.0.1",p1))
         i=i+1
         msg = s1.receive()

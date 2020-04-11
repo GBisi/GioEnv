@@ -4,10 +4,11 @@ import json
 from math import log
 import threading
 from channel import Channel
+from header import header
 
 class Mailbox:
 
-    _max_seq = 65536 #16 bit
+    _max_seq = 2**header["sequence"]#16 bit
     _delta = 5000
 
     _k = log(_max_seq,2)
@@ -97,7 +98,7 @@ class Mailbox:
         message = self._input.get()
         if message is None:
             return None
-
+            
         return message
 
     def post(self, message):

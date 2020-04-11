@@ -24,7 +24,7 @@ class EchoServer:
         while delta == 0 or time.time()-start < delta:
             msg = self.socket.receive()
             if msg is not None:
-                self.socket.send(str(msg.get_data())+self.header,msg.get_sender(),mailbox=msg.get_mailbox())
+                self.socket.send(msg.get_data()+str(self.header).encode("utf-8"),msg.get_sender(),mailbox=msg.get_mailbox())
                 if self.debug:
                     print("echoed:",msg)
         print("--- ECHO SERVER CLOSE ---")
