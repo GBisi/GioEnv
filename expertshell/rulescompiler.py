@@ -1,5 +1,4 @@
 import sys
-import re
 
 def write_rule(w):
     w = w.replace(".","")
