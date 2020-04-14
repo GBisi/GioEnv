@@ -1,4 +1,13 @@
-- PEr verificare la differenza tra i due sistemi (expertS e newexpert) usa consult('rulebook.pl'),test(F,R). 
+- Per testare l'EaaS collegarsi all'indirizzo 131.114.73.148 porta 1999. Come body un file json con una lista "facts" e una "rules".
+
+- Esempio d'uso: 
+
+{
+	"facts":"[temperature(very_low),light(high)]",
+	"rules":"[ rule([ temperature(very_low) ] , [ do(set_temperature(high)) ]), rule([ temperature(low), outdoor_temperature(very_low) ] , [ do(set_temperature(high)) ]), rule([ temperature(high), outdoor_temperature(very_high) ] , [ do(set_temperature(low)) ]), rule([ temperature(very_high) ] , [ do(set_temperature(low)) ]), rule([ light(low), outdoor_light(medium) ] , [ do(set_light(medium)) ]), rule([ light(low), outdoor_light(low) ] , [ do(set_light(high)) ]), rule([ light(medium), outdoor_light(low) ] , [ do(set_light(high)) ]), rule([ light(medium), outdoor_light(high) ] , [ do(set_light(medium)) ]), rule([ light(high), outdoor_light(high) ] , [ do(set_light(medium)) ]), rule([ light(high), outdoor_light(medium) ] , [ do(set_light(medium)) ]) ]"
+}
+
+- Per verificare la differenza tra i due sistemi (expertS e newexpert) usa consult('rulebook.pl'),test(F,R). 
 
 **************************** OLD ***************************************
 Ecco una serie di appunti a commento del codice:
