@@ -1,0 +1,9 @@
+{
+    "servient": {
+        "clientOnly": false,
+        "staticAddress": "131.114.73.148"
+    },
+    "http": {
+        "port": 2000
+    }
+}

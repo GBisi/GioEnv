@@ -1,0 +1,263 @@
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: itsdangerous, click, MarkupSafe, Jinja2, Werkzeug, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://131.114.73.148:1999/ (Press CTRL+C to quit)
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: itsdangerous, Werkzeug, MarkupSafe, Jinja2, click, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "eaas.py", line 61, in <module>
+    app.run(host=MY_IP,port=PORT)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 990, in run
+    run_simple(host, port, self, **options)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1052, in run_simple
+    inner()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1005, in inner
+    fd=fd,
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 848, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 740, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python3.6/socketserver.py", line 456, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.6/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.6/socketserver.py", line 470, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+131.114.237.76 - - [19/Apr/2020 14:14:40] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: Werkzeug, itsdangerous, MarkupSafe, Jinja2, click, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://131.114.73.148:1999/ (Press CTRL+C to quit)
+131.114.237.76 - - [19/Apr/2020 14:15:08] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:15:11] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:15:12] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:15:17] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:15:18] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:15:34] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: itsdangerous, click, Werkzeug, MarkupSafe, Jinja2, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "eaas.py", line 61, in <module>
+    app.run(host=MY_IP,port=PORT)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 990, in run
+    run_simple(host, port, self, **options)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1052, in run_simple
+    inner()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1005, in inner
+    fd=fd,
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 848, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 740, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python3.6/socketserver.py", line 456, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.6/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.6/socketserver.py", line 470, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+131.114.237.76 - - [19/Apr/2020 14:18:56] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:18:58] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:18:59] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:19:28] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: click, itsdangerous, Werkzeug, MarkupSafe, Jinja2, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "eaas.py", line 61, in <module>
+    app.run(host=MY_IP,port=PORT)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 990, in run
+    run_simple(host, port, self, **options)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1052, in run_simple
+    inner()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1005, in inner
+    fd=fd,
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 848, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 740, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python3.6/socketserver.py", line 456, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.6/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.6/socketserver.py", line 470, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+131.114.237.76 - - [19/Apr/2020 14:20:27] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:20:28] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:20:29] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:20:30] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: Werkzeug, click, itsdangerous, MarkupSafe, Jinja2, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://131.114.73.148:1999/ (Press CTRL+C to quit)
+131.114.237.76 - - [19/Apr/2020 14:21:05] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:21:07] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:21:18] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:21:27] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: MarkupSafe, Jinja2, itsdangerous, click, Werkzeug, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://131.114.73.148:1999/ (Press CTRL+C to quit)
+131.114.237.76 - - [19/Apr/2020 14:23:34] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:23:57] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:24:02] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:25:12] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [19/Apr/2020 14:25:33] "[37mGET / HTTP/1.1[0m" 200 -
