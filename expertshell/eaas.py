@@ -29,7 +29,7 @@ def parse():
                 ans = expert.solve(data["facts"],data["rules"])
             else:
                 ans = expert.solve(data["facts"])
-        ans = "ciao"
+        
         return ans
     
     abort(400)
