@@ -26,10 +26,10 @@ def parse():
 
         if "facts" in data:
             if "rules" in data:
-                ans = expert.solve(data["facts"],data["rules"])
+                #ans = expert.solve(data["facts"],data["rules"])
             else:
-                ans = expert.solve(data["facts"])
-        
+                #ans = expert.solve(data["facts"])
+        ans = "ciao"
         return ans
     
     abort(400)
