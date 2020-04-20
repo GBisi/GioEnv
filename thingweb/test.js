@@ -189,8 +189,11 @@ function newRoom(id){
     var room = val["room"]
     var handlers = val["handlers"]
     WoT.produce(room).then((thing) => {
-            
-            thing.setPropertyWriteHandler("temp", handlers["temp"](thing,"temp"));
+
+            Object.keys(jsonData).forEach(function(key) {
+                var value = jsonData[key];
+                thing.setPropertyWriteHandler(key, value(thing,key));
+            }); 
             
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
