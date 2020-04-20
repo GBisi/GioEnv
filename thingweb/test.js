@@ -177,8 +177,7 @@ function handler (thing,name) {
                 thing.writeProperty("last_indoor_update", (new Date()).toISOString());
 
 
-            });
-            resolve();
+            }).then(resolve()).catch();
         });
     }
     return f
