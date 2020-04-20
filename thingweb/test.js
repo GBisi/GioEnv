@@ -102,31 +102,34 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
         enum:[...new Set(labels)],
     }
 
-    handler = (thing,name,newValue) => {
-            return new Promise((resolve, reject) => {
-                thing.readProperty(name).then((val) => {
-    
-                    value = labels[thresholds.length]
-    
-                    for(var i=0; i<thresholds.length; i++){
-                        if(val < thresholds[i]){
-                            value = labels[i]
-                            break
-                        }
+    handler = (thing,name) => {
+        return (newValue) => {
+        return new Promise((resolve, reject) => {
+            thing.readProperty(name).then((val) => {
+
+                value = labels[thresholds.length]
+
+                for(var i=0; i<thresholds.length; i++){
+                    if(val < thresholds[i]){
+                        value = labels[i]
+                        break
                     }
-                    
-                    old = thing.readProperty(name+"L")
-                    if(value != old){
-                         thing.writeProperty(name+"L", value);
-                    }
-    
-                    thing.writeProperty("last_indoor_update", (new Date()).toISOString());
-                    console.log(newValue)
-                    return newValue
-    
-                });
+                }
+                
+                old = thing.readProperty(name+"L")
+                if(value != old){
+                     thing.writeProperty(name+"L", value);
+                }
+
+                thing.writeProperty("last_indoor_update", (new Date()).toISOString());
+
+                resolve()
+
             });
-        };
+        });
+        
+    }
+};
 
     return handler
 
@@ -192,7 +195,7 @@ function newRoom(id){
 
             Object.keys(handlers).forEach(function(key) {
                 var value = handlers[key];
-                thing.setPropertyWriteHandler(key, value(thing,name));
+                thing.setPropertyWriteHandler(key, value(thing,key));
             }); 
             
             thing.writeProperty("temp", 0);
