@@ -130,7 +130,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
 }
 
 function getRoom(id){
-    room = {
+    var room = {
         title: "room"+id,
         description: "A Smart Room",
         descriptions: {
@@ -178,11 +178,13 @@ function getRoom(id){
 	handlers["outdoor_light"]=addParams(room,"outdoor_light",[25,80], ["LOW","MEDIUM","HIGH"], "Outdoor light","Luminosita' esterna")
 	handlers["outdoor_temp"]=addParams(room,"outdoor_temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"], "Outdoor temperature","Temperatura esterna")
     
-    return room,handlers
+    return {"room":room,"handlers":handlers}
 }
 
 function newRoom(id){
-    room,handlers = getRoom(id)
+    var val = getRoom(id)
+    var room = val["room"]
+    var handlers = val["handlers"]
     WoT.produce(room).then((thing) => {
             
             thing.setPropertyWriteHandler("temp", handlers["temp"]);
