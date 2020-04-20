@@ -155,7 +155,7 @@ function getRoom(id){
 }
 
 function handler (thing,name) {
-    return ((newValue) => {
+    function f(newValue) {
         return new Promise((resolve, reject) => {
             thing.readProperty(name).then((val) => {
                 console.log(name)
@@ -180,16 +180,14 @@ function handler (thing,name) {
             });
             resolve();
         });
-        
-    });
+    }
+    return f
 }
 
 function newRoom(id){
     var room = getRoom(id)
     WoT.produce(room).then((thing) => {
 
-        console.log(handler(thing,"temp"))
-            
             thing.setPropertyWriteHandler("temp",handler(thing,"temp"))
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
