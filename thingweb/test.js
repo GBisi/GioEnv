@@ -103,32 +103,34 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
     }
 
     handler = (thing,name) => {
-        return (newValue) => {
-        return new Promise((resolve, reject) => {
-            thing.readProperty(name).then((val) => {
 
-                value = labels[thresholds.length]
-
-                for(var i=0; i<thresholds.length; i++){
-                    if(val < thresholds[i]){
-                        value = labels[i]
-                        break
+        function f(newValue){
+            return new Promise((resolve, reject) => {
+                thing.readProperty(name).then((val) => {
+    
+                    value = labels[thresholds.length]
+    
+                    for(var i=0; i<thresholds.length; i++){
+                        if(val < thresholds[i]){
+                            value = labels[i]
+                            break
+                        }
                     }
-                }
-                
-                old = thing.readProperty(name+"L")
-                if(value != old){
-                     thing.writeProperty(name+"L", value);
-                }
-
-                thing.writeProperty("last_indoor_update", (new Date()).toISOString());
-                console.log(newValue)
-                return newValue
-
+                    
+                    old = thing.readProperty(name+"L")
+                    if(value != old){
+                         thing.writeProperty(name+"L", value);
+                    }
+    
+                    thing.writeProperty("last_indoor_update", (new Date()).toISOString());
+                    console.log(newValue)
+                    return newValue
+    
+                });
             });
-        });
-        
-    }
+            
+        }
+        return f
 };
 
     return handler
