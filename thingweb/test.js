@@ -1,4 +1,9 @@
 
+const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504"
+
+const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c"
+const openweathermap_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c"
+
 //https://github.com/lancaster-university/microbit-dal/blob/master/source/core/MicroBitDevice.cpp
 function getFriendlyName(serial_number){
     
@@ -197,10 +202,34 @@ function newRoom(id){
                 var value = handlers[key];
                 thing.setPropertyWriteHandler(key, value(thing,key));
             }); 
+
+            thing.setPropertyReadHandler("outdoor_temp", () => {
+                return new Promise((resolve, reject) => {
+                    fetch(openweathermap)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((data) => {
+                            console.log(data);
+                        });
+                });
+            });
+
+            thing.setPropertyReadHandler("outdoor_light", () => {
+                return new Promise((resolve, reject) => {
+                    fetch(openweathermap)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((data) => {
+                            resolve(data["main"]["feels_like"])
+                        });
+                });
+            });
             
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
-            thing.writeProperty("time", (new Date()).toISOString());
+            thing.writeProperty("time", new Date().getHours);
 
             thing.writeProperty("outdoor_temp", 0);
             thing.writeProperty("outdoor_light", 0);
