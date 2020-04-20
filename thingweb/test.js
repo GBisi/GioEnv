@@ -99,11 +99,12 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
         },
         observable: true,
         readOnly: true,
-        enum:labels,
+        enum:[...new Set(labels)],
     }
 
     handler = (thing) => {
         return new Promise((resolve, reject) => {
+            console.log(name)
             return thing.readProperty("temp").then((val) => {
 
                 value = labels[thresholds.length]
