@@ -187,6 +187,8 @@ function handler (thing,name) {
 function newRoom(id){
     var room = getRoom(id)
     WoT.produce(room).then((thing) => {
+
+        console.log(handler(thing,"temp"))
             
             thing.setPropertyWriteHandler("temp",handler(thing,"temp"))
             thing.writeProperty("temp", 0);
