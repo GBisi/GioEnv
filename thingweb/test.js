@@ -105,7 +105,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
     handler = (thing,name) => {
         return () => {
         return new Promise((resolve, reject) => {
-            return thing.readProperty(name).then((val) => {
+            thing.readProperty(name).then((val) => {
 
                 value = labels[thresholds.length]
 
@@ -123,8 +123,8 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
 
                 thing.writeProperty("last_indoor_update", (new Date()).toISOString());
 
-                resolve(val)
             });
+            resolve();
         });
         
     }
