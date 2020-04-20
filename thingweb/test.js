@@ -156,31 +156,32 @@ function getRoom(id){
 
 function handler (thing,name) {
     return ((newValue) => {
-    return new Promise((resolve, reject) => {
-        thing.readProperty(name).then((val) => {
+        return new Promise((resolve, reject) => {
+            thing.readProperty(name).then((val) => {
+                console.log(name)
+                console.log(newValue)
+                value = labels[thresholds.length]
 
-            value = labels[thresholds.length]
-
-            for(var i=0; i<thresholds.length; i++){
-                if(val < thresholds[i]){
-                    value = labels[i]
-                    break
+                for(var i=0; i<thresholds.length; i++){
+                    if(val < thresholds[i]){
+                        value = labels[i]
+                        break
+                    }
                 }
-            }
-            
-            old = thing.readProperty(name+"L")
-            if(value != old){
-                 thing.writeProperty(name+"L", value);
-            }
+                
+                old = thing.readProperty(name+"L")
+                if(value != old){
+                    thing.writeProperty(name+"L", value);
+                }
 
-            thing.writeProperty("last_indoor_update", (new Date()).toISOString());
+                thing.writeProperty("last_indoor_update", (new Date()).toISOString());
 
 
+            });
+            resolve();
         });
-        resolve();
+        
     });
-    
-});
 }
 
 function newRoom(id){
