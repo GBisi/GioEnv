@@ -4,6 +4,8 @@ const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec0
 const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c"
 const openweathermap_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c"
 
+const fetch = require('node-fetch');
+
 //https://github.com/lancaster-university/microbit-dal/blob/master/source/core/MicroBitDevice.cpp
 function getFriendlyName(serial_number){
     
