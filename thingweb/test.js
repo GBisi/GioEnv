@@ -123,7 +123,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
 
                 thing.writeProperty("last_indoor_update", (new Date()).toISOString());
                 
-                return val
+                thing.writeProperty(name,val);
 
             });
         });
