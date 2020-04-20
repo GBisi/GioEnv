@@ -102,37 +102,6 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
         enum:[...new Set(labels)],
     }
 
-    handler = (thing,name) => {
-        return ((newValue) => {
-        return new Promise((resolve, reject) => {
-            thing.readProperty(name).then((val) => {
-
-                value = labels[thresholds.length]
-
-                for(var i=0; i<thresholds.length; i++){
-                    if(val < thresholds[i]){
-                        value = labels[i]
-                        break
-                    }
-                }
-                
-                old = thing.readProperty(name+"L")
-                if(value != old){
-                     thing.writeProperty(name+"L", value);
-                }
-
-                thing.writeProperty("last_indoor_update", (new Date()).toISOString());
-
-
-            });
-            resolve();
-        });
-        
-    });
-};
-
-    return handler
-
 }
 
 function getRoom(id){
@@ -175,29 +144,50 @@ function getRoom(id){
     }
     };
 
-    handlers = {}
+    addParams(room,"temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"],"Room's temperature","Temperatura della stanza");
+    addParams(room,"light",[25,80], ["LOW","MEDIUM","HIGH"],"Room's light","Luminosita' della stanza");
+    addParams(room,"time",[7,13,19,22], ["NIGHT","MORNING","AFTERNOON","EVENING","NIGHT"],"Time","Orario");
+    
+	addParams(room,"outdoor_light",[25,80], ["LOW","MEDIUM","HIGH"], "Outdoor light","Luminosita' esterna")
+	addParams(room,"outdoor_temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"], "Outdoor temperature","Temperatura esterna")
+    
+    return room
+}
 
-    handlers["temp"]=addParams(room,"temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"],"Room's temperature","Temperatura della stanza");
-    handlers["light"]=addParams(room,"light",[25,80], ["LOW","MEDIUM","HIGH"],"Room's light","Luminosita' della stanza");
-    handlers["time"]=addParams(room,"time",[7,13,19,22], ["NIGHT","MORNING","AFTERNOON","EVENING","NIGHT"],"Time","Orario");
+function handler (thing,name) {
+    return ((newValue) => {
+    return new Promise((resolve, reject) => {
+        thing.readProperty(name).then((val) => {
+
+            value = labels[thresholds.length]
+
+            for(var i=0; i<thresholds.length; i++){
+                if(val < thresholds[i]){
+                    value = labels[i]
+                    break
+                }
+            }
+            
+            old = thing.readProperty(name+"L")
+            if(value != old){
+                 thing.writeProperty(name+"L", value);
+            }
+
+            thing.writeProperty("last_indoor_update", (new Date()).toISOString());
+
+
+        });
+        resolve();
+    });
     
-	handlers["outdoor_light"]=addParams(room,"outdoor_light",[25,80], ["LOW","MEDIUM","HIGH"], "Outdoor light","Luminosita' esterna")
-	handlers["outdoor_temp"]=addParams(room,"outdoor_temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"], "Outdoor temperature","Temperatura esterna")
-    
-    return {"room":room,"handlers":handlers}
+});
 }
 
 function newRoom(id){
-    var val = getRoom(id)
-    var room = val["room"]
-    var handlers = val["handlers"]
+    var room = getRoom(id)
     WoT.produce(room).then((thing) => {
-
-            Object.keys(handlers).forEach(function(key) {
-                var value = handlers[key];
-                thing.setPropertyWriteHandler(key, value(thing,key));
-            }); 
             
+            thing.setPropertyWriteHandler("temp",handler(thing,temp))
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
             thing.writeProperty("time", (new Date()).toISOString());
