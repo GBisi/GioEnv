@@ -171,15 +171,23 @@ function getRoom(id){
                     readOnly: true
                 }
         },
-        
+        actions:{
+            refresh: {
+                description: "Update the parameters",
+                descriptions: {
+                    "it": "Aggiorna i parametri"
+                },
+                output: { type: "object" }
+            }
+        },
         events: {
-        fix: {
-            description: "Some action to do",
-            descriptions: {
-                "it": "Qualche azione da compiere"
+            fix: {
+                description: "Some action to do",
+                descriptions: {
+                    "it": "Qualche azione da compiere"
+                }
             }
         }
-    }
     };
 
     handlers = {}
@@ -237,6 +245,13 @@ function newRoom(id){
                 });
             });
             
+            thing.setActionHandler("refresh", () => {
+                return new Promise((resolve, reject) => {
+                    thing.readAllProperties()
+                        .then((map) => {resolve(map)})
+                });
+            });
+
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
             thing.writeProperty("time", (new Date()).getHours());
