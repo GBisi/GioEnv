@@ -210,19 +210,19 @@ function newRoom(id){
                             return response.json();
                         })
                         .then((data) => {
-                            console.log(data);
+                            resolve(data["main"]["feels_like"])
                         });
                 });
             });
 
             thing.setPropertyReadHandler("outdoor_light", () => {
                 return new Promise((resolve, reject) => {
-                    fetch(openweathermap)
+                    fetch(openweathermap_uvi)
                         .then((response) => {
                             return response.json();
                         })
                         .then((data) => {
-                            resolve(data["main"]["feels_like"])
+                            resolve("ciao")
                         });
                 });
             });
