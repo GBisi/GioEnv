@@ -102,7 +102,8 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
         enum:[...new Set(labels)],
     }
 
-    handler = (thing) => {
+    handler = (thing,name) => {
+        return () => {
         return new Promise((resolve, reject) => {
             console.log(name)
             return thing.readProperty("temp").then((val) => {
@@ -124,7 +125,8 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
                 thing.writeProperty("last_indoor_update", (new Date()).toISOString());
             });
         });
-    };
+    }
+};
 
     return handler
 
@@ -188,7 +190,7 @@ function newRoom(id){
     var handlers = val["handlers"]
     WoT.produce(room).then((thing) => {
             
-            thing.setPropertyWriteHandler("temp", handlers["temp"](thing));
+            thing.setPropertyWriteHandler("temp", handlers["temp"](thing,"temp"));
             
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
