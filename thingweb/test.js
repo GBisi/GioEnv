@@ -105,7 +105,6 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
     handler = (thing,name) => {
         return () => {
         return new Promise((resolve, reject) => {
-            console.log(name)
             return thing.readProperty(name).then((val) => {
 
                 value = labels[thresholds.length]
@@ -127,6 +126,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
                 resolve()
             });
         });
+        
     }
 };
 
