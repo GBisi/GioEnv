@@ -10,8 +10,8 @@ import json
 
 class ExpertSystem:
 
-    _expert_code = "newexpert.pl"
-    _expert_cmd = "resolve" 
+    _expert_code = "expertB.pl"
+    _expert_cmd = "expert" 
     
     def __init__(self, rulebook=None):
         
