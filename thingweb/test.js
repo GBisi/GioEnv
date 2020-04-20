@@ -102,9 +102,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
         enum:[...new Set(labels)],
     }
 
-    handler = (thing,name) => {
-
-        function f(newValue){
+    handler = (newValue) => {
             return new Promise((resolve, reject) => {
                 thing.readProperty(name).then((val) => {
     
@@ -128,10 +126,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
     
                 });
             });
-            
-        }
-        return f
-};
+        };
 
     return handler
 
@@ -197,7 +192,7 @@ function newRoom(id){
 
             Object.keys(handlers).forEach(function(key) {
                 var value = handlers[key];
-                thing.setPropertyWriteHandler(key, value(thing,key));
+                thing.setPropertyWriteHandler(key, value);
             }); 
             
             thing.writeProperty("temp", 0);
