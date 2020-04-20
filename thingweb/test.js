@@ -196,7 +196,7 @@ function newRoom(id){
             thing.writeProperty("light", 0);
             thing.writeProperty("time", (new Date()).toISOString());
 
-            thing.writeProperty("ourdoor_temp", 0);
+            thing.writeProperty("outdoor_temp", 0);
             thing.writeProperty("outdoor_light", 0);
 
             thing.writeProperty("last_indoor_update", 0);
