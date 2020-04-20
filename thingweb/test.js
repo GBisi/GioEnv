@@ -103,7 +103,7 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
     }
 
     handler = (thing,name) => {
-        return (newValue) => {
+        return ((newValue) => {
         return new Promise((resolve, reject) => {
             thing.readProperty(name).then((val) => {
 
@@ -125,10 +125,10 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
 
 
             });
-            resolve()
+            resolve();
         });
         
-    }
+    });
 };
 
     return handler
