@@ -230,10 +230,16 @@ function newRoom(id){
                         });
                 });
             });
+
+            thing.setPropertyReadHandler("time", () => {
+                return new Promise((resolve, reject) => {
+                    resolve((new Date()).getHours())
+                });
+            });
             
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
-            thing.writeProperty("time", (new Date()).getHours);
+            thing.writeProperty("time", (new Date()).getHours());
 
             thing.writeProperty("outdoor_temp", 0);
             thing.writeProperty("outdoor_light", 0);
