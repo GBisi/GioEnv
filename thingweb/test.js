@@ -149,7 +149,7 @@ function getRoom(id){
                     readOnly: true
                 },
                 
-            last_otdoor_update: {
+            last_outdoor_update: {
                     type: "string",
                     description: "Last outdoor update",
                     descriptions: {
@@ -188,7 +188,7 @@ function newRoom(id){
     var handlers = val["handlers"]
     WoT.produce(room).then((thing) => {
             
-            thing.setPropertyWriteHandler("temp", handlers["temp"]);
+            thing.setPropertyWriteHandler("temp", handlers["temp"](thing));
             
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
