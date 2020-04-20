@@ -212,6 +212,7 @@ function newRoom(id){
                             return response.json();
                         })
                         .then((data) => {
+                            thing.writeProperty("last_outdoor_update", (new Date()).toISOString());
                             resolve(data["main"]["feels_like"])
                         });
                 });
@@ -224,7 +225,8 @@ function newRoom(id){
                             return response.json();
                         })
                         .then((data) => {
-                            resolve("ciao")
+                            thing.writeProperty("last_outdoor_update", (new Date()).toISOString());
+                            resolve((data["value"]/11)*255)
                         });
                 });
             });
