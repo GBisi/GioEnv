@@ -155,7 +155,7 @@ function getRoom(id){
 }
 
 function handler (thing,name) {
-    function f(newValue) {
+    function f() {
         return new Promise((resolve, reject) => {
             thing.readProperty(name).then((val) => {
                 console.log(name)
