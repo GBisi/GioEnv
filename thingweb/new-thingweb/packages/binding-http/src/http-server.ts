@@ -175,6 +175,8 @@ export default class HttpServer implements ProtocolServer {
 
     let title = thing.title;
 
+    console.debug("--- THING: "+thing.getThingDescription())
+
     if (this.things.has(title)) {
       title = Helpers.generateUniqueName(title);
     }
