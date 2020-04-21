@@ -72,7 +72,7 @@ export function parseTD(td: string, normalize?: boolean): Thing {
       if (prop["#input"] == undefined || typeof prop["#input"] !== "boolean") { //ADDED GB
         prop["#input"]  = false;
       }
-      if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED Gb
+      if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED GB
         prop["#output"]  = false;
       }
     }
@@ -206,7 +206,7 @@ export function serializeTD(thing: Thing): string {
       if (prop["#input"] == undefined || typeof prop["#input"] !== "boolean") { //ADDED GB
         prop["#input"]  = false;
       }
-      if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED Gb
+      if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED GB
         prop["#output"]  = false;
       }
     }
