@@ -222,11 +222,11 @@ export default class ConsumedThing extends TD.Thing implements WoT.ConsumedThing
     }
 
 
-    writeProperty(propertyName: string, value: any, options?: WoT.InteractionOptions): Promise<void> {
+    _writeProperty(propertyName: string, value: any, method: string, options?: WoT.InteractionOptions): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             // TODO pass expected form op to getClientFor()
             let tp: TD.ThingProperty = this.properties[propertyName];
-            let { client, form } = this.getClientFor(tp.forms, "writeproperty");
+            let { client, form } = this.getClientFor(tp.forms, method);
             if (!client) {
                 reject(new Error(`ConsumedThing '${this.title}' did not get suitable client for ${form.href}`));
             } else {
@@ -243,13 +243,14 @@ export default class ConsumedThing extends TD.Thing implements WoT.ConsumedThing
             }
         });
     }
-    writeMultipleProperties(valueMap: WoT.PropertyValueMap, options?: WoT.InteractionOptions): Promise<void> {
+
+    _writeMultipleProperties(valueMap: WoT.PropertyValueMap, method: string, options?: WoT.InteractionOptions): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             // collect all single promises into array
             var promises: Promise<any>[] = [];
             for (let propertyName in valueMap) {
                 let oValueMap: { [key: string]: any; } = valueMap;
-                promises.push(this.writeProperty(propertyName, oValueMap[propertyName]));
+                promises.push(this._writeProperty(propertyName, oValueMap[propertyName], method));
             }
             // wait for all promises to succeed and create response
             Promise.all(promises)
@@ -260,6 +261,22 @@ export default class ConsumedThing extends TD.Thing implements WoT.ConsumedThing
                     reject(new Error(`ConsumedThing '${this.title}', failed to write multiple propertes: ` + valueMap));
                 });
         });
+    }
+
+    writeProperty(propertyName: string, value: any, options?: WoT.InteractionOptions): Promise<void> {
+        return this._writeProperty(propertyName, value, "writeproperty", options)
+    }
+
+    writeMultipleProperties(valueMap: WoT.PropertyValueMap, options?: WoT.InteractionOptions): Promise<void> {
+        return this._writeMultipleProperties(valueMap, "writeproperty", options);
+    }
+
+    updateProperty(propertyName: string, value: any, options?: WoT.InteractionOptions): Promise<void> {
+        return this._writeProperty(propertyName, value, "updateproperty", options)
+    }
+
+    updateMultipleProperties(valueMap: WoT.PropertyValueMap, options?: WoT.InteractionOptions): Promise<void> {
+        return this._writeMultipleProperties(valueMap, "updateproperty", options);
     }
 
 
