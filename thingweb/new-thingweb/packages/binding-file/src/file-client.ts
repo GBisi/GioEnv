@@ -56,6 +56,12 @@ export default class FileClient implements ProtocolClient {
     });
   }
 
+  public updateResource(form: Form, content: Content): Promise<any> {
+    return new Promise<Object>((resolve, reject) => {
+      reject(new Error(`FileClient does not implement update`));
+    });
+  }
+
   public writeResource(form: Form, content: Content): Promise<any> {
     return new Promise<Object>((resolve, reject) => {
       reject(new Error(`FileClient does not implement write`));
