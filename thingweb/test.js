@@ -280,15 +280,18 @@ newRoom(129)
 var microbit = newMicrobit(384933164).then((thing) => {
 
     var td = thing.getThingDescription();
-    console.debug("**************************** debug: "+td);
+    WOT.consume(td).then((consumed)=>{
+
+        consumed.updateProperty("serial_number",4.2);
+        consumed.updateProperty("light",42);
+
+    })
 
 });
 
 //newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
-/*
-var thing = WOT.consume(microbit);
-thing.updateProperty("serial_number",4.2);
-thing.updateProperty("serial_number",42);
-*/
+
+
+
