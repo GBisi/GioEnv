@@ -273,8 +273,12 @@ function newRoom(id){
 
 newRoom(129)
 
-var microbit = newMicrobit(384933164).then((thing)=>resolve(thing));
-console.debug("debug"+microbit)
+var microbit = newMicrobit(384933164).then((thing)=>{
+
+    console.debug("**************************** debug"+thing)
+
+});
+
 //newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
