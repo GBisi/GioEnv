@@ -80,7 +80,6 @@ function newMicrobit(serial){
 
             thing.expose().then(() => { console.info(`Microbit ${thing.getThingDescription().title} ready!`); });
 
-            resolve(thing);
         })
         .catch((e) => {
             console.log(e);
@@ -132,6 +131,8 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
                 }
 
                 thing.writeProperty("last_indoor_update", (new Date()).toISOString());
+
+                resolve(newValue)
 
             });
         });
