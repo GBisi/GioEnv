@@ -195,11 +195,16 @@ export default class HttpServer implements ProtocolServer {
             // check for readOnly/writeOnly for op field
             let allReadOnly = true;
             let allWriteOnly = true;
+            let allInput = true;
             for (let propertyName in thing.properties) {
               if (!thing.properties[propertyName].readOnly) {
                 allReadOnly = false;
-              } else if (!thing.properties[propertyName].writeOnly) {
+              } 
+              if (!thing.properties[propertyName].writeOnly) { // CHANGED GB
                 allWriteOnly = false;
+              }
+              if (!thing.properties[propertyName]["#input"]) { // ADDED GB
+                allInput = false;
               }
             }
             if(allReadOnly) {
@@ -212,6 +217,11 @@ export default class HttpServer implements ProtocolServer {
             if(!thing.forms) {
               thing.forms = [];
             }
+
+            if(allInput) { // ADDED GB
+              form.op.concat(["updateallproperties", "updatemultipleproperties"]);
+            }
+
             thing.forms.push(form);
           }
 
@@ -618,7 +628,12 @@ export default class HttpServer implements ProtocolServer {
                   res.writeHead(400);
                   res.end("Property readOnly");
                 }
-              } else {
+              } 
+              else if (req.method === "PUT") { // ADDED GB
+                console.debug("***** HERE *****");
+                respondUnallowedMethod(res, "GET, PUT");
+              }
+              else {
                 respondUnallowedMethod(res, "GET, PUT");
               }
               // resource found and response sent
