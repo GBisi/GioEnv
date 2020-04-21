@@ -247,12 +247,8 @@ export default class HttpServer implements ProtocolServer {
                 hform["htv:methodName"] = "PUT";
               }
             } else {
-              if (thing.properties[propertyName]["#input"]) { //ADDED GB
-                form.op = ["readproperty", "writeproperty", "updateproperty"]; //CHANGED GB
-            } else {
               form.op = ["readproperty", "writeproperty"]
             }
-          }
 
             if (thing.properties[propertyName]["#input"]) { //ADDED GB
               let href = base + "/" + this.PROPERTY_DIR + "/" + propertyNamePattern;
@@ -260,7 +256,7 @@ export default class HttpServer implements ProtocolServer {
               form.op = ["updateproperty"];
               let hform : HttpForm = form;
               if(hform["htv:methodName"] === undefined) {
-                hform["htv:methodName"] = "PUT";
+                hform["htv:methodName"] = "PATCH";
               }
               thing.properties[propertyName].forms.push(form);
               console.log(`HttpServer on port ${this.getPort()} assigns '${href}' to updatable Property '${propertyName}'`);
