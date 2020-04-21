@@ -248,7 +248,19 @@ export default class HttpServer implements ProtocolServer {
               thing.properties[propertyName].forms.push(form);
               console.log(`HttpServer on port ${this.getPort()} assigns '${href}' to observable Property '${propertyName}'`);
             }
+
+            // if property is updatable add an additional form with a observable href ADDED GB
+          if (thing.properties[propertyName]["#input"]) {
+            let href = base + "/" + this.PROPERTY_DIR + "/" + encodeURIComponent(propertyName) + "/" + this.OBSERVABLE_DIR;
+            let form = new TD.Form(href, type);
+            form.op = ["updateproperty"];
+              let hform : HttpForm = form;
+              if(hform["htv:methodName"] === undefined) {
+                hform["htv:methodName"] = "PATCH";
+              }
+            }
           }
+
           
           for (let actionName in thing.actions) {
             let actionNamePattern = this.updateInteractionNameWithUriVariablePattern(actionName, thing.actions[actionName].uriVariables);
