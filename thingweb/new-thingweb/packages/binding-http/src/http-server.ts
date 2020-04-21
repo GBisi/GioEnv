@@ -630,11 +630,40 @@ export default class HttpServer implements ProtocolServer {
                 }
               } 
               else if (req.method === "PATCH") { // ADDED GB
-                console.debug("***** HERE *****");
-                respondUnallowedMethod(res, "GET, PUT");
+                if (property["#input"]) {
+                  // load payload
+                  let body: Array<any> = [];
+                  req.on("data", (data) => { body.push(data) });
+                  req.on("end", () => {
+                    console.debug(`HttpServer on port ${this.getPort()} completed body '${body}'`);
+                    let value;
+                    try {
+                      value = ContentSerdes.get().contentToValue({ type: contentType, body: Buffer.concat(body) }, <any>property);
+                    } catch(err) {
+                      console.warn(`HttpServer on port ${this.getPort()} cannot process update value for Property '${segments[3]}: ${err.message}'`);
+                      res.writeHead(400);
+                      res.end("Invalid Data");
+                      return;
+                    }
+                    thing.writeProperty(segments[3], value, options)
+                    // property.write(value, options)
+                      .then(() => {
+                        res.writeHead(204);
+                        res.end("Updated");
+                      })
+                      .catch(err => {
+                        console.error(`HttpServer on port ${this.getPort()} got internal error on update '${requestUri.pathname}': ${err.message}`);
+                        res.writeHead(500);
+                        res.end(err.message);
+                      });
+                  });
+                } else {
+                  res.writeHead(400);
+                  res.end("Not input Property");
+                }
               }
               else {
-                respondUnallowedMethod(res, "GET, PUT");
+                respondUnallowedMethod(res, "GET, PUT, PATCH");
               }
               // resource found and response sent
               return;
