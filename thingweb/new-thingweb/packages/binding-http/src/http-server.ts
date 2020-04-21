@@ -218,9 +218,9 @@ export default class HttpServer implements ProtocolServer {
               form.op = ["readallproperties", "readmultipleproperties", "writeallproperties", "writemultipleproperties"];
             }
 
-            /*if(allInput) { //ADDED GB
+            if(allInput) { //ADDED GB
               form.op.concat(["updateallproperties", "updatemultipleproperties"]);
-            } */
+            }
 
             if(!thing.forms) {
               thing.forms = [];
