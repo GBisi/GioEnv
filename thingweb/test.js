@@ -272,7 +272,7 @@ function newRoom(id){
 
 newRoom(129)
 
-var microbit = newMicrobit(384933164).getThingDescription();
+var microbit = (new Microbit(384933164)).getThingDescription();
 //newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
