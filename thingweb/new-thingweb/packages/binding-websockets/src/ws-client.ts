@@ -43,6 +43,12 @@ export default class WebSocketClient implements ProtocolClient {
     });
   }
 
+  public updateResource(form: Form, content: Content): Promise<any> {
+    return new Promise<void>((resolve, reject) => {
+
+    });
+  }
+
   public invokeResource(form: Form, content?: Content): Promise<Content> {
     return new Promise<Content>((resolve, reject) => {
 
