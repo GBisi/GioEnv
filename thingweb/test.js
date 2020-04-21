@@ -279,7 +279,7 @@ newRoom(129)
 
 var microbit = newMicrobit(384933164).then((thing) => {
 
-    console.debug("**************************** debug: "+thing)
+    console.debug("**************************** debug: "+thing.getThingDescription())
 
 });
 
