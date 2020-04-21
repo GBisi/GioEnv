@@ -280,7 +280,7 @@ newRoom(129)
 var microbit = newMicrobit(384933164).then((thing) => {
 
     var td = thing.getThingDescription();
-    WOT.consume(td).then((consumed)=>{
+    WoT.consume(td).then((consumed)=>{
 
         consumed.updateProperty("serial_number",4.2);
         consumed.updateProperty("light",42);
