@@ -22,6 +22,9 @@ import ExposedThing from "./exposed-thing";
 
 export interface ProtocolClient {
 
+  /** this client is requested to perform a "update" on the resource with the given URI */
+  updateResource(form: TD.Form): Promise<Content>; //ADDED GB
+
   /** this client is requested to perform a "read" on the resource with the given URI */
   readResource(form: TD.Form): Promise<Content>;
 

@@ -614,11 +614,6 @@ export default class HttpServer implements ProtocolServer {
                       });
                   });
                 } else {
-                  //ADD here handle updateproperty
-                  console.debug("************************* UPDATE PROPERTY ******************") 
-                  console.debug("************************* UPDATE PROPERTY ******************") 
-                  console.debug("************************* UPDATE PROPERTY ******************") 
-                  console.debug(req)
                   res.writeHead(400);
                   res.end("Property readOnly");
                 }
