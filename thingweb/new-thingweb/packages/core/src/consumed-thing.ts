@@ -243,7 +243,6 @@ export default class ConsumedThing extends TD.Thing implements WoT.ConsumedThing
             }
         });
     }
-
     writeMultipleProperties(valueMap: WoT.PropertyValueMap, options?: WoT.InteractionOptions): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             // collect all single promises into array
@@ -259,47 +258,6 @@ export default class ConsumedThing extends TD.Thing implements WoT.ConsumedThing
                 })
                 .catch(err => {
                     reject(new Error(`ConsumedThing '${this.title}', failed to write multiple propertes: ` + valueMap));
-                });
-        });
-    }
-
-    updateProperty(propertyName: string, value: any, options?: WoT.InteractionOptions): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            // TODO pass expected form op to getClientFor()
-            let tp: TD.ThingProperty = this.properties[propertyName];
-            let { client, form } = this.getClientFor(tp.forms, "updateproperty");
-            if (!client) {
-                reject(new Error(`ConsumedThing '${this.title}' did not get suitable client for ${form.href}`));
-            } else {
-                console.log(`ConsumedThing '${this.title}' updating ${form.href} with '${value}'`);
-                let content = ContentManager.valueToContent(value, <any>tp, form.contentType);
-
-                // uriVariables ?
-                form = this.handleUriVariables(form, value);
-
-                client.updateResource(form, content).then(() => {
-                    resolve();
-                })
-                    .catch(err => { reject(err); });
-            }
-        });
-    }
-
-    updateMultipleProperties(valueMap: WoT.PropertyValueMap, options?: WoT.InteractionOptions): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            // collect all single promises into array
-            var promises: Promise<any>[] = [];
-            for (let propertyName in valueMap) {
-                let oValueMap: { [key: string]: any; } = valueMap;
-                promises.push(this._writeProperty(propertyName, oValueMap[propertyName], "updateproperty"));
-            }
-            // wait for all promises to succeed and create response
-            Promise.all(promises)
-                .then((result) => {
-                    resolve();
-                })
-                .catch(err => {
-                    reject(new Error(`ConsumedThing '${this.title}', failed to update multiple propertes: ` + valueMap));
                 });
         });
     }

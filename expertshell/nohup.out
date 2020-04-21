@@ -261,3 +261,181 @@ EaaS ONLINE @ 131.114.73.148:1999
 131.114.237.76 - - [19/Apr/2020 14:24:02] "[37mGET / HTTP/1.1[0m" 200 -
 131.114.237.76 - - [19/Apr/2020 14:25:12] "[37mGET / HTTP/1.1[0m" 200 -
 131.114.237.76 - - [19/Apr/2020 14:25:33] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: Werkzeug, itsdangerous, click, MarkupSafe, Jinja2, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://131.114.73.148:1999/ (Press CTRL+C to quit)
+131.114.237.76 - - [20/Apr/2020 17:49:14] "[37mGET / HTTP/1.1[0m" 200 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: click, MarkupSafe, Jinja2, itsdangerous, Werkzeug, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "eaas.py", line 61, in <module>
+    app.run(host=MY_IP,port=PORT)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 990, in run
+    run_simple(host, port, self, **options)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1052, in run_simple
+    inner()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 1005, in inner
+    fd=fd,
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 848, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/werkzeug/serving.py", line 740, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python3.6/socketserver.py", line 456, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.6/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.6/socketserver.py", line 470, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+[2020-04-20 20:46:01,978] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/program.py", line 288, in __init__
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: './newexpert.pl'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "eaas.py", line 29, in parse
+    ans = expert.solve(data["facts"],data["rules"])
+  File "/home/bisicchia/thesis/expertshell/expertsystem.py", line 56, in solve
+    decisions = self.query(query)
+  File "/home/bisicchia/thesis/expertshell/expertsystem.py", line 74, in query
+    decisions = get_evaluatable().create_from(p).evaluate()
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/core.py", line 150, in create_from
+    return ProbLog.convert(obj, cls, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/core.py", line 120, in convert
+    next_obj = path[0](current_obj, path[1](**kwdargs), **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine.py", line 54, in ground
+    return ground_default(model, target, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine.py", line 74, in ground_default
+    propagate_evidence=propagate_evidence, labels=labels)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine.py", line 463, in ground_all
+    db = self.prepare(db)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine.py", line 182, in prepare
+    self._process_directives(result)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine.py", line 211, in _process_directives
+    target=gp)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 521, in execute
+    is_root=is_root, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 180, in eval
+    return exec_func(node_id=node_id, node=node, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 953, in eval_clause
+    current_clause=node_id, identifier=identifier, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 180, in eval
+    return exec_func(node_id=node_id, node=node, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 906, in eval_call
+    return self.eval(node.defnode, parent=parent, identifier=identifier, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 180, in eval
+    return exec_func(node_id=node_id, node=node, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 995, in eval_builtin
+    return self.eval_default(EvalBuiltIn, **kwdargs)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 999, in eval_default
+    cleanup, actions = node()  # Evaluate the node
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 2181, in __call__
+    current_clause=self.current_clause)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_stack.py", line 2202, in __call__
+    if self.base_function(*args, **kwdargs):
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/engine_builtin.py", line 1633, in _consult
+    database.consult(filename, location=kwdargs.get('location'), my_scope=scope)
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/clausedb.py", line 605, in consult
+    parser=self.extra_info.get('parser'))
+  File "/home/bisicchia/.local/lib/python3.6/site-packages/problog/program.py", line 291, in __init__
+    raise ProbLogError(str(err))
+problog.errors.ProbLogError: [Errno 2] No such file or directory: './newexpert.pl'.
+131.114.237.76 - - [20/Apr/2020 20:46:01] "[35m[1mGET / HTTP/1.1[0m" 500 -
+Collecting flask (from -r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/f2/28/2a03252dfb9ebf377f40fba6a7841b47083260bf8bd8e737b0c6952df83f/Flask-1.1.2-py2.py3-none-any.whl
+Collecting flask_cors (from -r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/78/38/e68b11daa5d613e3a91e4bf3da76c94ac9ee0d9cd515af9c1ab80d36f709/Flask_Cors-3.0.8-py2.py3-none-any.whl
+Collecting problog (from -r requirements.txt (line 3))
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/30/9e/f663a2aa66a09d838042ae1a2c5659828bb9b41ea3a6efa20a20fd92b121/Jinja2-2.11.2-py2.py3-none-any.whl
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/dd/c0/4d8f43a9b16e289f36478422031b8a63b54b6ac3b1ba605d602f10dd54d6/click-7.1.1-py2.py3-none-any.whl
+Collecting Six (from flask_cors->-r requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/b2/5f/23e0023be6bb885d00ffbefad2942bc51a620328ee910f64abe5a8d18dd1/MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl
+Installing collected packages: Werkzeug, MarkupSafe, Jinja2, itsdangerous, click, flask, Six, flask-cors, problog
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Six-1.14.0 Werkzeug-1.0.1 click-7.1.1 flask-1.1.2 flask-cors-3.0.8 itsdangerous-1.1.0 problog-2.1.0.40
+EaaS ONLINE @ 131.114.73.148:1999
+ * Serving Flask app "eaas" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://131.114.73.148:1999/ (Press CTRL+C to quit)
+131.114.237.76 - - [20/Apr/2020 20:47:25] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:47:33] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:47:39] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:47:46] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:48:09] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:48:24] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:48:39] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:49:00] "[37mGET / HTTP/1.1[0m" 200 -
+131.114.237.76 - - [20/Apr/2020 20:49:53] "[37mGET / HTTP/1.1[0m" 200 -

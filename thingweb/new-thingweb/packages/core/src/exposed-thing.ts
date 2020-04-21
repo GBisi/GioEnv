@@ -75,7 +75,6 @@ export default class ExposedThing extends TD.Thing implements WoT.ExposedThing {
             let newEvent = Helpers.extend(this.events[eventName], new ExposedThingEvent(eventName, this));
             this.events[eventName] = newEvent;
         }
-
     }
 
     public getThingDescription(): WoT.ThingDescription {
@@ -161,7 +160,6 @@ export default class ExposedThing extends TD.Thing implements WoT.ExposedThing {
 
     readProperty(propertyName: string, options?: WoT.InteractionOptions): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            let options = null; // TODO
             if (this.properties[propertyName]) {
                 // call read handler (if any)
                 if (this.properties[propertyName].getState().readHandler != null) {
@@ -221,7 +219,6 @@ export default class ExposedThing extends TD.Thing implements WoT.ExposedThing {
 
     writeProperty(propertyName: string, value: any, options?: WoT.InteractionOptions): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            let options = null; // TODO
             // call write handler (if any)
             if (this.properties[propertyName].getState().writeHandler != null) {
 
@@ -386,8 +383,6 @@ class ExposedThingProperty extends TD.ThingProperty implements TD.ThingProperty,
         this.readOnly = false;
         this.writeOnly = false;
         this.observable = false;
-        this["#input"] = false; //ADDED GB
-        this["#output"]= false; //ADDED GB
     }
 }
 

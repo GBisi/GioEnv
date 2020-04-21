@@ -175,7 +175,6 @@ export default class HttpServer implements ProtocolServer {
 
     let title = thing.title;
 
-
     if (this.things.has(title)) {
       title = Helpers.generateUniqueName(title);
     }
@@ -196,20 +195,12 @@ export default class HttpServer implements ProtocolServer {
             // check for readOnly/writeOnly for op field
             let allReadOnly = true;
             let allWriteOnly = true;
-            let allInput = true;
-            let allOutput = true;
             for (let propertyName in thing.properties) {
               if (!thing.properties[propertyName].readOnly) {
                 allReadOnly = false;
               } else if (!thing.properties[propertyName].writeOnly) {
                 allWriteOnly = false;
               }
-              else if (!thing.properties[propertyName]["#input"]){ //ADDED GB
-                allInput = false;
-              } 
-              else if (!thing.properties[propertyName]["#output"]){ //ADDED GB
-                allOutput = false;
-              } 
             }
             if(allReadOnly) {
               form.op = ["readallproperties", "readmultipleproperties"];
@@ -218,11 +209,6 @@ export default class HttpServer implements ProtocolServer {
             } else {
               form.op = ["readallproperties", "readmultipleproperties", "writeallproperties", "writemultipleproperties"];
             }
-
-            if(allInput) { //ADDED GB
-              form.op.concat(["updateallproperties", "updatemultipleproperties"]);
-            }
-
             if(!thing.forms) {
               thing.forms = [];
             }
@@ -247,23 +233,11 @@ export default class HttpServer implements ProtocolServer {
                 hform["htv:methodName"] = "PUT";
               }
             } else {
-              form.op = ["readproperty", "writeproperty"]
+              form.op = ["readproperty", "writeproperty"];
             }
 
-            /*thing.properties[propertyName].forms.push(form);
+            thing.properties[propertyName].forms.push(form);
             console.log(`HttpServer on port ${this.getPort()} assigns '${href}' to Property '${propertyName}'`);
-*/
-            if (thing.properties[propertyName]["#input"]) { //ADDED GB
-              let href = base + "/" + this.PROPERTY_DIR + "/" + propertyNamePattern;
-              let form = new TD.Form(href, type);
-              form.op = ["updateproperty"];
-              let hform : HttpForm = form;
-              if(hform["htv:methodName"] === undefined) {
-                hform["htv:methodName"] = "PATCH";
-              }
-              thing.properties[propertyName].forms.push(form);
-              console.log(`HttpServer on port ${this.getPort()} assigns '${href}' to update Property '${propertyName}'`);
-            }
 
             // if property is observable add an additional form with a observable href
             if (thing.properties[propertyName].observable) {
@@ -304,16 +278,10 @@ export default class HttpServer implements ProtocolServer {
       } // addresses
 
       if (this.scheme === "https") {
-        let securityBasic : TD.BasicSecurityScheme = {"scheme":"basic", "in":"header"};
-        thing.securityDefinitions = {
-          "basic_sc": securityBasic
-        };
-        thing.security = ["basic_sc"];
+        this.fillSecurityScheme(thing)
       }
 
     } // running
-
-    console.debug("--- THING: "+JSON.stringify(thing.getThingDescription()));
 
     return new Promise<void>((resolve, reject) => {
       resolve();
@@ -348,6 +316,30 @@ export default class HttpServer implements ProtocolServer {
     }
   }
 
+
+  private fillSecurityScheme(thing: ExposedThing){
+    if (thing.securityDefinitions) {
+      const secCandidate = Object.keys(thing.securityDefinitions).find(key => {
+        return thing.securityDefinitions[key].scheme === this.httpSecurityScheme.toLowerCase()
+      })
+
+      if (!secCandidate) {
+        throw new Error("Servient does not support thing security schemes. Current scheme supported: " + this.httpSecurityScheme);
+      }
+
+      const selectedSecurityScheme = thing.securityDefinitions[secCandidate]
+      thing.securityDefinitions = {}
+      thing.securityDefinitions[secCandidate] = selectedSecurityScheme;
+
+      thing.security = [secCandidate]
+    } else {
+      thing.securityDefinitions = {
+        "noSec": { scheme: "nosec" }
+      }
+      thing.security = ["noSec"];
+    }
+  }
+
    private parseUrlParameters(url: string, uriVariables: { [key: string]: TD.DataSchema }): {[k: string]: any} {
     let params: {[k: string]: any} = {};
     if (url == null || !uriVariables) {
@@ -366,11 +358,13 @@ export default class HttpServer implements ProtocolServer {
         var queryKey : string = decodeURIComponent(indexPair[0]);
         var queryValue : string = decodeURIComponent(indexPair.length > 1 ? indexPair[1] : "");
 
-        if(uriVariables[queryKey].type === "integer" || uriVariables[queryKey].type === "number") {
-          // *cast* it to number
-          params[queryKey] = +queryValue;
-        } else {
-          params[queryKey] = queryValue;
+        if(uriVariables[queryKey]) {
+          if(uriVariables[queryKey].type === "integer" || uriVariables[queryKey].type === "number") {
+            // *cast* it to number
+            params[queryKey] = +queryValue;
+          } else {
+            params[queryKey] = queryValue;
+          }
         }
     });
 
@@ -580,12 +574,9 @@ export default class HttpServer implements ProtocolServer {
                 }
               } else if (req.method === "PUT") {
                 if (!property.readOnly) {
-                  
-                  console.debug("*** DEBUG: "+requestUri.pathname+" "+JSON.stringify(property))
                   // load payload
                   let body: Array<any> = [];
-                  req.on("data", (data) => { body.push(data); 
-                    console.debug("*** DEBUG: "+body});
+                  req.on("data", (data) => { body.push(data) });
                   req.on("end", () => {
                     console.debug(`HttpServer on port ${this.getPort()} completed body '${body}'`);
                     let value;

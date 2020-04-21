@@ -140,36 +140,6 @@ export default class HttpClient implements ProtocolClient {
     });
   }
 
-  public updateResource(form: HttpForm, content: Content): Promise<any> { //ADDED GB
-    return new Promise<void>((resolve, reject) => {
-
-      let req = this.generateRequest(form, "PATCH");
-      let info = <any>req;
-
-      req.setHeader("Content-Type", content.type);
-      req.setHeader("Content-Length", content.body.byteLength);
-
-      console.log(`HttpClient (updateResource) sending ${info.method} with '${req.getHeader("Content-Type")}' to ${info.path}`);
-
-      req.on("response", (res: http.IncomingMessage) => {
-        console.log(`HttpClient received ${res.statusCode} from ${info.path}`);
-        let contentType: string = this.getContentType(res);
-        //console.log(`HttpClient received headers: ${JSON.stringify(res.headers)}`);
-        // Although 204 without payload is expected, data must be read 
-        // to complete request (http blocks socket otherwise)
-        // TODO might have response on write for future HATEOAS concept
-        let body: Array<any> = [];
-        res.on('data', (data) => { body.push(data) });
-        res.on('end', () => {
-          this.checkResponse(res.statusCode, contentType, Buffer.concat(body), resolve, reject);
-        });
-      });
-      req.on('error', (err: any) => reject(err));
-      req.write(content.body);
-      req.end();
-    });
-  }
-
   public invokeResource(form: HttpForm, content?: Content): Promise<Content> {
     return new Promise<Content>((resolve, reject) => {
 
