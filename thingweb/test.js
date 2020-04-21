@@ -36,7 +36,7 @@ function getFriendlyName(serial_number){
 }
 
 function newMicrobit(serial){
-    WoT.produce({
+    return WoT.produce({
         title: getFriendlyName(serial),
         description: "A Microbit Device",
         descriptions: {
@@ -207,7 +207,7 @@ function newRoom(id){
     var val = getRoom(id)
     var room = val["room"]
     var handlers = val["handlers"]
-    WoT.produce(room).then((thing) => {
+    return WoT.produce(room).then((thing) => {
 
             Object.keys(handlers).forEach(function(key) {
                 var value = handlers[key];
@@ -272,7 +272,12 @@ function newRoom(id){
 
 newRoom(129)
 
-newMicrobit(384933164);
+var microbit = newMicrobit(384933164).getThingDescription();
 //newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
+
+var thing = WOT.consume(microbit);
+thing.updateProperty("serial_number",4.2);
+thing.updateProperty("serial_number",42);
+
