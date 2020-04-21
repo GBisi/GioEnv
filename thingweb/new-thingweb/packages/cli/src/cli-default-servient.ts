@@ -20,14 +20,6 @@ import { Servient, Helpers, ExposedThing } from "@node-wot/core";
 // protocols used
 import { HttpServer } from "@node-wot/binding-http";
 import { WebSocketServer } from "@node-wot/binding-websockets";
-import { CoapServer } from "@node-wot/binding-coap";
-import { MqttBrokerServer } from "@node-wot/binding-mqtt"; 
-import { FileClientFactory } from "@node-wot/binding-file";
-import { HttpClientFactory } from "@node-wot/binding-http";
-import { HttpsClientFactory } from "@node-wot/binding-http";
-import { CoapClientFactory } from "@node-wot/binding-coap";
-import { CoapsClientFactory } from "@node-wot/binding-coap";
-import { MqttClientFactory }  from "@node-wot/binding-mqtt";
 
 export default class DefaultServient extends Servient {
 
@@ -83,27 +75,7 @@ export default class DefaultServient extends Servient {
                 // re-use httpServer (same port)
                 this.addServer(new WebSocketServer(httpServer));
             }
-            if (this.config.coap !== undefined) {
-                // var to reuse below in CoapClient
-                var coapServer = (typeof this.config.coap.port === "number") ? new CoapServer(this.config.coap.port) : new CoapServer();
-                this.addServer(coapServer);
-            }
-            if (this.config.mqtt !== undefined) {
-                let mqttBrokerServer = new MqttBrokerServer(this.config.mqtt.broker, 
-                    (typeof this.config.mqtt.username === "string") ? this.config.mqtt.username : undefined,
-                    (typeof this.config.mqtt.password === "string") ? this.config.mqtt.password : undefined,
-                    (typeof this.config.mqtt.clientId === "string") ? this.config.mqtt.clientId : undefined,
-                    (typeof this.config.mqtt.protocolVersion === "number") ? this.config.mqtt.protocolVersion : undefined);
-                this.addServer(mqttBrokerServer);
-            }
         }
-
-        this.addClientFactory(new FileClientFactory());
-        this.addClientFactory(new HttpClientFactory(this.config.http));
-        this.addClientFactory(new HttpsClientFactory(this.config.http));
-        this.addClientFactory(new CoapClientFactory(coapServer));
-        this.addClientFactory(new CoapsClientFactory());
-        this.addClientFactory(new MqttClientFactory());
     }
 
     /**
