@@ -75,6 +75,7 @@ export default class ExposedThing extends TD.Thing implements WoT.ExposedThing {
             let newEvent = Helpers.extend(this.events[eventName], new ExposedThingEvent(eventName, this));
             this.events[eventName] = newEvent;
         }
+
     }
 
     public getThingDescription(): WoT.ThingDescription {

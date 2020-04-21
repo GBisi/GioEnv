@@ -97,6 +97,7 @@ export default class WoTImpl implements WoT.WoT {
 
                 if (this.srv.addThing(newThing)) {
                     resolve(newThing);
+                    console.debug("------- THING: --------- "+newThing.getThingDescription())
                 } else {
                     throw new Error("Thing already exists: " + newThing.title);
                 }

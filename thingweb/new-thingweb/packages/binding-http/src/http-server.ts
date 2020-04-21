@@ -586,7 +586,7 @@ export default class HttpServer implements ProtocolServer {
                   // load payload
                   let body: Array<any> = [];
                   req.on("data", (data) => { body.push(data); 
-                    console.debug("*** DEBUG: "+req)});
+                    console.debug("*** DEBUG: "+body});
                   req.on("end", () => {
                     console.debug(`HttpServer on port ${this.getPort()} completed body '${body}'`);
                     let value;
