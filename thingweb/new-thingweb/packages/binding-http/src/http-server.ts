@@ -581,7 +581,7 @@ export default class HttpServer implements ProtocolServer {
                 }
               } else if (req.method === "PUT") {
                 if (!property.readOnly) {
-                  console.debug("*** DEBUG: "+property.title+" "+property.readOnly)
+                  console.debug("*** DEBUG: "+requestUri.pathname+" "+property)
                   // load payload
                   let body: Array<any> = [];
                   req.on("data", (data) => { body.push(data) });
