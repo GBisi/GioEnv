@@ -175,7 +175,6 @@ export default class HttpServer implements ProtocolServer {
 
     let title = thing.title;
 
-    console.debug("--- THING: "+JSON.stringify(thing.getThingDescription()));
 
     if (this.things.has(title)) {
       title = Helpers.generateUniqueName(title);
@@ -317,6 +316,8 @@ export default class HttpServer implements ProtocolServer {
       }
 
     } // running
+
+    console.debug("--- THING: "+JSON.stringify(thing.getThingDescription()));
 
     return new Promise<void>((resolve, reject) => {
       resolve();
