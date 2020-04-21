@@ -385,6 +385,8 @@ class ExposedThingProperty extends TD.ThingProperty implements TD.ThingProperty,
         this.readOnly = false;
         this.writeOnly = false;
         this.observable = false;
+        this["#input"] = false; //ADDED GB
+        this["#output"]= false; //ADDED GB
     }
 }
 
