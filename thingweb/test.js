@@ -36,7 +36,7 @@ function getFriendlyName(serial_number){
 }
 
 function newMicrobit(serial){
-    return WoT.produce({
+    var t = WoT.produce({
         title: getFriendlyName(serial),
         description: "A Microbit Device",
         descriptions: {
@@ -72,7 +72,9 @@ function newMicrobit(serial){
                     "#input":true
                 }
             }
-        }).then((thing) => {
+        });
+        
+        t.then((thing) => {
             // init property values
             thing.writeProperty("serial_number", serial);
             thing.writeProperty("temp", 0);
@@ -84,6 +86,8 @@ function newMicrobit(serial){
         .catch((e) => {
             console.log(e);
         });
+
+        return t
             
 }
 
@@ -273,9 +277,9 @@ function newRoom(id){
 
 newRoom(129)
 
-var microbit = newMicrobit(384933164).then((thing)=>{
+var microbit = newMicrobit(384933164).then((thing) => {
 
-    console.debug("**************************** debug"+thing)
+    console.debug("**************************** debug: "+thing)
 
 });
 
