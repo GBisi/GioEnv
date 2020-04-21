@@ -254,14 +254,16 @@ export default class HttpServer implements ProtocolServer {
           }
 
             if (thing.properties[propertyName]["#input"]) { //ADDED GB
-              form.op.concat("updatepropery");
-              if(form.op == ["updateproperty"]){
-                let hform : HttpForm = form;
-                if(hform["htv:methodName"] === undefined) {
-                  hform["htv:methodName"] = "PUT";
-                }
+              let href = base + "/" + this.PROPERTY_DIR + "/" + propertyNamePattern;
+              let form = new TD.Form(href, type);
+              form.op = ["updateproperty"];
+              let hform : HttpForm = form;
+              if(hform["htv:methodName"] === undefined) {
+                hform["htv:methodName"] = "PUT";
               }
-            } 
+              thing.properties[propertyName].forms.push(form);
+              console.log(`HttpServer on port ${this.getPort()} assigns '${href}' to updatable Property '${propertyName}'`);
+            }
 
             thing.properties[propertyName].forms.push(form);
             console.log(`HttpServer on port ${this.getPort()} assigns '${href}' to Property '${propertyName}'`);

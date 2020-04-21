@@ -51,7 +51,7 @@ function newMicrobit(serial){
                     "it": "Numero seriale del Microbit"
                 },
                 observable: false,
-                //readOnly: true
+                readOnly: true
             },
             light: {
                     type: "number",
