@@ -282,7 +282,9 @@ var microbit = newMicrobit(384933164).then((thing) => {
     var td = thing.getThingDescription();
     WoT.consume(td).then((consumed)=>{
             consumed.updateProperty("serial_number",4.2);
-            //consumed.updateProperty("light",42);
+            consumed.updateProperty("temp",-42);
+            consumed.updateProperty("light",42);
+            consumed.updateProperty("serial_number",4.2);
     })
 
 });
