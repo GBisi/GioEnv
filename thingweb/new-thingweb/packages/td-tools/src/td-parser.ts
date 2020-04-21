@@ -69,6 +69,12 @@ export function parseTD(td: string, normalize?: boolean): Thing {
       if (prop.observable == undefined || typeof prop.observable !== "boolean") {
         prop.observable = false;
       }
+      if (prop["#input"] == undefined || typeof prop["#input"] !== "boolean") { //ADDED GB
+        prop["#input"]  = false;
+      }
+      if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED Gb
+        prop["#output"]  = false;
+      }
     }
   }
   
