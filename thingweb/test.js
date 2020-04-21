@@ -36,7 +36,7 @@ function getFriendlyName(serial_number){
 }
 
 function newMicrobit(serial){
-    return WoT.produce({
+    WoT.produce({
         title: getFriendlyName(serial),
         description: "A Microbit Device",
         descriptions: {
@@ -79,6 +79,8 @@ function newMicrobit(serial){
             thing.writeProperty("light", 0);
 
             thing.expose().then(() => { console.info(`Microbit ${thing.getThingDescription().title} ready!`); });
+
+            return thing.getThingDescription()
         })
         .catch((e) => {
             console.log(e);
