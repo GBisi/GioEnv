@@ -275,11 +275,12 @@ function newRoom(id){
 newRoom(129)
 
 var microbit = (newMicrobit(384933164)).getThingDescription();
+console.debug("debug"+microbit)
 //newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
-
+/*
 var thing = WOT.consume(microbit);
 thing.updateProperty("serial_number",4.2);
 thing.updateProperty("serial_number",42);
-
+*/
