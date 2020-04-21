@@ -275,12 +275,18 @@ function newRoom(id){
         });
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 newRoom(129)
 
 var microbit = newMicrobit(384933164).then((thing) => {
 
     var td = thing.getThingDescription();
     WoT.consume(td).then((consumed)=>{
+
+        await sleep(5000);
 
         consumed.updateProperty("serial_number",4.2);
         consumed.updateProperty("light",42);
