@@ -258,6 +258,7 @@ export default class HttpServer implements ProtocolServer {
               if(hform["htv:methodName"] === undefined) {
                 hform["htv:methodName"] = "PATCH";
               }
+            thing.properties[propertyName].forms.push(form);
             }
           }
 
