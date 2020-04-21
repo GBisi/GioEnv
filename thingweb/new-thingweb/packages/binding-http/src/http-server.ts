@@ -251,7 +251,8 @@ export default class HttpServer implements ProtocolServer {
 
             // if property is updatable add an additional form with a observable href ADDED GB
           if (thing.properties[propertyName]["#input"]) {
-            let href = base + "/" + this.PROPERTY_DIR + "/" + encodeURIComponent(propertyName) + "/" + this.OBSERVABLE_DIR;
+            let propertyNamePattern = this.updateInteractionNameWithUriVariablePattern(propertyName, thing.properties[propertyName].uriVariables);
+            let href = base + "/" + this.PROPERTY_DIR + "/" + propertyNamePattern;
             let form = new TD.Form(href, type);
             form.op = ["updateproperty"];
               let hform : HttpForm = form;
