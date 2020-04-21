@@ -80,7 +80,7 @@ function newMicrobit(serial){
 
             thing.expose().then(() => { console.info(`Microbit ${thing.getThingDescription().title} ready!`); });
 
-            return thing.getThingDescription()
+            resolve(thing.getThingDescription())
         })
         .catch((e) => {
             console.log(e);
