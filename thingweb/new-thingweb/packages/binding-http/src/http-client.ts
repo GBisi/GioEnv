@@ -136,7 +136,7 @@ export default class HttpClient implements ProtocolClient {
       });
       req.on('error', (err: any) => reject(err));
       req.write(content.body);
-      console.debug("+++++++++++++++++++ REQUEST: "+content.body)
+      console.debug("+++++++++++++++++++ REQUEST: "+req)
       req.end();
     });
   }
