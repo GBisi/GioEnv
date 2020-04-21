@@ -28,6 +28,9 @@ export interface ProtocolClient {
   /** this cliet is requested to perform a "write" on the resource with the given URI  */
   writeResource(form: TD.Form, content: Content): Promise<void>;
 
+  /** this cliet is requested to perform a "update" on the resource with the given URI  */
+  updateResource(form: TD.Form, content: Content): Promise<void>; // ADDED GB
+
   /** this client is requested to perform an "invoke" on the resource with the given URI */
   invokeResource(form: TD.Form, content: Content): Promise<Content>;
 

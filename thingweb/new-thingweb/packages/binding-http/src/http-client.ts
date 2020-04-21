@@ -110,6 +110,12 @@ export default class HttpClient implements ProtocolClient {
     });
   }
 
+  public updateResource(form: HttpForm, content: Content): Promise<any> { // ADDED GB
+		return new Promise<void>((resolve, reject) => {
+	
+		});
+	  }
+
   public writeResource(form: HttpForm, content: Content): Promise<any> {
     return new Promise<void>((resolve, reject) => {
 

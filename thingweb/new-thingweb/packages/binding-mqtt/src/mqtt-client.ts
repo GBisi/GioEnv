@@ -75,6 +75,12 @@ export default class MqttClient implements ProtocolClient {
         });
     }
 
+    updateResource = (form: any, content: Content): Promise<any> => { // ADDED GB
+		return new Promise<void>((resolve, reject) => {
+	
+		});
+	  }
+
     writeResource = (form: MqttForm, content: Content): Promise<void> => {
         return new Promise<void>((resolve, reject) => {
             throw new Error('Method not implemented.');

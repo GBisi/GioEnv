@@ -72,6 +72,12 @@ export default class NetconfClient implements ProtocolClient {
 		});
 	}
 
+	public updateResource(form: any, content: Content): Promise<any> { // ADDED GB
+		return new Promise<void>((resolve, reject) => {
+	
+		});
+	  }
+
 	public async writeResource(form: NetconfForm, content: Content): Promise<any> {
 
 		let payload: any = content ? JSON.parse((content.body).toString()): {};

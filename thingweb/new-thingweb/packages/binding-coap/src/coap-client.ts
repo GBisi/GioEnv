@@ -50,6 +50,12 @@ export default class CoapClient implements ProtocolClient {
     return "[CoapClient]";
   }
 
+  public updateResource(form: any, content: Content): Promise<any> { // ADDED GB
+		return new Promise<void>((resolve, reject) => {
+	
+		});
+	  }
+
   public readResource(form: CoapForm): Promise<Content> {
     return new Promise<Content>((resolve, reject) => {
 
