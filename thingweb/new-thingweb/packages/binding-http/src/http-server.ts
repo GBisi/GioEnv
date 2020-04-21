@@ -629,7 +629,7 @@ export default class HttpServer implements ProtocolServer {
                   res.end("Property readOnly");
                 }
               } 
-              else if (req.method === "PUT") { // ADDED GB
+              else if (req.method === "PATCH") { // ADDED GB
                 console.debug("***** HERE *****");
                 respondUnallowedMethod(res, "GET, PUT");
               }
