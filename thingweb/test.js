@@ -60,7 +60,8 @@ function newMicrobit(serial){
                         "it": "Valore del sensore di luminosita' di questo Microbit"
                     },
                     observable: true,
-                    readOnly: true
+                    readOnly: true,
+                    "#input":true
                 },
             temp: {
                     type: "number",
@@ -69,7 +70,8 @@ function newMicrobit(serial){
                         "it": "Valore del sensore di temperatura di questo Microbit"
                     },
                     observable: true,
-                    readOnly: true
+                    readOnly: true,
+                    "#input":true
                 }
             }
         }).then((thing) => {
@@ -95,7 +97,8 @@ function addParams(thing, name, thresholds, labels, description = "", descriptio
             "it": descriptionIta
         },
         observable: true,
-        readOnly: true
+        readOnly: true,
+        "#input":true
     }
 
     thing["properties"][name+"L"] = {
