@@ -75,6 +75,11 @@ export function parseTD(td: string, normalize?: boolean): Thing {
       if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED GB
         prop["#output"]  = false;
       }
+
+      if(prop["#input"]){ //ADDED GB
+        prop.readOnly = true;
+      }
+
     }
   }
   
@@ -209,6 +214,11 @@ export function serializeTD(thing: Thing): string {
       if (prop["#output"] == undefined || typeof prop["#output"] !== "boolean") { //ADDED GB
         prop["#output"]  = false;
       }
+
+      if(prop["#input"]){ //ADDED GB
+        prop.readOnly = true;
+      }
+
     }
   }
 

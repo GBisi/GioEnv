@@ -60,7 +60,6 @@ function newMicrobit(serial){
                         "it": "Valore del sensore di luminosita' di questo Microbit"
                     },
                     observable: true,
-                    readOnly: true,
                     "#input":true
                 },
             temp: {
@@ -70,7 +69,6 @@ function newMicrobit(serial){
                         "it": "Valore del sensore di temperatura di questo Microbit"
                     },
                     observable: true,
-                    readOnly: true,
                     "#input":true
                 }
             }
