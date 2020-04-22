@@ -335,6 +335,8 @@ export default class HttpServer implements ProtocolServer {
         return (auth[0]==="Bearer") &&
                (creds !== undefined) &&
                (auth[1] === creds.token);
+      case "psk":
+        return false
       default:
         return false;
     }

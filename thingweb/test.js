@@ -61,6 +61,7 @@ function newMicrobit(serial){
                     },
                     observable: true,
                     "#input":true
+                    "forms":[{"href":"http://131.114.73.148:2000/puvit/properties/light","contentType":"application/json","op":["readproperty","writeproperty"]},{"href":"http://131.114.73.148:2000/puvit/properties/light/observable","contentType":"application/json","op":["observeproperty"],"subprotocol":"longpoll"},{"href":"http://131.114.73.148:2000/puvit/properties/light","contentType":"application/json","op":["updateproperty"],"htv:methodName":"PATCH"}],
                 },
             temp: {
                     type: "number",
