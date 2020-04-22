@@ -60,7 +60,7 @@ function newMicrobit(serial){
                         "it": "Valore del sensore di luminosita' di questo Microbit"
                     },
                     observable: true,
-                    "#input":true
+                    "#input":true,
                     "forms":[{"href":"http://131.114.73.148:2000/puvit/properties/light","contentType":"application/json","op":["readproperty","writeproperty"]},{"href":"http://131.114.73.148:2000/puvit/properties/light/observable","contentType":"application/json","op":["observeproperty"],"subprotocol":"longpoll"},{"href":"http://131.114.73.148:2000/puvit/properties/light","contentType":"application/json","op":["updateproperty"],"htv:methodName":"PATCH"}],
                 },
             temp: {
