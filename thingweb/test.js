@@ -61,7 +61,7 @@ function newMicrobit(serial){
                     },
                     observable: true,
                     "#input":true,
-                    "forms":[{"ciao","contentType":"application/json","op":["readproperty","writeproperty"]},{"href":"http://131.114.73.148:2000/puvit/properties/light/observable","contentType":"application/json","op":["helllo"],"subprotocol":"longpoll"},{"href":"http://131.114.73.148:2000/puvit/properties/light","contentType":"application/json","op":["updateproperty"],"htv:methodName":"word"}],
+                    "forms":[{"href":"ciao","contentType":"application/json","op":["readproperty","writeproperty"]},{"href":"http://131.114.73.148:2000/puvit/properties/light/observable","contentType":"application/json","op":["helllo"],"subprotocol":"longpoll"},{"href":"http://131.114.73.148:2000/puvit/properties/light","contentType":"application/json","op":["updateproperty"],"htv:methodName":"word"}],
                 },
             temp: {
                     type: "number",
