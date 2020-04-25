@@ -360,4 +360,62 @@ console.log(TDtoScript({
     }))
 
 
+    WoT.produce({
+        "title": "room42",
+        "description": "A Smart Room",
+        "descriptions": {
+            "it": "Una stanza intelligente"
+        },
+        "@context": "https://www.w3.org/2019/wot/td/v1",
+        "properties": {
+            "last_indoor_update": {
+                "type": "string",
+                "description": "Last room's sensors update",
+                "descriptions": {
+                    "it": "Ultimo aggiornamento dai sensori nella stanza"
+                },
+                "observable": true,
+                "readOnly": true
+            },
+            "last_outdoor_update": {
+                "type": "string",
+                "description": "Last outdoor update",
+                "descriptions": {
+                    "it": "Ultimo aggiornamento dei parametri esterni"
+                },
+                "observable": true,
+                "readOnly": true
+            }
+        },
+        "actions": {
+            "refresh": {
+                "description": "Update the parameters",
+                "descriptions": {
+                    "it": "Aggiorna i parametri"
+                },
+                "output": {
+                    "type": "object"
+                }
+            }
+        },
+        "events": {
+            "fix": {
+                "description": "Some action to do",
+                "descriptions": {
+                    "it": "Qualche azione da compiere"
+                }
+            }
+        }
+    }).then((thing) => {
+            thing.setActionHandler("refresh", () => {
+                return new Promise((resolve, reject) => {
+                    thing.readAllProperties().then((map) => {
+                        resolve(map)
+                    })
+                });
+            });
+        });
+            
+
+
 

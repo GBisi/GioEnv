@@ -405,7 +405,7 @@ export default class HttpServer implements ProtocolServer {
 
     for(var action in handlers){
         code += "thing.setActionHandler(\""+action+"\", () => {return new Promise((resolve, reject) => {"
-        code += handlers[action]+"});});"
+        code += handlers[action]+"});});});"
     }
 
     return code
