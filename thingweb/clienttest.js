@@ -1,4 +1,6 @@
 
+const code = ` 
+
 const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504"
 
 const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c"
@@ -276,22 +278,20 @@ function newRoom(id){
 }
 
 newRoom(129)
-/*
-var microbit = newMicrobit(384933164).then((thing) => {
-
-    var td = thing.getThingDescription();
-    WoT.consume(td).then((consumed)=>{
-            consumed.updateProperty("serial_number",4.2);
-            consumed.updateProperty("temp",-42);
-            consumed.updateProperty("light",42);
-            consumed.updateProperty("serial_number",4.2);
-    })
-
-});
-*/
 newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
 
+`
+WoTHelpers.fetch("http://131.114.73.148:2000/servient").then(async (td) => {
+    // using await for serial execution (note 'async' in then() of fetch())
+    try {
+        let thing = await WoT.consume(td);
 
+        thing.invokeAction("runScript",code)
+    }
+    catch (err) {
+        console.error("Script error:", err);
+    }
+}).catch((err) => { console.error("Fetch error:", err); });
 
