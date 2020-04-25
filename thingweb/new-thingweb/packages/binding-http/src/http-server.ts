@@ -490,6 +490,7 @@ export default class HttpServer implements ProtocolServer {
           }catch(e) {
             console.debug(e);
             res.writeHead(400);
+            res.setHeader("Content-Type", "text/javascript");
             res.end(script);
             res.end("Thind Description Error");
             return;
