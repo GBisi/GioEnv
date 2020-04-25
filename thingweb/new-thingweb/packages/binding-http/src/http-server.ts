@@ -479,7 +479,9 @@ export default class HttpServer implements ProtocolServer {
         res.setHeader("Content-Type", ContentSerdes.DEFAULT);
         res.writeHead(201);
         req.on("data", (data) => {
-          let script = this.TDtoScript(data)
+          console.debug(data);
+          console.debug();
+          let script = this.TDtoScript(JSON.parse(data))
           //sthis.servient.runPrivilegedScript(script); 
           res.end(script);});
       }else {
