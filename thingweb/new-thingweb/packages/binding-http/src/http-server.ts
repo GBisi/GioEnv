@@ -480,8 +480,9 @@ export default class HttpServer implements ProtocolServer {
         res.writeHead(201);
         req.on("data", (data) => {
           let td = JSON.parse(data)
-          console.debug(td)
+          console.debug(JSON.stringify(td))
           let script = this.TDtoScript(td)
+          console.debug(script)
           this.servient.runPrivilegedScript(script); 
           res.end(script);});
       }else {
