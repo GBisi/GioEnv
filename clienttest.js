@@ -277,10 +277,11 @@ function newRoom(id){
         });
 }
 
-newRoom(129)
-newMicrobit(1252840479.9999999);
-//newMicrobit(671265031);
-//newMicrobit(20458004765.9999998);
+//newRoom(129)
+//newMicrobit(1252840479.9999999);
+newMicrobit(671265031);
+newMicrobit(20458004765.9999998);
+newRoom(42)
 
 `
 WoTHelpers.fetch("http://131.114.73.148:2000/servient").then(async (td) => {
