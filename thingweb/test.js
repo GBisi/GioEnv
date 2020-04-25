@@ -359,8 +359,7 @@ console.log(TDtoScript({
     }
     }))
 
-
-    WoT.produce({
+WoT.produce({
         "title": "room42",
         "description": "A Smart Room",
         "descriptions": {
@@ -408,14 +407,14 @@ console.log(TDtoScript({
         }
     }).then((thing) => {
             thing.setActionHandler("refresh", () => {
-                return new Promise((resolve, reject) => {
-                    thing.readAllProperties().then((map) => {
-                        resolve(map)
-                    })
-                });
-            });
-        });
-            
-
+                        return new Promise((resolve, reject) => {
+                                handlers[action] + "});});
+                                thing.expose().then(() => {
+                                    console.info('ready!');
+                                });
+                            });});})
+                            .catch((e) => {
+                                console.log(e);
+                            });
 
 

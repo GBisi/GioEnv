@@ -407,7 +407,7 @@ export default class HttpServer implements ProtocolServer {
         code += `thing.setActionHandler("`+action+`", () => {return new Promise((resolve, reject) => {`
         code += `handlers[action]+"});});
         thing.expose().then(() => { console.info('ready!'); });
-      })
+      });});})
       .catch((e) => {
           console.log(e);
       });`
