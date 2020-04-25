@@ -141,6 +141,11 @@ export default class DefaultServient extends Servient {
                             description: "Run script",
                             input: { type: "string" },
                             output: { type: "string" }
+                        },
+                        runPrivilegedScript: {
+                            description: "Run script",
+                            input: { type: "string" },
+                            output: { type: "string" } 
                         }
                     }
                 })
@@ -162,6 +167,13 @@ export default class DefaultServient extends Servient {
                             return new Promise((resolve, reject) => {
                                 console.log("running script", script);
                                 this.runScript(script);
+                                resolve();
+                            });
+                        });
+                        thing.setActionHandler("runPrivilegedScript", (script) => {
+                            return new Promise((resolve, reject) => {
+                                console.log("running script", script);
+                                this.runPrivilegedScript(script);
                                 resolve();
                             });
                         });

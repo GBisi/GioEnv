@@ -288,7 +288,7 @@ WoTHelpers.fetch("http://131.114.73.148:2000/servient").then(async (td) => {
     try {
         let thing = await WoT.consume(td);
 
-        thing.invokeAction("runScript",code)
+        thing.invokeAction("runPrivilegedScript",code)
     }
     catch (err) {
         console.error("Script error:", err);
