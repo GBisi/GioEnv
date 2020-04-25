@@ -401,7 +401,7 @@ export default class HttpServer implements ProtocolServer {
     let td = description["thing"]
     let handlers = description["handlers"]
 
-    let code = "WoT.produce("+td+").then((thing) => {"
+    let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
 
     for(var action in handlers){
         code += "thing.setActionHandler(\""+action+"\", () => {return new Promise((resolve, reject) => {"
