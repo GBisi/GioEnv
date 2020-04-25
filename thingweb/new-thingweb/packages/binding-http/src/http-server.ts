@@ -481,14 +481,23 @@ export default class HttpServer implements ProtocolServer {
         }
         res.end(JSON.stringify(list));
       } else if (req.method === "POST"){ // ADDED GB
-        res.setHeader("Content-Type", ContentSerdes.DEFAULT);
-        res.writeHead(201);
         req.on("data", (data) => {
           let td = JSON.parse(data)
           let script = this.TDtoScript(td)
           console.debug("Running: "+script)
+          try{
           this.servient.runPrivilegedScript(script); 
-          res.end(script);});
+          }catch(e) {
+            console.debug(e);
+            res.writeHead(400);
+            res.end(script);
+            res.end("Thind Description Error");
+            return;
+          };
+          res.setHeader("Content-Type", ContentSerdes.DEFAULT);
+          res.writeHead(201);
+          res.end(script);
+        });
       }else {
         respondUnallowedMethod(res, "GET, POST");
       }
