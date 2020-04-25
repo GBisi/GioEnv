@@ -397,6 +397,20 @@ export default class HttpServer implements ProtocolServer {
     return params;
   }
 
+  private TDtoScript(description: any){
+    let td = description["thing"]
+    let handlers = description["handlers"]
+
+    let code = "WoT.produce("+td+").then((thing) => {"
+
+    for(var action in handlers){
+        code += "thing.setActionHandler(\""+action+"\", () => {return new Promise((resolve, reject) => {"
+        code += handlers[action]+"});});"
+    }
+
+    return code
+}
+
   private handleRequest(req: http.IncomingMessage, res: http.ServerResponse) {
     
     let requestUri = url.parse(req.url);
@@ -464,7 +478,10 @@ export default class HttpServer implements ProtocolServer {
       } else if (req.method === "POST"){ // ADDED GB
         res.setHeader("Content-Type", ContentSerdes.DEFAULT);
         res.writeHead(201);
-        req.on("data", (data) => {data=data.toString('utf8');this.servient.runPrivilegedScript(data); res.end("OK Created");});
+        req.on("data", (data) => {
+          let script = this.TDtoScript(data);
+          this.servient.runPrivilegedScript(data); 
+          res.end(script);});
       }else {
         respondUnallowedMethod(res, "GET, POST");
       }
