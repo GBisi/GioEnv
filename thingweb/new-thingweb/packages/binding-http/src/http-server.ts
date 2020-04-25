@@ -404,8 +404,8 @@ export default class HttpServer implements ProtocolServer {
     let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
 
     for(var action in handlers){
-        code += `thing.setActionHandler(`+action+`, () => {return new Promise((resolve, reject) => {"
-        code += handlers[action]+"});});
+        code += `thing.setActionHandler(`+action+`, () => {return new Promise((resolve, reject) => {`
+        code += `handlers[action]+"});});
         thing.expose().then(() => { console.info('ready!'); });
       })
       .catch((e) => {
