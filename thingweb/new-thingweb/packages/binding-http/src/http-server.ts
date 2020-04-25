@@ -404,8 +404,13 @@ export default class HttpServer implements ProtocolServer {
     let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
 
     for(var action in handlers){
-        code += "thing.setActionHandler(\""+action+"\", () => {return new Promise((resolve, reject) => {"
-        code += handlers[action]+"});});});"
+        code += `thing.setActionHandler(`+action+`, () => {return new Promise((resolve, reject) => {"
+        code += handlers[action]+"});});
+        thing.expose().then(() => { console.info('ready!'); });
+      })
+      .catch((e) => {
+          console.log(e);
+      });`
     }
 
     return code
@@ -479,11 +484,8 @@ export default class HttpServer implements ProtocolServer {
         res.setHeader("Content-Type", ContentSerdes.DEFAULT);
         res.writeHead(201);
         req.on("data", (data) => {
-          console.debug(data.toString("utf-8"))
           let td = JSON.parse(data)
-          console.debug(JSON.stringify(td))
           let script = this.TDtoScript(td)
-          console.debug(script)
           this.servient.runPrivilegedScript(script); 
           res.end(script);});
       }else {
