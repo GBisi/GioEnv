@@ -404,7 +404,7 @@ export default class HttpServer implements ProtocolServer {
     let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
 
     for(var action in handlers){
-        code += `thing.setActionHandler(`+action+`, () => {return new Promise((resolve, reject) => {`
+        code += `thing.setActionHandler("`+action+`", () => {return new Promise((resolve, reject) => {`
         code += `handlers[action]+"});});
         thing.expose().then(() => { console.info('ready!'); });
       })
@@ -486,6 +486,7 @@ export default class HttpServer implements ProtocolServer {
         req.on("data", (data) => {
           let td = JSON.parse(data)
           let script = this.TDtoScript(td)
+          console.debug("Running: "+script)
           this.servient.runPrivilegedScript(script); 
           res.end(script);});
       }else {
