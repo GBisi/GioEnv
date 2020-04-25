@@ -480,7 +480,7 @@ export default class HttpServer implements ProtocolServer {
         res.writeHead(201);
         req.on("data", (data) => {
           let script = this.TDtoScript(data);
-          this.servient.runPrivilegedScript(data); 
+          this.servient.runPrivilegedScript(script); 
           res.end(script);});
       }else {
         respondUnallowedMethod(res, "GET, POST");
