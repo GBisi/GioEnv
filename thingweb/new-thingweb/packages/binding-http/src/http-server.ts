@@ -435,11 +435,11 @@ export default class HttpServer implements ProtocolServer {
         // FIXME would need to check if payload is present
         console.warn(`HttpServer on port ${this.getPort()} received no Content-Type from ${Helpers.toUriLiteral(req.socket.remoteAddress)}:${req.socket.remotePort}`);
         contentType = ContentSerdes.DEFAULT;
-      } /*else if (ContentSerdes.get().getSupportedMediaTypes().indexOf(ContentSerdes.getMediaType(contentType))<0) {
+      } else if (ContentSerdes.get().getSupportedMediaTypes().indexOf(ContentSerdes.getMediaType(contentType))<0) {
         res.writeHead(415);
         res.end("Unsupported Media Type");
         return;
-      }*/
+      }
     }
 
     // route request
@@ -464,7 +464,7 @@ export default class HttpServer implements ProtocolServer {
       } else if (req.method === "POST"){ // ADDED GB
         res.setHeader("Content-Type", ContentSerdes.DEFAULT);
         res.writeHead(201);
-        req.on("data", (data) => {data=data.toString('utf8'); console.debug(data); this.servient.runPrivilegedScript(data); });
+        req.on("data", (data) => {data=data.toString('utf8');this.servient.runPrivilegedScript(data); res.end("OK Created");});
       }else {
         respondUnallowedMethod(res, "GET, POST");
       }
