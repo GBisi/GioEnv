@@ -82,7 +82,7 @@ function newMicrobit(serial){
             thing.writeProperty("temp", 0);
             thing.writeProperty("light", 0);
 
-            thing.expose().then(() => { console.info(`Microbit ${thing.getThingDescription().title} ready!`); });
+            thing.expose().then(() => { console.info("Microbit \${thing.getThingDescription().title} ready!"); });
 
         })
         .catch((e) => {
