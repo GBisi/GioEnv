@@ -270,7 +270,7 @@ function newRoom(id){
             thing.writeProperty("last_indoor_update", 0);
             thing.writeProperty("last_outdoor_update", 0);
 
-            thing.expose().then(() => { console.info(`${thing.getThingDescription().title} ready!`); });
+            thing.expose().then(() => { console.info("\${thing.getThingDescription().title} ready!"); });
         })
         .catch((e) => {
             console.log(e);
