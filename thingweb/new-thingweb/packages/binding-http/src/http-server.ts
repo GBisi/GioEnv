@@ -479,6 +479,7 @@ export default class HttpServer implements ProtocolServer {
         res.setHeader("Content-Type", ContentSerdes.DEFAULT);
         res.writeHead(201);
         req.on("data", (data) => {
+          console.debug(data.toString("utf-8"))
           let td = JSON.parse(data)
           console.debug(JSON.stringify(td))
           let script = this.TDtoScript(td)
