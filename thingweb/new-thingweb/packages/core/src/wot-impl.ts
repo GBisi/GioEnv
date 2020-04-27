@@ -118,7 +118,7 @@ export default class WoTImpl implements WoT.WoT {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(thingScript),
-            }).then((response:any) => resolve(response.text()))
+            }).then((response:any) => {console.debug(response);resolve(response.text())})
                 .catch((err:any) => { reject(err); });
         });
       }
@@ -129,7 +129,7 @@ export default class WoTImpl implements WoT.WoT {
             console.info(`WoTImpl deleting TD from '${uri}' with ${client}`);
             fetch(uri+"/"+thing, {
             method: 'DELETE',
-            }).then((response:any) => resolve(response.text()))
+            }).then((response:any) => {console.debug(response);resolve(response.text())})
                 .catch((err:any) => { reject(err); });
         });
       }
