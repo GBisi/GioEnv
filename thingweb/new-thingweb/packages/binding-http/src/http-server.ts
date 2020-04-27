@@ -414,7 +414,7 @@ if("properties" in description["handlers"]){
     for(var prop in properties){
 
       if(properties[prop]["read"]){
-        code += `setPropertyReadHandler("`+prop+`", () => {return new Promise((resolve, reject) => {`
+        code += `thing.setPropertyReadHandler("`+prop+`", () => {return new Promise((resolve, reject) => {`
         code += properties[prop]["read"]+`});});`
       }
 
