@@ -118,8 +118,8 @@ export default class WoTImpl implements WoT.WoT {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(thingScript),
-}).then((response) => response.text())
-                .catch((err) => { reject(err); });
+}).then((response:any) => response.text())
+                .catch((err:any) => { reject(err); });
         });
       }
 
