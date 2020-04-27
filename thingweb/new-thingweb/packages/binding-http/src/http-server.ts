@@ -475,7 +475,7 @@ if("properties" in description["handlers"]){
     let contentType: string = Array.isArray(contentTypeHeader) ? contentTypeHeader[0] : contentTypeHeader;
 
     req.on("data", (data) => {
-      console.log(data.toString("utf-8"))
+      console.log("DATA: "+JSON.stringify(data))
     });
 
     if (req.method === "PUT" || req.method === "POST") {
