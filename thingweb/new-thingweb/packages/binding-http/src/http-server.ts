@@ -474,6 +474,12 @@ if("properties" in description["handlers"]){
     let contentTypeHeader: string | string[] = req.headers["content-type"];
     let contentType: string = Array.isArray(contentTypeHeader) ? contentTypeHeader[0] : contentTypeHeader;
 
+    req.on("data", (data) => {
+      res.setHeader("Content-Type", ContentSerdes.TD);
+      res.writeHead(200);
+      res.end(JSON.stringify(data));
+    });
+
     if (req.method === "PUT" || req.method === "POST") {
       if (!contentType) {
         // FIXME should be rejected with 400 Bad Request, as guessing is not good in M2M -> debug/testing flag to allow
@@ -714,7 +720,6 @@ if("properties" in description["handlers"]){
                   let body: Array<any> = [];
                   req.on("data", (data) => { body.push(data); });
                   req.on("end", () => {
-                    console.debug(body)
                     console.debug(`HttpServer on port ${this.getPort()} completed body '${body}'`);
                     let value;
                     try {
@@ -728,18 +733,21 @@ if("properties" in description["handlers"]){
                     thing.writeProperty(segments[3], value, options)
                     // property.write(value, options)
                       .then(() => {
-                        res.writeHead(201);
+                        res.writeHead(200);
                         res.end("Updated");
+                        return;
                       })
                       .catch(err => {
                         console.error(`HttpServer on port ${this.getPort()} got internal error on update '${requestUri.pathname}': ${err.message}`);
                         res.writeHead(500);
                         res.end(err.message);
+                        return;
                       });
                   });
                 } else {
                   res.writeHead(400);
                   res.end("Not input Property");
+                  return;
                 }
               }
               else {
