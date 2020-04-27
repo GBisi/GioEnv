@@ -518,7 +518,6 @@ if("properties" in description["handlers"]){
             res.writeHead(400);
             res.setHeader("Content-Type", "text/javascript");
             res.end(script);
-            res.end("Thind Description Error");
             return;
           };
           res.setHeader("Content-Type", "text/javascript");
@@ -542,15 +541,15 @@ if("properties" in description["handlers"]){
           if (req.method == "DELETE"){// ADDED GB
             try{
             this.things.delete(segments[1])
-            res.writeHead(204);
-            res.setHeader("Content-Type", "text/plain");
-            res.end("Thing deleted");
-            return;
             }catch(e){
               res.writeHead(500);
               res.end("An error occurs");
               return;
             }
+            res.writeHead(204);
+            res.setHeader("Content-Type", ContentSerdes.DEFAULT);
+            res.end("Thing deleted");
+            return;
           }
 
           else if (req.method === "GET") {
