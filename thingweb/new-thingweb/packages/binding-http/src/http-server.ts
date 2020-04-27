@@ -538,7 +538,17 @@ if("properties" in description["handlers"]){
 
         if (segments.length === 2 || segments[2] === "") {
           // Thing root -> send TD
-          if (req.method === "GET") {
+
+          if (req.method == "DELETE"){// ADDED GB
+            try{
+            this.things.delete(segments[1])
+            res.writeHead(204);
+            }catch(e){
+              res.writeHead(500);
+            }
+          }
+
+          else if (req.method === "GET") {
             let td = thing.getThingDescription();
 
             // look for language negotiation through the Accept-Language header field of HTTP (e.g., "de", "de-CH", "en-US,en;q=0.5")
@@ -568,7 +578,7 @@ if("properties" in description["handlers"]){
             res.writeHead(200);
             res.end(JSON.stringify(td));
           } else {
-            respondUnallowedMethod(res, "GET");
+            respondUnallowedMethod(res, "GET, DELETE");
           }
           // resource found and response sent
           return;
