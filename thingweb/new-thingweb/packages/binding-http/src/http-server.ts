@@ -515,8 +515,8 @@ if("properties" in description["handlers"]){
           this.servient.runPrivilegedScript(script); 
           }catch(e) {
             console.debug(e);
-            res.writeHead(400);
             res.setHeader("Content-Type", "text/javascript");
+            res.writeHead(400);
             res.end(script);
             return;
           };
@@ -542,12 +542,13 @@ if("properties" in description["handlers"]){
             try{
             this.things.delete(segments[1])
             }catch(e){
+              res.setHeader("Content-Type", ContentSerdes.DEFAULT);
               res.writeHead(500);
               res.end("An error occurs");
               return;
             }
-            res.writeHead(204);
             res.setHeader("Content-Type", ContentSerdes.DEFAULT);
+            res.writeHead(204);
             res.end("Thing deleted");
             return;
           }
