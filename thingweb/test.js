@@ -512,6 +512,6 @@ td = {
        }
     }
  }
-console.log(await WoT.add("http://131.114.73.148:2000",td));
-console.log(await WoT.delete("http://131.114.73.148:2000","tetoz"));
+WoT.add("http://131.114.73.148:2000",td);
+WoT.delete("http://131.114.73.148:2000","tetoz");
 
