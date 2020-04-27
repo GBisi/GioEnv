@@ -60,8 +60,8 @@ export default class FileClient implements ProtocolClient {
 		return new Promise<void>((resolve, reject) => {
 	
 		});
-	  }
-
+    }
+  
   public writeResource(form: Form, content: Content): Promise<any> {
     return new Promise<Object>((resolve, reject) => {
       reject(new Error(`FileClient does not implement write`));

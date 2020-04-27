@@ -54,7 +54,7 @@ export default class CoapClient implements ProtocolClient {
 		return new Promise<void>((resolve, reject) => {
 	
 		});
-	  }
+    }
 
   public readResource(form: CoapForm): Promise<Content> {
     return new Promise<Content>((resolve, reject) => {

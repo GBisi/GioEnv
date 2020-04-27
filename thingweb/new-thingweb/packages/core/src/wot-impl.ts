@@ -105,6 +105,22 @@ export default class WoTImpl implements WoT.WoT {
             }
         });
     }
+
+    add(uri: string, thingScript:any): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            let client = this.srv.getClientFor(Helpers.extractScheme(uri));
+            console.info(`WoTImpl adding TD from '${uri}' with ${client}`);
+            fetch(uri, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(thingScript),
+}).then((response) => response.text())
+                .catch((err) => { reject(err); });
+        });
+      }
+
 }
 
 export enum DiscoveryMethod {

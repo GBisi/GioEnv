@@ -79,7 +79,7 @@ export default class MqttClient implements ProtocolClient {
 		return new Promise<void>((resolve, reject) => {
 	
 		});
-	  }
+      }
 
     writeResource = (form: MqttForm, content: Content): Promise<void> => {
         return new Promise<void>((resolve, reject) => {
