@@ -496,7 +496,7 @@ td = {
           }
        }
     },
-    "initalScript":"const fetch = require('node-fetch');",
+    "initialScript":"const fetch = require('node-fetch');",
     "endScript":"thing.writeProperty(\"temp\", 0); thing.writeProperty(\"light\", 0);thing.writeProperty(\"time\", (new Date()).getHours());thing.writeProperty(\"outdoor_temp\", 0);thing.writeProperty(\"outdoor_light\", 0); thing.writeProperty(\"last_indoor_update\", 0); thing.writeProperty(\"last_outdoor_update\", 0);",
     "handlers":{
        "actions":{
@@ -512,5 +512,5 @@ td = {
        }
     }
  }
-WoT.add("http://131.114.73.148:2000/",td);
+console.debug(WoT.add("http://131.114.73.148:2000/",td));
 
