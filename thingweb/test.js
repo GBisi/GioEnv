@@ -513,5 +513,5 @@ td = {
     }
  }
 console.debug(WoT.add("http://131.114.73.148:2000/",td));
-console.debug(WoT.delete("http://131.114.73.148:2000/tetoz"));
+console.debug(WoT.delete("http://131.114.73.148:2000/","tetoz"));
 

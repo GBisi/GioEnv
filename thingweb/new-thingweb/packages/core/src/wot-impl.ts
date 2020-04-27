@@ -118,18 +118,18 @@ export default class WoTImpl implements WoT.WoT {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(thingScript),
-            }).then((response:any) => response.text())
+            }).then((response:any) => resolve(response.text()))
                 .catch((err:any) => { reject(err); });
         });
       }
 
-      delete(uri: string): Promise<string> {
+      delete(uri: string, thing: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let client = this.srv.getClientFor(Helpers.extractScheme(uri));
             console.info(`WoTImpl deleting TD from '${uri}' with ${client}`);
-            fetch(uri, {
+            fetch(uri+"/"+thing, {
             method: 'DELETE',
-            }).then((response:any) => response.text())
+            }).then((response:any) => resolve(response.text()))
                 .catch((err:any) => { reject(err); });
         });
       }
