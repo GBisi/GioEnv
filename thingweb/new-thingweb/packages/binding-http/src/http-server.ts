@@ -474,10 +474,6 @@ if("properties" in description["handlers"]){
     let contentTypeHeader: string | string[] = req.headers["content-type"];
     let contentType: string = Array.isArray(contentTypeHeader) ? contentTypeHeader[0] : contentTypeHeader;
 
-    req.on("data", (data) => {
-      console.log("DATA: "+JSON.stringify(data))
-    });
-
     if (req.method === "PUT" || req.method === "POST") {
       if (!contentType) {
         // FIXME should be rejected with 400 Bad Request, as guessing is not good in M2M -> debug/testing flag to allow
