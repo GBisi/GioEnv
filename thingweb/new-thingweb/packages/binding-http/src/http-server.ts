@@ -475,10 +475,7 @@ if("properties" in description["handlers"]){
     let contentType: string = Array.isArray(contentTypeHeader) ? contentTypeHeader[0] : contentTypeHeader;
 
     req.on("data", (data) => {
-      res.setHeader("Content-Type", ContentSerdes.TD);
-      res.writeHead(200);
-      res.end(JSON.stringify(data));
-      return;
+      console.log(data)
     });
 
     if (req.method === "PUT" || req.method === "POST") {
