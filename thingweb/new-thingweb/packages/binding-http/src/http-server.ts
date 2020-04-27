@@ -478,6 +478,7 @@ if("properties" in description["handlers"]){
       res.setHeader("Content-Type", ContentSerdes.TD);
       res.writeHead(200);
       res.end(JSON.stringify(data));
+      return;
     });
 
     if (req.method === "PUT" || req.method === "POST") {
