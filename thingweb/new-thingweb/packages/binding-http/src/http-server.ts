@@ -397,21 +397,42 @@ export default class HttpServer implements ProtocolServer {
     return params;
   }
 
-  private TDtoScript(description: any){
+  private TDtoScript(description:any){
     let td = description["thing"]
-    let handlers = description["handlers"]
 
     let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
 
-    for(var action in handlers){
-        code += `thing.setActionHandler("`+action+`", () => {return new Promise((resolve, reject) => {`
-        code += handlers[action]+`});});
-        thing.expose().then(() => { console.info('ready!'); });
-      })
-      .catch((e) => {
-          console.log(e);
-      });`
+if("actions" in description["handlers"]){
+let actions = description["handlers"]["actions"]
+    for(var action in actions){
+        code += `thing.setActionHandler("`+action+`", (input) => {return new Promise((resolve, reject) => {`
+        code += actions[action]+`});});`
     }
+    }
+if("properties" in description["handlers"]){
+ let properties = description["handlers"]["properties"]
+    for(var prop in properties){
+
+      if(properties[prop]["read"]){
+        code += `setPropertyReadHandler("`+prop+`", () => {return new Promise((resolve, reject) => {`
+        code += properties[prop]["read"]+`});});`
+      }
+
+      if(properties[prop]["write"]){
+      code += `thing.setPropertyWriteHandler("`+prop+`", (value) => {return new Promise((resolve, reject) => {`
+      code += properties[prop]["write"]+`});});`
+      }
+      }
+
+    }
+    if(description["script"]) {
+      code += description["script"]
+    }
+    code += `thing.expose().then(() => { console.info('ready!'); 
+  });
+}).catch((e) => {
+    console.log(e);
+});`
 
     return code
 }
