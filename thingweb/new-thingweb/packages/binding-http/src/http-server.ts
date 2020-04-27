@@ -542,12 +542,10 @@ if("properties" in description["handlers"]){
             try{
             this.things.delete(segments[1])
             }catch(e){
-              res.setHeader("Content-Type", ContentSerdes.DEFAULT);
               res.writeHead(500);
               res.end("An error occurs");
               return;
             }
-            res.setHeader("Content-Type", ContentSerdes.DEFAULT);
             res.writeHead(204);
             res.end("Thing deleted");
             return;
