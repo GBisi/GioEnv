@@ -401,6 +401,9 @@ export default class HttpServer implements ProtocolServer {
     let td = description["thing"]
 
     let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
+    if(description["initialScript"]) {
+      code += description["initialScript"]
+    }
 
 if("actions" in description["handlers"]){
 let actions = description["handlers"]["actions"]
@@ -425,9 +428,11 @@ if("properties" in description["handlers"]){
       }
 
     }
-    if(description["script"]) {
-      code += description["script"]
+
+    if(description["endScript"]) {
+      code += description["endScript"]
     }
+    
     code += `thing.expose().then(() => { console.info('ready!'); 
   });
 }).catch((e) => {

@@ -292,8 +292,225 @@ var microbit = newMicrobit(384933164).then((thing) => {
 newMicrobit(1252840479.9999999);
 //newMicrobit(671265031);
 //newMicrobit(20458004765.9999998);
-
-td = {"thing":{"title":"room42","description":"A Smart Room","descriptions":{"it":"Una stanza intelligente"},"@context":"https://www.w3.org/2019/wot/td/v1","properties":{"last_indoor_update":{"type":"string","description":"Last room's sensors update","descriptions":{"it":"Ultimo aggiornamento dai sensori nella stanza"},"observable":true,"readOnly":true,"writeOnly":false,"#input":false,"#output":false},"last_outdoor_update":{"type":"string","description":"Last outdoor update","descriptions":{"it":"Ultimo aggiornamento dei parametri esterni"},"observable":true,"readOnly":true,"writeOnly":false,"#input":false,"#output":false},"temp":{"type":"number","description":"Room's temperature","descriptions":{"it":"Temperatura della stanza"},"observable":true,"readOnly":true,"#input":true,"writeOnly":false,"#output":false},"tempL":{"type":"string","description":"Room's temperature in levels","descriptions":{"it":"Temperatura della stanza in livelli"},"observable":true,"readOnly":true,"enum":["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"],"writeOnly":false,"#input":false,"#output":false},"light":{"type":"number","description":"Room's light","descriptions":{"it":"Luminosita' della stanza"},"observable":true,"readOnly":true,"#input":true,"writeOnly":false,"#output":false},"lightL":{"type":"string","description":"Room's light in levels","descriptions":{"it":"Luminosita' della stanza in livelli"},"observable":true,"readOnly":true,"enum":["LOW","MEDIUM","HIGH"],"writeOnly":false,"#input":false,"#output":false},"time":{"type":"number","description":"Time","descriptions":{"it":"Orario"},"observable":true,"readOnly":true,"#input":true,"writeOnly":false,"#output":false},"timeL":{"type":"string","description":"Time in levels","descriptions":{"it":"Orario in livelli"},"observable":true,"readOnly":true,"enum":["NIGHT","MORNING","AFTERNOON","EVENING"],"writeOnly":false,"#input":false,"#output":false},"outdoor_light":{"type":"number","description":"Outdoor light","descriptions":{"it":"Luminosita' esterna"},"observable":true,"readOnly":true,"#input":true,"writeOnly":false,"#output":false},"outdoor_lightL":{"type":"string","description":"Outdoor light in levels","descriptions":{"it":"Luminosita' esterna in livelli"},"observable":true,"readOnly":true,"enum":["LOW","MEDIUM","HIGH"],"writeOnly":false,"#input":false,"#output":false},"outdoor_temp":{"type":"number","description":"Outdoor temperature","descriptions":{"it":"Temperatura esterna"},"observable":true,"readOnly":true,"#input":true,"writeOnly":false,"#output":false},"outdoor_tempL":{"type":"string","description":"Outdoor temperature in levels","descriptions":{"it":"Temperatura esterna in livelli"},"observable":true,"readOnly":true,"enum":["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"],"writeOnly":false,"#input":false,"#output":false}},"actions":{"refresh":{"description":"Update the parameters","descriptions":{"it":"Aggiorna i parametri"},"output":{"type":"object"}}},"events":{"fix":{"description":"Some action to do","descriptions":{"it":"Qualche azione da compiere"}}}},"script":"thing.writeProperty(\"temp\", 0); thing.writeProperty(\"light\", 0);thing.writeProperty(\"time\", (new Date()).getHours());thing.writeProperty(\"outdoor_temp\", 0);thing.writeProperty(\"outdoor_light\", 0); thing.writeProperty(\"last_indoor_update\", 0); thing.writeProperty(\"last_outdoor_update\", 0);","handlers":{"actions":{"refresh":"thing.readAllProperties().then((map) => {resolve(map)})"},"properties":{"outdoor_temp":{"read":"fetch(\"http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c\").then((response) => {return response.json(); }).then((data) => {thing.writeProperty(\"last_outdoor_update\", (new Date()).toISOString());resolve(data[\"main\"][\"feels_like\"]) });"},"outdoor_light":{"read":"fetch(\"http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c\").then((response) => {return response.json();}).then((data) => {thing.writeProperty(\"last_outdoor_update\", (new Date()).toISOString());resolve((data[\"value\"]/11)*255)});"}}}}
-
+td = {
+    "thing":{
+       "title":"room42",
+       "description":"A Smart Room",
+       "descriptions":{
+          "it":"Una stanza intelligente"
+       },
+       "@context":"https://www.w3.org/2019/wot/td/v1",
+       "properties":{
+          "last_indoor_update":{
+             "type":"string",
+             "description":"Last room's sensors update",
+             "descriptions":{
+                "it":"Ultimo aggiornamento dai sensori nella stanza"
+             },
+             "observable":true,
+             "readOnly":true,
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          },
+          "last_outdoor_update":{
+             "type":"string",
+             "description":"Last outdoor update",
+             "descriptions":{
+                "it":"Ultimo aggiornamento dei parametri esterni"
+             },
+             "observable":true,
+             "readOnly":true,
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          },
+          "temp":{
+             "type":"number",
+             "description":"Room's temperature",
+             "descriptions":{
+                "it":"Temperatura della stanza"
+             },
+             "observable":true,
+             "readOnly":true,
+             "#input":true,
+             "writeOnly":false,
+             "#output":false
+          },
+          "tempL":{
+             "type":"string",
+             "description":"Room's temperature in levels",
+             "descriptions":{
+                "it":"Temperatura della stanza in livelli"
+             },
+             "observable":true,
+             "readOnly":true,
+             "enum":[
+                "VERY_LOW",
+                "LOW",
+                "MEDIUM",
+                "HIGH",
+                "VERY_HIGH"
+             ],
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          },
+          "light":{
+             "type":"number",
+             "description":"Room's light",
+             "descriptions":{
+                "it":"Luminosita' della stanza"
+             },
+             "observable":true,
+             "readOnly":true,
+             "#input":true,
+             "writeOnly":false,
+             "#output":false
+          },
+          "lightL":{
+             "type":"string",
+             "description":"Room's light in levels",
+             "descriptions":{
+                "it":"Luminosita' della stanza in livelli"
+             },
+             "observable":true,
+             "readOnly":true,
+             "enum":[
+                "LOW",
+                "MEDIUM",
+                "HIGH"
+             ],
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          },
+          "time":{
+             "type":"number",
+             "description":"Time",
+             "descriptions":{
+                "it":"Orario"
+             },
+             "observable":true,
+             "readOnly":true,
+             "#input":true,
+             "writeOnly":false,
+             "#output":false
+          },
+          "timeL":{
+             "type":"string",
+             "description":"Time in levels",
+             "descriptions":{
+                "it":"Orario in livelli"
+             },
+             "observable":true,
+             "readOnly":true,
+             "enum":[
+                "NIGHT",
+                "MORNING",
+                "AFTERNOON",
+                "EVENING"
+             ],
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          },
+          "outdoor_light":{
+             "type":"number",
+             "description":"Outdoor light",
+             "descriptions":{
+                "it":"Luminosita' esterna"
+             },
+             "observable":true,
+             "readOnly":true,
+             "#input":true,
+             "writeOnly":false,
+             "#output":false
+          },
+          "outdoor_lightL":{
+             "type":"string",
+             "description":"Outdoor light in levels",
+             "descriptions":{
+                "it":"Luminosita' esterna in livelli"
+             },
+             "observable":true,
+             "readOnly":true,
+             "enum":[
+                "LOW",
+                "MEDIUM",
+                "HIGH"
+             ],
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          },
+          "outdoor_temp":{
+             "type":"number",
+             "description":"Outdoor temperature",
+             "descriptions":{
+                "it":"Temperatura esterna"
+             },
+             "observable":true,
+             "readOnly":true,
+             "#input":true,
+             "writeOnly":false,
+             "#output":false
+          },
+          "outdoor_tempL":{
+             "type":"string",
+             "description":"Outdoor temperature in levels",
+             "descriptions":{
+                "it":"Temperatura esterna in livelli"
+             },
+             "observable":true,
+             "readOnly":true,
+             "enum":[
+                "VERY_LOW",
+                "LOW",
+                "MEDIUM",
+                "HIGH",
+                "VERY_HIGH"
+             ],
+             "writeOnly":false,
+             "#input":false,
+             "#output":false
+          }
+       },
+       "actions":{
+          "refresh":{
+             "description":"Update the parameters",
+             "descriptions":{
+                "it":"Aggiorna i parametri"
+             },
+             "output":{
+                "type":"object"
+             }
+          }
+       },
+       "events":{
+          "fix":{
+             "description":"Some action to do",
+             "descriptions":{
+                "it":"Qualche azione da compiere"
+             }
+          }
+       }
+    },
+    "initalScript":"const fetch = require('node-fetch');",
+    "endScript":"thing.writeProperty(\"temp\", 0); thing.writeProperty(\"light\", 0);thing.writeProperty(\"time\", (new Date()).getHours());thing.writeProperty(\"outdoor_temp\", 0);thing.writeProperty(\"outdoor_light\", 0); thing.writeProperty(\"last_indoor_update\", 0); thing.writeProperty(\"last_outdoor_update\", 0);",
+    "handlers":{
+       "actions":{
+          "refresh":"thing.readAllProperties().then((map) => {resolve(map)})"
+       },
+       "properties":{
+          "outdoor_temp":{
+             "read":"fetch(\"http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c\").then((response) => {return response.json(); }).then((data) => {thing.writeProperty(\"last_outdoor_update\", (new Date()).toISOString());resolve(data[\"main\"][\"feels_like\"]) });"
+          },
+          "outdoor_light":{
+             "read":"fetch(\"http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c\").then((response) => {return response.json();}).then((data) => {thing.writeProperty(\"last_outdoor_update\", (new Date()).toISOString());resolve((data[\"value\"]/11)*255)});"
+          }
+       }
+    }
+ }
 WoT.add("http://131.114.73.148:2000/",td);
 
