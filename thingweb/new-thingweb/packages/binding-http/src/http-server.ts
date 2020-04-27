@@ -710,9 +710,10 @@ if("properties" in description["handlers"]){
               } 
               else if (req.method === "PATCH") { // ADDED GB
                 if (property["#input"]) {
+                  console.debug(data)
                   // load payload
                   let body: Array<any> = [];
-                  req.on("data", (data) => { body.push(data); console.debug(data) });
+                  req.on("data", (data) => { body.push(data); });
                   req.on("end", () => {
                     console.debug(`HttpServer on port ${this.getPort()} completed body '${body}'`);
                     let value;
@@ -727,7 +728,7 @@ if("properties" in description["handlers"]){
                     thing.writeProperty(segments[3], value, options)
                     // property.write(value, options)
                       .then(() => {
-                        res.writeHead(204);
+                        res.writeHead(201);
                         res.end("Updated");
                       })
                       .catch(err => {
