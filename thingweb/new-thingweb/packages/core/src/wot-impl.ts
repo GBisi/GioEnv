@@ -24,6 +24,8 @@ import ConsumedThing from "./consumed-thing";
 import Helpers from "./helpers";
 import { ContentSerdes } from "./content-serdes";
 
+const fetch = require('node-fetch');
+
 export default class WoTImpl implements WoT.WoT {
     private srv: Servient;
 
