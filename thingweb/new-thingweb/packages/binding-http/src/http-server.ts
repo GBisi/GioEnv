@@ -712,7 +712,7 @@ if("properties" in description["handlers"]){
                 if (property["#input"]) {
                   // load payload
                   let body: Array<any> = [];
-                  req.on("data", (data) => { body.push(data) });
+                  req.on("data", (data) => { body.push(data); console.debug(data) });
                   req.on("end", () => {
                     console.debug(`HttpServer on port ${this.getPort()} completed body '${body}'`);
                     let value;
