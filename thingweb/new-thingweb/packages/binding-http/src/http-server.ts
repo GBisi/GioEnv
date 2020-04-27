@@ -544,9 +544,11 @@ if("properties" in description["handlers"]){
             this.things.delete(segments[1])
             res.writeHead(204);
             res.end("Thing deleted");
+            return;
             }catch(e){
               res.writeHead(500);
               res.end("An error occurs");
+              return;
             }
           }
 
