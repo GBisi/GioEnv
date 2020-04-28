@@ -1,13 +1,12 @@
 import sys
-sys.path.insert(0, "../")
-sys.path.insert(0, "./src")
+sys.path.insert(0, "./")
 
 import serial
 from microbit import Microbit
 from room import Room
 import json
 import sys
-from retro.mysocket import MySocket
+import requests
 
 import configparser
 
@@ -31,6 +30,17 @@ class ClientManager:
             if byte is not None and byte != b'':
                 return byte
             return None
+
+    def update(self,thing,prop,val):
+        
+        r = requests.patch(self.SERVER+thing+"/properties/"+prop,data=str(val))
+        return r.status_code,r.text
+
+    def add_thing(self, thing):
+
+        td = thing.get_thing_description()
+        r = requests.post(self.SERVER,data=json.dumps(td))
+        return r.status_code,r.text
 
 
     def run(self):

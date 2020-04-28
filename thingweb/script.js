@@ -1,4 +1,4 @@
-
+/*
 const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504"
 
 const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c"
@@ -292,3 +292,4 @@ var microbit = newMicrobit(384933164).then((thing) => {
 newMicrobit(1252840479.9999999);
 newMicrobit(671265031);
 newMicrobit(20458004765.9999998);
+*/

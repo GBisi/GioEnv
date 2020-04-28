@@ -404,6 +404,7 @@ export default class HttpServer implements ProtocolServer {
     if(description["initialScript"]) {
       code += description["initialScript"]
     }
+    if(description["handlers"]){
 
 if("actions" in description["handlers"]){
 let actions = description["handlers"]["actions"]
@@ -428,6 +429,7 @@ if("properties" in description["handlers"]){
       }
 
     }
+  }
 
     if(description["endScript"]) {
       code += description["endScript"]

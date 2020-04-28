@@ -1,43 +1,54 @@
-from thing import Thing
-from action import Action
-from event import Event
-from property import Property
-from value import Value
-from timer import Timer
 import math
 
-class Microbit(Thing):
+class Microbit():
 
     def __init__(self, serial_number):
         self.serial_number = serial_number
         self.friendly_name = Microbit.get_microbit_name(serial_number)
 
-        Thing.__init__(
-                    self,
-                    self.friendly_name,
-                    'Microbit: '+self.friendly_name,
-                    'A Microbit Devices'
-                )
+        self.td = {
+            "thing":{
+                "title": self.friendly_name,
+                "description": "A Microbit Device",
+                "descriptions": {
+                    "it": "Un Microbit"
+                },
+                "@context": "https://www.w3.org/2019/wot/td/v1",
+                "properties": {
+                    "serial_number": {
+                        "type": "float",
+                        "description": "This Microbit's serial number",
+                        "descriptions": {
+                            "it": "Numero seriale del Microbit"
+                        },
+                        "observable": False,
+                        "readOnly": True
+                    },
+                    "light": {
+                            "type": "number",
+                            "description": "Value of this Microbit's light sensor",
+                            "descriptions": {
+                                "it": "Valore del sensore di luminosita' di questo Microbit"
+                            },
+                            "observable": True,
+                            "#input":True
+                            },
+                    "temp": {
+                            "type": "number",
+                            "description": "Value of this Microbit's temp sensor",
+                            "descriptions": {
+                                "it": "Valore del sensore di temperatura di questo Microbit"
+                            },
+                            "observable": True,
+                            "#input":True
+                        }
+                    }
+                },
+                "initialScript":'thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temp", 0);thing.writeProperty("light", 0);',
+            }
 
-        self.add_property(
-                    Property(self,
-                            'light',
-                            Value(0),
-                            metadata={
-                                'title': 'Light',
-                                'type': 'number',
-                                'readOnly': True,
-                            }))
-
-        self.add_property(
-                    Property(self,
-                            'temp',
-                            Value(0),
-                            metadata={
-                                'title': 'temperature',
-                                'type': 'number',
-                                'readOnly': True,
-                            }))
+    def get_thing_description(self):
+        return self.td
 
     def get_serial_number(self):
         return self.serial_number
