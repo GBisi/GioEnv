@@ -9,7 +9,7 @@ import requests
 
 import configparser
 
-from serial import Serial
+from serial import Serial, SerialException
 
 class ClientManager:
 
@@ -21,41 +21,48 @@ class ClientManager:
         self.microbit = {}
         self.rooms = {}
 
-        print("CLIENT MANAGER ONLINE @ "+ip+":"+str(clientport))
-        print("CLIENT MANAGER READ "+serialport)
-        print("CLIENT MANAGER SEND TO "+self.SERVER)
+        print("MICROBIT MANAGER ONLINE @ "+ip+":"+str(clientport))
+        print("MICROBIT MANAGER READ "+serialport)
+        print("MICROBIT MANAGER SEND TO "+self.SERVER)
 
     def ReadSerial(self,timeout):
-        with Serial(self.MICROBIT_PORT, 115200) as s:
-            print("connected")
-            while True:
-                byte = s.readline()
-                line = byte.decode().strip()
-                try:
-                    name, value = line.split(':')
-                    # do not work on Python<3.6
-                    # print(f"get from microbit  {name} = {value}")
-                    print("get from microbit  {} = {}".format(name, value))
-                    yield name, int(value)
-                except ValueError:
-                    pass
+        try:
+            with Serial(self.MICROBIT_PORT, 115200) as s:
+                print("Serial: Connected!")
+                while True:
+                    try:
+                        byte = s.readline()
+                        byte = byte.decode().strip()
+                        line = json.loads(byte)
+                        print("Serial:",line["s"],line["n"],line["v"])
+                        yield int(line["s"]), line["n"], int(line["v"])
+                    except ValueError:
+                        print("Serial: Value Error:",byte)
+        except SerialException:
+             print("Serial: Not Connected!")
 
     def update(self,thing,prop,val):
         
-        r = requests.patch(self.SERVER+thing+"/properties/"+prop,data=str(val))
-        return r.status_code,r.text
+        try:
+            r = requests.patch(self.SERVER+thing+"/properties/"+prop,data=str(val))
+            return r.status_code,r.text
+        except requests.ConnectionError:
+            print("WoT Server: Connection Error")
 
     def add_thing(self, thing):
-
-        td = thing.get_thing_description()
-        r = requests.post(self.SERVER,data=json.dumps(td))
-        return r.status_code,r.text
+        try:
+            td = thing.get_thing_description()
+            r = requests.post(self.SERVER,data=json.dumps(td))
+            return r.status_code,r.text
+        except requests.ConnectionError:
+            print("WoT Server: Connection Error")
+            exit()
 
 
     def run(self):
        with open('./rooms.json') as file:
             self.data = json.load(file)
-        
+            
             for microbit in self.data:
                 for attr in self.data[microbit]:
                     for n in self.data[microbit][attr]:
@@ -102,7 +109,7 @@ def configuration():
 if __name__ == "__main__":
     
     if len(sys.argv) != 6:
-        print("clientmanager [serial_port] [my_ip] [my_port] [server_ip] [server_port]")
+        print("microbitmanager [serial_port] [my_ip] [my_port] [server_ip] [server_port]")
         configuration()
     else:
         ClientManager(str(sys.argv[1]),int(sys.argv[3]),(str(sys.argv[4]),int(sys.argv[5])), ip=sys.argv[2]).run()
