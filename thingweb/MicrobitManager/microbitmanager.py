@@ -1,7 +1,6 @@
 import sys
 sys.path.insert(0, "./")
 
-import serial
 from microbit import Microbit
 from room import Room
 import json
@@ -10,26 +9,36 @@ import requests
 
 import configparser
 
+from serial import Serial
 
 class ClientManager:
 
-    def __init__(self, serialport, retroport, server, ip="127.0.0.1"):
+    def __init__(self, serialport, clientport, server, ip="127.0.0.1"):
         self.MICROBIT_PORT = serialport
-        self.RETRO_PORT = retroport
-        self.SERVER = server
+        self.CLIENT_PORT = clientport
+        self.SERVER = "http://"+server[0]+":"+str(server[1])+"/"
 
-        print("CLIENT MANAGER ONLINE @ "+ip+":"+str(retroport))
+        self.microbit = {}
+        self.rooms = {}
+
+        print("CLIENT MANAGER ONLINE @ "+ip+":"+str(clientport))
         print("CLIENT MANAGER READ "+serialport)
-        print("CLIENT MANAGER SEND TO "+str(server))
+        print("CLIENT MANAGER SEND TO "+self.SERVER)
 
     def ReadSerial(self,timeout):
-        with serial.Serial(self.MICROBIT_PORT, 115200,timeout=timeout) as s:
-            #print("read")
-            byte = s.readline()
-            #print("byte",byte)
-            if byte is not None and byte != b'':
-                return byte
-            return None
+        with Serial(self.MICROBIT_PORT, 115200) as s:
+            print("connected")
+            while True:
+                byte = s.readline()
+                line = byte.decode().strip()
+                try:
+                    name, value = line.split(':')
+                    # do not work on Python<3.6
+                    # print(f"get from microbit  {name} = {value}")
+                    print("get from microbit  {} = {}".format(name, value))
+                    yield name, int(value)
+                except ValueError:
+                    pass
 
     def update(self,thing,prop,val):
         
@@ -54,7 +63,7 @@ class ClientManager:
                             self.rooms[n] = Room(n)
                             self.add_thing(self.rooms[n])
 
-            for serial_number, name, val in self.ReadSocket():
+            for serial_number, name, val in self.ReadSerial(0):
                 
                 if serial_number not in self.microbits:
                     self.microbits[serial_number] = Microbit(serial_number)
@@ -84,16 +93,16 @@ def configuration():
         MY_IP = config["CLIENTMANAGER"]["MY_IP"]
         SERVER_IP = config["DEFAULT"]["MY_IP"]
 
-    SERVER_PORT = int(config["WOT"]["RETRO_PORT"])
+    SERVER_PORT = int(config["WOT"]["WOT_PORT"])
     SERIAL_PORT = config["CLIENTMANAGER"]["SERIAL_PORT"]
-    RETRO_PORT = int(config["CLIENTMANAGER"]["RETRO_PORT"])
+    CLIENT_PORT = int(config["CLIENTMANAGER"]["CLIENT_PORT"])
 
-    ClientManager(SERIAL_PORT,int(RETRO_PORT),(str(SERVER_IP),int(SERVER_PORT)), ip=MY_IP).run()
+    ClientManager(SERIAL_PORT,int(CLIENT_PORT),(str(SERVER_IP),int(SERVER_PORT)), ip=MY_IP).run()
 
 if __name__ == "__main__":
     
     if len(sys.argv) != 6:
-        print("clientmanager [serial_port] [my_ip] [retro_port] [server_ip] [server_port]")
+        print("clientmanager [serial_port] [my_ip] [my_port] [server_ip] [server_port]")
         configuration()
     else:
         ClientManager(str(sys.argv[1]),int(sys.argv[3]),(str(sys.argv[4]),int(sys.argv[5])), ip=sys.argv[2]).run()

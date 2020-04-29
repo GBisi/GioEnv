@@ -34,7 +34,17 @@ class Room():
                             },
                             "observable": True,
                             "readOnly": True
-                        }
+                        },
+
+                    "users": {
+                        "type":"array",
+                        "description": "Users in the room",
+                            "descriptions": {
+                                "it": "Utenti nella stanza"
+                            },
+                            "observable": True,
+                            "readOnly": True
+                    }
                 },
                 "actions":{
                     "refresh": {
@@ -43,6 +53,20 @@ class Room():
                             "it": "Aggiorna i parametri"
                         },
                         "output": { "type": "object" }
+                    },
+                     "enter": {
+                        "description": "Enter in the room",
+                        "descriptions": {
+                            "it": "Entra nella stanze"
+                        },
+                        "input": { "type": "string" }
+                    },
+                    "leave": {
+                        "description": "Leave the room",
+                        "descriptions": {
+                            "it": "Esci dalla stanze"
+                        },
+                        "input": { "type": "string" }
                     }
                 },
                 "events": {
@@ -55,10 +79,12 @@ class Room():
                 }
             },
             "initialScript":'const fetch = require("node-fetch");const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";',
-            "endScript":"thing.writeProperty('temp', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temp', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
+            "endScript":"thing.writeProperty('users', []);thing.writeProperty('temp', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temp', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
             "handlers":{
                 "actions":{
-                    "refresh":"thing.readAllProperties().then((map) => {resolve(map)})"
+                    "refresh":"thing.readAllProperties().then((map) => {resolve(map)})",
+                    "enter":"thing.readProperty('users').then((users) => {users.indexOf(input) === -1 ? (users.push(input) ? resolve('User registered') : reject('Internal error')) : resolve('User already in the room');})",
+                    "leave":"thing.readProperty('users').then((users) => {let index = users.indexOf(input);if(index > -1){users.splice(index, 1); resolve('User removed');} else {resolve('User not in the room');}})",
                 },
                 
                 "properties":{
