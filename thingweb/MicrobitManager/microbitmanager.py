@@ -27,7 +27,7 @@ class ClientManager:
 
     def ReadSerial(self,timeout):
         try:
-            with Serial(self.MICROBIT_PORT, 115200) as s:
+            with Serial(self.MICROBIT_PORT, 115200, timeout=timeout) as s:
                 print("Serial: Connected!")
                 while True:
                     try:
