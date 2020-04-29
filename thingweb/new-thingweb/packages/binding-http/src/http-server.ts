@@ -515,7 +515,7 @@ if("properties" in description["handlers"]){
           body.push(chunk);
         }).on('end', () => {
           let td:string = Buffer.concat(body).toString();
-          let script = this.TDtoScript(td)
+          let script = this.TDtoScript(JSON.parse(td));
           console.debug("Running: "+script)
           try{
           this.servient.runPrivilegedScript(script); 
