@@ -118,7 +118,7 @@ class Room():
         nameL_handler = ""
 
         for i in range(len(thresholds)):
-            nameL_handler += 'if(value < '+str(thresholds[i])+'){resolve("'+labels[i]+'");}'
+            nameL_handler += 'if(value < '+str(thresholds[i])+'){resolve("'+labels[i]+'");return;}'
 
         nameL_handler += 'resolve("'+labels[len(thresholds)]+'");'
         
