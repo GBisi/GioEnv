@@ -1,213 +1,130 @@
-from thing import Thing
-from action import Action
-from event import Event
-from property import Property
-from value import Value
-from timer import Timer
 import requests
 import time
 import datetime
 import json
-import configparser
 
-# WEATHER API (10.000 calls/month)
-# MORE INFO per Call
-# FEEL LIKE TEMP WRONG?
-def call_weatherapi():
-    try:
-        API_KEY = "e5dec06056da4e81be1171342200504"
-        api_call = "http://api.weatherapi.com/v1/current.json?q="+LAT+","+LON+"&key="+API_KEY
-        report = requests.get(api_call)
-        if report.status_code == requests.codes.ok:
-            report = report.json()
-            temp = report["current"]["temp_c"]
-            light = (float(report["current"]["uv"])/11)*255 # uv index max 11
-            return True,temp,light
-    except:
-        pass
-    return False,None,None
-
-# OPEN WEATHER MAP (60 calls/min) (30 because two calls for request: weather and uv)
-# or 1.000/day with one call api
-# MORE PRECISE
-def call_openweathermap():
-    try:
-        API_KEY = "647aa595e78b34e517dad92e1cf5e65c"
-        api_call_temp = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat="+LAT+"&lon="+LON+"&appid="+API_KEY
-        api_call_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat="+LAT+"&lon="+LON+"&appid="+API_KEY
-        report_temp = requests.get(api_call_temp)
-        report_uvi = requests.get(api_call_uvi)
-        if report_temp.status_code == requests.codes.ok or report_uvi.status_code == requests.codes.ok:
-            temp = None
-            light = None
-            if report_temp.status_code == requests.codes.ok:
-                report_temp = report_temp.json()
-                temp = report_temp["main"]["temp"]
-            if report_uvi.status_code == requests.codes.ok:
-                report_uvi = report_uvi.json()
-                light = (float(report_uvi["value"])/11)*255 # uv index max 11
-            return True,temp,light
-    except:
-        pass
-
-    return False,None,None
-
-class Room(Thing):
+class Room():
 
     def __init__(self, number):
         self.number = str(number)
+        self.room = {
+            "thing":{
+                "title": "room"+self.number,
+                "description": "A Smart Room",
+                "descriptions": {
+                    "it": "Una stanza intelligente"
+                },
+                "@context": "https://www.w3.org/2019/wot/td/v1",
+                "properties": {
+                    "last_indoor_update": {
+                            "type": "string",
+                            "description": "Last room's sensors update",
+                            "descriptions": {
+                                "it": "Ultimo aggiornamento dai sensori nella stanza"
+                            },
+                            "observable": True,
+                            "readOnly": True
+                        },
+                        
+                    "last_outdoor_update": {
+                            "type": "string",
+                            "description": "Last outdoor update",
+                            "descriptions": {
+                                "it": "Ultimo aggiornamento dei parametri esterni"
+                            },
+                            "observable": True,
+                            "readOnly": True
+                        }
+                },
+                "actions":{
+                    "refresh": {
+                        "description": "Update the parameters",
+                        "descriptions": {
+                            "it": "Aggiorna i parametri"
+                        },
+                        "output": { "type": "object" }
+                    }
+                },
+                "events": {
+                    "fix": {
+                        "description": "Some action to do",
+                        "descriptions": {
+                            "it": "Qualche azione da compiere"
+                        }
+                    }
+                }
+            },
+            "initialScript":'const fetch = require("node-fetch");const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";',
+            "endScript":"thing.writeProperty('temp', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temp', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
+            "handlers":{
+                "actions":{
+                    "refresh":"thing.readAllProperties().then((map) => {resolve(map)})"
+                },
+                
+                "properties":{
+                    "time":{
+                        "read":"resolve((new Date()).getHours())"
+                    },
+                    "outdoor_light":{
+                        "read":'fetch(openweathermap_uvi).then((response) => {return response.json();}).then((data) => {thing.writeProperty("last_outdoor_update", (new Date()).toISOString());resolve((data["value"]/11)*255)});'
+                    },
+                    "outdoor_temp":{
+                        "read":'fetch(openweathermap).then((response) => {return response.json();}).then((data) => {thing.writeProperty("last_outdoor_update", (new Date()).toISOString());resolve(data["main"]["feels_like"])});'
+                    }
 
-        Thing.__init__(
-                    self,
-                    "room"+self.number,
-                    'Room Id: '+self.number,
-                    'A Room'
-                )
+                }
+            }
+        }
 
-        self.add_param("time",[7,13,19,22], ["NIGHT","MORNING","AFTERNOON","EVENING","NIGHT"])
+        self.add_param("temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"],"Room's temperature","Temperatura della stanza");
+        self.add_param("light",[25,80], ["LOW","MEDIUM","HIGH"],"Room's light","Luminosita' della stanza");
+        self.add_param("time",[7,13,19,22], ["NIGHT","MORNING","AFTERNOON","EVENING","NIGHT"],"Time","Orario");
+    
+        self.add_param("outdoor_light",[25,80], ["LOW","MEDIUM","HIGH"], "Outdoor light","Luminosita' esterna")
+        self.add_param("outdoor_temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"], "Outdoor temperature","Temperatura esterna")
+    
 
-        self.add_param("light",[25,80], ["LOW","MEDIUM","HIGH"])
-        self.add_param("temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"])
+    def add_param(self, name, thresholds, labels, description = "", descriptionIta = ""):
+        self.room["thing"]["properties"][name] = {
+            "type":"number",
+            "description": description,
+            "descriptions": {
+                "it": descriptionIta
+            },
+            "observable": True,
+            "readOnly": True,
+            "#input": True
+        }
 
-        self.add_param("outdoor_light",[25,80], ["LOW","MEDIUM","HIGH"])
-        self.add_param("outdoor_temp",[18,20,22,24], ["VERY_LOW","LOW","MEDIUM","HIGH","VERY_HIGH"])
-
-        self.add_property(
-                    Property(self,
-                            "last_indoor_update",
-                            Value(0),
-                            metadata={
-                                'title':"last_indoor_update",
-                                'type': 'number',
-                                'readOnly': True,
-                            }))
-
-        self.add_property(
-                    Property(self,
-                            "last_outdoor_update",
-                            Value(0),
-                            metadata={
-                                'title': "last_outdoor_update",
-                                'type': 'number',
-                                'readOnly': True,
-                            }))
-
-        self.add_available_event(
-                "fix",
-                {
-                    'description': ""
-                })
-
-    def add_param(self, name, threshold, label):
-
-        self.add_property(
-                    Property(self,
-                            name,
-                            Value(0, lambda v: self.set_param(name, v, threshold, label)),
-                            metadata={
-                                'title': name,
-                                'type': 'number',
-                                'readOnly': True,
-                            }))
-
-        self.add_property(
-                    Property(self,
-                            name+'L',
-                            Value(label[0]),
-                            metadata={
-                                'title': name+' level',
-                                'type': 'string',
-                                'readOnly': True,
-                                'enum':label,
-                            }))
-
-        for l in label:
-            self.add_available_event(
-                l+'_'+name,
-                {
-                    'description': ""
-                })
+        self.room["thing"]["properties"][name+"L"] = {
+            "type":"string",
+            "description": description+" in levels",
+            "descriptions": {
+                "it": descriptionIta+" in livelli"
+            },
+            "observable": True,
+            "readOnly": True,
+            "enum": list(set(labels)),
+        }
 
 
-
-    def get_number(self):
-        return self.number
-
-    def set_param(self, name, val, threshold, label):
-
-        if name == "temp" or name == "light":
-            self.update_params()
-            self.update(("last_outdoor_update"),str(datetime.datetime.now()))
-
-        value = label[len(threshold)]
-
-        for i in range(len(threshold)):
-            if val < threshold[i]:
-                value = label[i]
-                break
+        if(name not in self.room["handlers"]["properties"]):
+            self.room["handlers"]["properties"][name] = {}
         
-        old = self.get_property(name+"L")
-        if value != old:
-            self.update((name+"L"),value)
-            self.add_new_event(value+"_"+name, val)
-            self.change(name,old,value)
+        self.room["handlers"]["properties"][name]["write"] = 'thing.writeProperty("'+name+"L"+'",value);thing.writeProperty("last_indoor_update", (new Date()).toISOString());resolve(value);'
 
-    def change(self, name, old, new):
+        if(name+"L" not in self.room["handlers"]["properties"]):
+            self.room["handlers"]["properties"][name+"L"] = {}
+            
+        nameL_handler = ""
 
-        config = configparser.ConfigParser()
-        config.read('../../config.ini')
+        for i in range(len(thresholds)):
+            nameL_handler += 'if(value < '+str(thresholds[i])+'){resolve("'+labels[i]+'");}'
 
-        test = config["TEST"].getboolean("TEST")
-
-        if test:
-            MY_IP = config["TEST"]["MY_IP"]
-        else:
-            MY_IP = config["DEFAULT"]["MY_IP"]
-
-        MEDIATOR_PORT = config["MEDIATOR"]["PORT"]
-
-        try:
-            mediator = "http://"+MY_IP+":"+str(MEDIATOR_PORT)+"/"
-            r = requests.get(mediator, json=self.get_properties())
-            text = r.text
-            self.add_new_event("fix", text)
-        except:
-            pass
-
-    def update_params(self):
-
-        config = configparser.ConfigParser()
-        config.read('../../config.ini')
-
-        global LAT
-        global LON
-
-        LAT = config["PLACE"]["LAT"]
-        LON = config["PLACE"]["LON"]
-
-        now = datetime.datetime.now()
-        self.update("time",now.hour)
+        nameL_handler += 'resolve("'+labels[len(thresholds)]+'");'
         
-        light_backup = None
-        temp_backup = None
-        status_backup = False
+        self.room["handlers"]["properties"][name+"L"]["write"] = nameL_handler
 
-        status,temp,light = call_openweathermap()
-
-        if not status or temp is None or light is None:
-
-            status_backup,temp_backup,light_backup = call_weatherapi()
+    def get_thing_description(self):
+            return self.room
         
-        if status or status_backup:
-
-            if light is not None:
-                self.update("outdoor_light",light)
-            elif light_backup is not None:
-                self.update("outdoor_light",light_backup)
-
-            if temp is not None:
-                self.update("outdoor_temp",temp)
-            elif temp_backup is not None:
-                self.update("outdoor_light",temp_backup)
-
-            self.update(("last_outdoor_update"),str(now))

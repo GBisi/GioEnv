@@ -398,6 +398,7 @@ export default class HttpServer implements ProtocolServer {
   }
 
   private TDtoScript(description:any){
+    console.info(description)
     let td = description["thing"]
 
     let code = "WoT.produce("+JSON.stringify(td)+").then((thing) => {"
