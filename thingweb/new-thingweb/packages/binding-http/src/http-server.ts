@@ -510,10 +510,13 @@ if("properties" in description["handlers"]){
         }
         res.end(JSON.stringify(list));
       } else if (req.method === "POST"){ // ADDED GB
-        let body: Array<any> = [];
-        req.on("data", (data) => { body.push(data) });
-        req.on("end", () => {
-          let td = JSON.parse(body)
+          let chunks:any = [];
+
+          req.on('data', function(data) {
+            chunks.push(data);
+          }).on('end', function() {
+            let data:any   = Buffer.concat(chunks);
+            let td = JSON.parse(data);
           let script = this.TDtoScript(td)
           console.debug("Running: "+script)
           try{
