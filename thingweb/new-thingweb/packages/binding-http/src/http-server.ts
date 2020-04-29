@@ -513,7 +513,7 @@ if("properties" in description["handlers"]){
         let body: Array<any> = [];
         req.on("data", (data) => { body.push(data) });
         req.on("end", () => {
-          let td:any = JSON.stringify(body);
+          let td:string = String.fromCharCode.apply(null, new Uint16Array(body));;
           let script = this.TDtoScript(td)
           console.debug("Running: "+script)
           try{
