@@ -1,0 +1,2 @@
+IF light(low) DO light(low).
+IF light(medium) DO light(low).
