@@ -300,3 +300,4 @@ newMicrobit(20458004765.9999998);
 //const s2m = "http://131.114.73.148:2048/"
 //const input = "Emma"
 //let res = fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({"rules":data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){console.debug(data)}).catch(function(error){console.debug(error)});
+              

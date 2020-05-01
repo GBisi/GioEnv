@@ -34,7 +34,7 @@ def infer():
         else:
             ans = {"new_facts":"[]","actions":"[]"}
         
-        return ans
+        return jsonify(ans)
     
     abort(400)
 
