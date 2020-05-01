@@ -301,7 +301,7 @@ console.debug(
     fetch(s2m + input + '/rules').then((response) => {
     return response.json()
 }).then((data) => {
-        return fetch(eaas + 'parse/rulestolist', {
+        fetch(eaas + 'parse/rulestolist', {
                 'method': 'GET',
                 'body': data['data']
             }).then((response1) => {resolve(response1);}).catch((e) => {})
