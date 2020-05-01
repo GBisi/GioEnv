@@ -304,14 +304,15 @@ let res = fetch(s2m + input + '/rules')
   return response.json()
 })
 .then(function(data) {   
-    
+  let rules = JSON.stringify({"rules":data['data']});
+  console.log(rules);
   return fetch(eaas + 'parse/rulestolist', {
     'method': 'POST',
     'headers': {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-    'body': JSON.stringify({"rules":data['data']})
+    'body': rules
 })
 
 })
