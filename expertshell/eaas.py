@@ -27,13 +27,10 @@ def infer():
         ans = {}       
 
         if "facts" in data and data["facts"] != "" and data["facts"] != "[]":
-            if "rules" in data:
+            if "rules" in data if data["rules"] != "" and data["rules"] != "[]":
                 ans = expert.solve(data["facts"],data["rules"])
             else:
-                if data["rules"] != "" and data["rules"] != "[]":
-                    ans = expert.solve(data["facts"])
-                else:
-                    ans = {"new_facts":data["facts"],"actions":""}
+                ans = {"new_facts":data["facts"],"actions":"[]"}
         else:
             ans = {"new_facts":"[]","actions":"[]"}
         
