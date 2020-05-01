@@ -304,6 +304,7 @@ let res = fetch(s2m + input + '/rules')
   return response.blob()
 })
 .then(function(data) {   
+    console.debug(data)
   return fetch(eaas + 'parse/rulestolist', {
     'method': 'GET',
     'body': data['data']
@@ -313,6 +314,7 @@ let res = fetch(s2m + input + '/rules')
   return response.blob(); 
 })
 .then(function(data) {
+    console.debug(data)
   resolve(data)
 })
 .catch(function(error) {  
