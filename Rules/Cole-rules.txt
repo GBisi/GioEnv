@@ -1,4 +1,4 @@
-IF temperature(very_low) THEN  do(temperature(very_high)).
+IF temperature(very_low) THEN do(temperature(very_high)).
 IF temperature(low) THEN do(temperature(very_high)).
 IF temperature(high) and outdoor_temperature(low) THEN do(temperature(very_high)).
 IF temperature(high) and outdoor_temperature(very_low) THEN do(temperature(very_high)).

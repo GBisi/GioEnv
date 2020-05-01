@@ -39,7 +39,7 @@ def infer():
     abort(400)
 
 @app.route('/parse/rulestolist', methods=['POST'])
-def parse():
+def rulestolist():
 
     data = request.get_json()
     
@@ -48,6 +48,28 @@ def parse():
         ls = CompileList(data["rules"])
         print(ls)
         return jsonify({"rules":ls})
+    
+    abort(400)
+
+def JSONtoList(json):
+    text = "["
+
+    for key in json:
+        if type(json[key]) == dict:
+            text = text + key+"("+JSONtoList(json[key])+"),"
+        else:
+            text = text + key+"("+str(json[key])+"),"
+
+    text = text[:-1] + "]"
+    return text
+
+@app.route('/parse/jsontolist', methods=['POST'])
+def jsontolist():
+
+    data = request.get_json()
+    arr = []
+    if data is not None:
+       return jsonify({"text":JSONtoList(data)})
     
     abort(400)
 
