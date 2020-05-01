@@ -43,7 +43,7 @@ def parse():
     
     if data is not None:
 
-        return {"rules":CompileList(data["rules"])}
+        return jsonify({"rules":CompileList(data["rules"])})
     
     abort(400)
 
