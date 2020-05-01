@@ -293,18 +293,29 @@ newMicrobit(1252840479.9999999);
 newMicrobit(671265031);
 newMicrobit(20458004765.9999998);
 */
+
+
 const fetch = require('node-fetch');
 const eaas = "http://131.114.73.148:1999/";
 const s2m = "http://131.114.73.148:2048/"
 const input = "Emma"
-const res = fetch(s2m + input + '/rules').then((response) => {
-    return response.json()
-}).then((data) => {
-        fetch(eaas + 'parse/rulestolist', {
-                'method': 'GET',
-                'body': data['data']
-            }).then((response1) =>  {return response1.json()
-        }).then((data1) => {return data1}).catch((e) => {})
-}).catch((e) => {})
+let res = fetch(s2m + input + '/rules')
+.then(function(response) { 
+  return response.json()
+})
+.then(function(data) {   
+  return fetch(eaas + 'parse/rulestolist', {
+    'method': 'GET',
+    'body': data['data']
+})
+})
+.then(function(response) { 
+  return response.json(); 
+})
+.then(function(data) {
+  resolve(data)
+})
+.catch(function(error) {  
+});
 
 res.then((d)=>console.debug(d))
