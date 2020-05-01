@@ -83,7 +83,7 @@ class Room():
             "handlers":{
                 "actions":{
                     "refresh":"thing.readAllProperties().then((map) => {resolve(map)})",
-                    "enter":"thing.readProperty('users').then((users) => {if (!(users.hasOwnProperty(input))) {users[input] = []; fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({'rules':data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){users[input]=data; resolve('User registered')}).catch(function(error){console.debug(error)});}else{resolve('User already in the room');};", 
+                    "enter":"thing.readProperty('users').then((users) => {if (!(users.hasOwnProperty(input))) {users[input] = []; fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({'rules':data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){users[input]=data; resolve('User registered')}).catch(function(error){console.debug(error)});}else{resolve('User already in the room');};});", 
                     "leave":"thing.readProperty('users').then((users) => {if(users.hasOwnProperty(input)){delete users[input];resolve('User removed');}else{resolve('User not in the room');}});",
                 },
                 
