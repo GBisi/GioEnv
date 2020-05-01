@@ -306,4 +306,4 @@ const res = fetch(s2m + input + '/rules').then((response) => {
             }).then((response1) => {resolve(response1);}).catch((e) => {}))
 }).catch((e) => {})
 
-console.debug(res)
+res.then((d)=>console.debug(d))
