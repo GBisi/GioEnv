@@ -293,3 +293,14 @@ newMicrobit(1252840479.9999999);
 newMicrobit(671265031);
 newMicrobit(20458004765.9999998);
 */
+
+console.debug(
+    fetch(s2m + input + '/rules').then((response) => {
+    return response.json()
+}).then((data) => {
+        return fetch(eaas + 'parse/rulestolist', {
+                'method': 'GET',
+                'body': data['data']
+            }).then((response1) => {resolve(response1);}).catch((e) => {})
+}).catch((e) => {})
+)

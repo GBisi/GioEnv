@@ -52,33 +52,33 @@ class MicrobitManager:
             print("WoT: updated ", thing, r.status_code, r.text)
             return r.status_code,r.text
         except requests.ConnectionError:
-            print("WoT Server: Connection Error "+r.status_code)
+            print("WoT Server: Connection Error")
 
     def add_thing(self, thing):
         try:
             td = thing.get_thing_description()
             r = requests.post(self.SERVER,data=json.dumps(td))
             if r.status_code != 201:
-                print("WoT: added ",td["thing"]["title"], r.status_code, r.text)
+                print("WoT: not added ",td["thing"]["title"], r.status_code, r.text)
             else:
                 print("WoT: added ",td["thing"]["title"], r.status_code)
             return r.status_code,r.text
         except requests.ConnectionError:
-            print("WoT Server: Connection Error "+r.status_code)
+            print("WoT Server: Connection Error")
             return None
 
     def get_thing(self, thing):
         try:
             r = requests.get(self.SERVER+thing)
             if r.status_code != 200:
-                print("WoT: getted ",thing, r.status_code, r.text)
+                print("WoT: not getted ",thing, r.status_code, r.text)
             else:
                 print("WoT: getted ",thing, r.status_code)
             if r.status_code == requests.codes.ok:
                 return r.json()
             return None
         except requests.ConnectionError:
-            print("WoT Server: Connection Error "+r.status_code)
+            print("WoT Server: Connection Error")
             return None
 
 
