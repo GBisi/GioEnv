@@ -42,8 +42,10 @@ def parse():
     data = request.get_json()
     
     if data is not None:
-
-        return jsonify({"rules":CompileList(data["rules"])})
+        print(data)
+        ls = CompileList(data["rules"])
+        print(ls)
+        return jsonify({"rules":ls})
     
     abort(400)
 
