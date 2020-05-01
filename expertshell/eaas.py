@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, "../")
 sys.path.insert(0, "../../")
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 import json
 import time
 from flask_cors import CORS
