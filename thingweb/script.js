@@ -309,6 +309,7 @@ let res = fetch(s2m + input + '/rules')
     'method': 'GET',
     'body': JSON.stringify({"rules":data['data']})
 })
+
 })
 .then(function(response) { 
   return response.json(); 
@@ -316,6 +317,7 @@ let res = fetch(s2m + input + '/rules')
 .then(function(data) {
     console.debug(data)
 })
-.catch(function(error) {  
+.catch(function(error) { 
+    console.debug(error) 
 });
 
