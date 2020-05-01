@@ -300,10 +300,10 @@ const input = "Emma"
 const res =await fetch(s2m + input + '/rules').then((response) => {
     return response.json()
 }).then((data) => {
-        fetch(eaas + 'parse/rulestolist', {
+        resolve(fetch(eaas + 'parse/rulestolist', {
                 'method': 'GET',
                 'body': data['data']
-            }).then((response1) => {resolve(response1);}).catch((e) => {})
+            }).then((response1) => {resolve(response1);}).catch((e) => {}))
 }).catch((e) => {})
 
 console.debug(res)
