@@ -301,7 +301,7 @@ const s2m = "http://131.114.73.148:2048/"
 const input = "Emma"
 let res = fetch(s2m + input + '/rules')
 .then(function(response) { 
-  return response.json()
+  return response.blob()
 })
 .then(function(data) {   
   return fetch(eaas + 'parse/rulestolist', {
@@ -310,7 +310,7 @@ let res = fetch(s2m + input + '/rules')
 })
 })
 .then(function(response) { 
-  return response.json(); 
+  return response.blob(); 
 })
 .then(function(data) {
   resolve(data)
