@@ -306,7 +306,7 @@ let res = fetch(s2m + input + '/rules')
 .then(function(data) {   
     
   return fetch(eaas + 'parse/rulestolist', {
-    'method': 'post',
+    'method': 'POST',
     'body': JSON.stringify({"rules":data['data']})
 })
 
