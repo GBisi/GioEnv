@@ -39,11 +39,11 @@ def infer():
 @app.route('/parse/rulestolist', methods=['GET'])
 def parse():
 
-    data = request.data.decode("utf-8") 
+    data = request.get_json()
     
     if data is not None:
 
-        return CompileList(data)
+        return {"rules":CompileList(data["rules"])}
     
     abort(400)
 
