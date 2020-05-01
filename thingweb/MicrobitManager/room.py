@@ -37,10 +37,10 @@ class Room():
                         },
 
                     "users": {
-                        "type":"array",
-                        "description": "Users in the room",
+                        "type":"object",
+                        "description": "Users in the room with their preferences",
                             "descriptions": {
-                                "it": "Utenti nella stanza"
+                                "it": "Utenti nella stanza con le loro preferenze"
                             },
                             "observable": True,
                             "readOnly": True
@@ -78,13 +78,13 @@ class Room():
                     }
                 }
             },
-            "initialScript":'const fetch = require("node-fetch");const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";',
-            "endScript":"thing.writeProperty('users', []);thing.writeProperty('temp', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temp', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
+            "initialScript":'const s2m = "http://131.114.73.148:2048/";const fetch = require("node-fetch");const weatherapi = "http://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "http://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "http://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";',
+            "endScript":"thing.writeProperty('users', {});thing.writeProperty('temp', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temp', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
             "handlers":{
                 "actions":{
                     "refresh":"thing.readAllProperties().then((map) => {resolve(map)})",
-                    "enter":"thing.readProperty('users').then((users) => {users.indexOf(input) === -1 ? (users.push(input) ? resolve('User registered') : reject('Internal error')) : resolve('User already in the room');})",
-                    "leave":"thing.readProperty('users').then((users) => {let index = users.indexOf(input);if(index > -1){users.splice(index, 1); resolve('User removed');} else {resolve('User not in the room');}})",
+                    "enter":"thing.readProperty('users').then((users) => {if(!(users.hasOwnProperty(input))){fetch(s2m+input+'/rules').then((response) => {return response.json();}).then((data) =>{users[input]=data['data'];}).catch((e)=>{users[input]='';});resolve('User registered');}else{resolve('User already in the room');}})",
+                    "leave":"thing.readProperty('users').then((users) => {if(users.hasOwnProperty(input)){delete users[input];resolve('User removed');}else{resolve('User not in the room');}})",
                 },
                 
                 "properties":{
@@ -92,12 +92,11 @@ class Room():
                         "read":"resolve((new Date()).getHours())"
                     },
                     "outdoor_light":{
-                        "read":'fetch(openweathermap_uvi).then((response) => {return response.json();}).then((data) => {thing.writeProperty("last_outdoor_update", (new Date()).toISOString());resolve((data["value"]/11)*255)});'
+                        "read":'fetch(openweathermap_uvi).then((response) => {return response.json();}).then((data) => {thing.writeProperty("last_outdoor_update", (new Date()).toISOString());resolve((data["value"]/11)*255)}).catch((e)=>{});'
                     },
                     "outdoor_temp":{
-                        "read":'fetch(openweathermap).then((response) => {return response.json();}).then((data) => {thing.writeProperty("last_outdoor_update", (new Date()).toISOString());resolve(data["main"]["feels_like"])});'
-                    }
-
+                        "read":'fetch(openweathermap).then((response) => {return response.json();}).then((data) => {thing.writeProperty("last_outdoor_update", (new Date()).toISOString());resolve(data["main"]["feels_like"])}).catch((e)=>{});'
+                    },
                 }
             }
         }

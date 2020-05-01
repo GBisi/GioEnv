@@ -24,6 +24,9 @@ class MicrobitManager:
         print("MICROBIT MANAGER READ "+serialport)
         print("MICROBIT MANAGER SEND TO "+self.SERVER)
 
+
+        self.add_thing(Room(42))
+
     def ReadSerial(self,timeout):
         try:
             with Serial(self.MICROBIT_PORT, 115200, timeout=timeout) as s:
