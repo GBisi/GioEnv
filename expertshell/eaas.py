@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app)
 expert = ExpertSystem()
 
-@app.route('/infer', methods=['GET'])
+@app.route('/infer', methods=['POST'])
 def infer():
 
     data = request.get_json()
@@ -36,7 +36,7 @@ def infer():
     
     abort(400)
 
-@app.route('/parse/rulestolist', methods=['GET'])
+@app.route('/parse/rulestolist', methods=['POST'])
 def parse():
 
     data = request.get_json()
