@@ -297,8 +297,7 @@ const fetch = require('node-fetch');
 const eaas = "http://131.114.73.148:1999/";
 const s2m = "http://131.114.73.148:2048/"
 const input = "Emma"
-console.debug(
-    fetch(s2m + input + '/rules').then((response) => {
+const res =await fetch(s2m + input + '/rules').then((response) => {
     return response.json()
 }).then((data) => {
         fetch(eaas + 'parse/rulestolist', {
@@ -306,4 +305,5 @@ console.debug(
                 'body': data['data']
             }).then((response1) => {resolve(response1);}).catch((e) => {})
 }).catch((e) => {})
-)
+
+console.debug(res)
