@@ -301,7 +301,7 @@ const s2m = "http://131.114.73.148:2048/"
 const input = "Emma"
 let res = fetch(s2m + input + '/rules')
 .then(function(response) { 
-  return response.blob().toString()
+  return response.json()
 })
 .then(function(data) {   
     console.debug(data)
@@ -311,10 +311,10 @@ let res = fetch(s2m + input + '/rules')
 })
 })
 .then(function(response) { 
-  return response.blob(); 
+  return response.json(); 
 })
 .then(function(data) {
-    console.debug(data).toString()
+    console.debug(data)
   resolve(data)
 })
 .catch(function(error) {  
