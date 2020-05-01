@@ -9,14 +9,16 @@ from flask_cors import CORS
 
 from expertsystem import ExpertSystem
 
+from rulescompiler import CompileList
+
 import configparser
 
 app = Flask(__name__)
 CORS(app)
 expert = ExpertSystem()
 
-@app.route('/', methods=['GET'])
-def parse():
+@app.route('/infer', methods=['GET'])
+def infer():
 
     data = request.get_json()
     
@@ -31,6 +33,17 @@ def parse():
                 ans = expert.solve(data["facts"])
         
         return ans
+    
+    abort(400)
+
+@app.route('/parse/rulestolist', methods=['GET'])
+def parse():
+
+    data = request.data.decode("utf-8") 
+    
+    if data is not None:
+
+        return CompileList(data)
     
     abort(400)
 

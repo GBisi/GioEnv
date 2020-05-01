@@ -4,8 +4,7 @@ from problog import get_evaluatable
 from problog.engine import DefaultEngine
 from problog.tasks import sample
 
-from rulescompiler import Compile
-from rulescompiler import CompileList
+from rulescompiler import FileCompile
 import json
 
 class ExpertSystem:
@@ -18,7 +17,7 @@ class ExpertSystem:
        self._rulebook = rulebook
 
        if rulebook is not None:
-            open(rulebook+".pl","w").write(Compile(rulebook+".txt"))
+            open(rulebook+".pl","w").write(FileCompile(rulebook+".txt"))
     
     def solve(self, facts, rules = None):
 

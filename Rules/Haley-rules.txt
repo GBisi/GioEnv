@@ -1,9 +1,9 @@
-IF temperature(very_low) DO temperature(low).
-IF temperature(low) DO temperature(medium).
-IF temperature(medium) DO temperature(medium).
-IF temperature(high) DO temperature(medium).
-IF temperature(very_high) DO temperature(high).
+IF temperature(very_low) THEN do(temperature(low)).
+IF temperature(low) THEN do(temperature(medium)).
+IF temperature(medium) THEN do(temperature(medium)).
+IF temperature(high) THEN do(temperature(medium)).
+IF temperature(very_high) THEN do(temperature(high)).
 
-IF light(high) DO light(low).
-IF light(medium) DO light(low).
+IF light(high) THEN do(light(low)).
+IF light(medium) THEN do(light(low)).
 

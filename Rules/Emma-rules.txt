@@ -1,2 +1,2 @@
-IF light(high) DO light(low).
-IF light(medium) DO light(low).
+IF light(high) THEN do(light(low)).
+IF light(medium) THEN do(light(low)).
