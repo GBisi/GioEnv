@@ -304,13 +304,15 @@ let res = fetch(s2m + input + '/rules')
   return response.json()
 })
 .then(function(data) {   
+    console.debug(data)
+    console.debug(type(data['data']))
   return fetch(eaas + 'parse/rulestolist', {
     'method': 'GET',
     'body': data['data']
 })
 })
 .then(function(response) { 
-  return response.blob(); 
+  return response.json(); 
 })
 .then(function(data) {
     console.debug(data)
