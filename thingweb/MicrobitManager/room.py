@@ -54,6 +54,13 @@ class Room():
                         },
                         "output": { "type": "object" }
                     },
+                    "mediate": {
+                        "description": "Mediate user's preferences",
+                        "descriptions": {
+                            "it": "Media tra le preferenze degli utenti"
+                        },
+                        "output": { "type": "object" }
+                    },
                      "enter": {
                         "description": "Enter in the room",
                         "descriptions": {
@@ -83,8 +90,9 @@ class Room():
             "handlers":{
                 "actions":{
                     "refresh":"thing.readAllProperties().then((map) => {resolve(map)})",
-                    "enter":"thing.readProperty('users').then((users) => {if (!(users.hasOwnProperty(input))) {users[input] = []; fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({'rules':data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){users[input]=data; resolve('User registered')}).catch(function(error){console.debug(error)});}else{resolve('User already in the room');};});", 
+                    "enter":"thing.readProperty('users').then((users) => {if (!(users.hasOwnProperty(input))) {users[input] = {'rules':''}; fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({'rules':data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){users[input]=data; resolve('User registered')}).catch(function(error){console.debug(error);resolve('User registered');});}else{resolve('User already in the room');};});", 
                     "leave":"thing.readProperty('users').then((users) => {if(users.hasOwnProperty(input)){delete users[input];resolve('User removed');}else{resolve('User not in the room');}});",
+                    "mediate":"arr = []; thing.readAllProperties().then((props)=>{arr.push('temperature('+props['tempL']+')');arr.push('light('+props['lightL']+')');arr.push('outdoor_temperature('+props['outdoor_tempL']+')');arr.push('outdoor_light('+props['outdoor_lightL']+')');arr.push('time('+props['timeL']+')');arr.push('users('+Object.keys(props['users']).length+')');let facts='['+arr.join().toLowerCase()+']'; thing.readProperty('users').then((users)=>{});});",
                 },
                 
                 "properties":{
