@@ -293,7 +293,7 @@ newMicrobit(1252840479.9999999);
 newMicrobit(671265031);
 newMicrobit(20458004765.9999998);
 */
-
+const fetch = require('node-fetch');
 console.debug(
     fetch(s2m + input + '/rules').then((response) => {
     return response.json()
