@@ -301,3 +301,79 @@ newMicrobit(20458004765.9999998);
 //const input = "Emma"
 //let res = fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({"rules":data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){console.debug(data)}).catch(function(error){console.debug(error)});
               
+/*
+let user_setup = {
+    'temperature': [],
+    'light': []
+};
+let light = 0;
+let temp = 0;
+let arr = [];
+thing.readAllProperties().then((props) => {
+    props['light'] = props['lightL'].toLowerCase();
+    props['temperature'] = props['temperatureL'].toLowerCase();
+    light = props['light'];
+    temp = props['temperature'];
+    let facts = '[' + jsontolist(props).join().toLowerCase() + ']';
+    thing.readProperty('users').then((users) => {
+        users_len = Object.keys(props['users']).length;
+        if (users_len == 0) {
+            resolve(user_setup);
+            return;
+        }
+        for (const user in users) {
+            fetch(eaas + 'infer', {
+                'method': 'POST',
+                'headers': {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                'body': JSON.stringify({
+                    'rules': users[user]['rules'],
+                    'facts': facts
+                })
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                actions = data['actions'];
+                actions = listtojson(actions);
+                if (!('light' in actions)) {
+                    actions['light'] = light
+                }
+                if (!('temperature' in actions)) {
+                    actions['temperature'] = temp
+                };
+                user_setup['temperature'].push(actions['temperature']);
+                user_setup['light'].push(actions['light']);
+                return user_setup
+            }).catch((e) => {
+                console.debug(e);
+                users_len--;
+                return user_setup;
+            }).then((data) => {
+                if (data['temperature'].length >= users_len) {
+                    return data;
+                }
+            }).then((data)=>{
+                fetch(eaas + 'mediate/avg', {
+                    'method': 'POST',
+                    'headers': {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'data':user_setup['temperature'],
+                        'values':["very_low","low","medium","high","very_high"]
+                    })
+                })
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                resolve(data)
+            }).catch((e) => {
+                console.debug(e);
+            });
+        };
+    });
+});
+*/
