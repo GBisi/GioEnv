@@ -49,6 +49,7 @@ class ExpertSystem:
             }
 
         if rules is not None:
+            print("Request:",facts,rules)
             query = query+ """
             query("""+ExpertSystem._expert_cmd+"""("""+rules+""","""+facts+""",N,R)).
             """
