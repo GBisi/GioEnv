@@ -66,13 +66,10 @@ def get_avg():
                 in_num=[i if x==l else x for x in in_num]
                 i=i+1
             avg = (sum(in_num)/len(in_num))
-            print(avg)
             if "rounding" in data:
                 if data["rounding"] == "ceil":
-                    print(1)
                     avg=math.ceil(avg)
                 elif data["rounding"] == "floor":
-                    print(2)
                     avg=math.floor(avg)
                 elif data["rounding"] == "round":
                     avg=round(avg)
@@ -80,7 +77,6 @@ def get_avg():
                     avg=round(avg)
             else:
                     avg=round(avg)
-            print(avg)
             return(jsonify({"avg":data["values"][avg]}))
     
     abort(400)
