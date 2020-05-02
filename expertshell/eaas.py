@@ -2,6 +2,8 @@ import sys
 sys.path.insert(0, "../")
 sys.path.insert(0, "../../")
 
+import math 
+
 from flask import Flask, request, abort, jsonify
 import json
 import time
@@ -51,25 +53,35 @@ def rulestolist():
     
     abort(400)
 
-def JSONtoList(json):
-    text = "["
 
-    for key in json:
-        if type(json[key]) == dict:
-            text = text + key+"("+JSONtoList(json[key])+"),"
-        else:
-            text = text + key+"("+str(json[key])+"),"
-
-    text = text[:-1] + "]"
-    return text
-
-@app.route('/parse/jsontolist', methods=['POST'])
-def jsontolist():
+@app.route('/mediate/avg', methods=['POST'])
+def get_avg():
 
     data = request.get_json()
-    arr = []
     if data is not None:
-       return jsonify({"text":JSONtoList(data)})
+       if "data" in data and "values" in data:
+            i=0
+            in_num=data["data"]
+            for l in data["values"]:
+                in_num=[i if x==l else x for x in in_num]
+                i=i+1
+            avg = (sum(in_num)/len(in_num))
+            print(avg)
+            if "rounding" in data:
+                if data["rounding"] == "ceil":
+                    print(1)
+                    avg=math.ceil(avg)
+                elif data["rounding"] == "floor":
+                    print(2)
+                    avg=math.floor(avg)
+                elif data["rounding"] == "round":
+                    avg=round(avg)
+                else:
+                    avg=round(avg)
+            else:
+                    avg=round(avg)
+            print(avg)
+            return(jsonify({"avg":data["values"][avg]}))
     
     abort(400)
 
