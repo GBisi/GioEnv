@@ -3,6 +3,8 @@ test(F,R) :-
     [temperature(very_low), light(high)],F,R). 
 
 expert(Rules, Facts, NewFacts, Actions) :-
+    print('Rules',Rules),
+    print('Facts',Facts),
     solve(Rules, Facts, NewFacts),
     include(check, NewFacts, DoActions),
     dewrap(DoActions,[],Actions).
@@ -10,7 +12,7 @@ expert(Rules, Facts, NewFacts, Actions) :-
 check(X) :- functor(X,do,1).
 
 solve(Rules, Facts, NewFacts) :-
-    'print('Loop',Facts),'
+    %print('Loop',Facts),
     solve(Rules, Facts, NotAppliedRules, AppliedRules, NewFacts2),
     continue(Rules, Facts, NotAppliedRules, AppliedRules, NewFacts2, NewFacts).
 
