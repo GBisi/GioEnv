@@ -61,6 +61,8 @@ class ExpertSystem:
                 "actions":"["+ans[-1],
                 "new_facts":"["+ans[-2]+"]"
             }
+
+            print("Ans:",json.dumps(ans))
         
         return ans
         

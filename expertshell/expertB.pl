@@ -10,7 +10,7 @@ expert(Rules, Facts, NewFacts, Actions) :-
 check(X) :- functor(X,do,1).
 
 solve(Rules, Facts, NewFacts) :-
-    print('Loop',Facts),
+    'print('Loop',Facts),'
     solve(Rules, Facts, NotAppliedRules, AppliedRules, NewFacts2),
     continue(Rules, Facts, NotAppliedRules, AppliedRules, NewFacts2, NewFacts).
 
