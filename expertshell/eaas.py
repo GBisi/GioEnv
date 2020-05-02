@@ -60,6 +60,10 @@ def get_avg():
     data = request.get_json()
     if data is not None:
        if "data" in data and "values" in data:
+            if len(data["values"]) == 0:
+               abort(400)
+            if len(data["data"]) == 0:
+                return(jsonify({"avg":data["values"][round((len(data["values"])/2))]}))
             i=0
             in_num=data["data"]
             for l in data["values"]:
@@ -78,6 +82,61 @@ def get_avg():
             else:
                     avg=round(avg)
             return(jsonify({"avg":data["values"][avg]}))
+    
+    abort(400)
+
+@app.route('/mediate/min', methods=['POST'])
+def get_min():
+
+    data = request.get_json()
+    if data is not None:
+       if "data" in data and "values" in data:
+            if len(data["values"]) == 0:
+               abort(400)
+            if len(data["data"]) == 0:
+                return(jsonify({"min":data["values"][0]}))
+            for l in data["values"]:
+                if l in data["data"]:
+                    return(jsonify({"min":l}))
+    
+    abort(400)
+
+@app.route('/mediate/max', methods=['POST'])
+def get_max():
+
+    data = request.get_json()
+    if data is not None:
+       if "data" in data and "values" in data:
+            if len(data["values"]) == 0:
+               abort(400)
+            if len(data["data"]) == 0:
+                return(jsonify({"min":data["values"][0]}))
+            for l in reversed(data["values"]):
+                if l in data["data"]:
+                    return(jsonify({"max":l}))
+    
+    abort(400)
+
+@app.route('/mediate/most', methods=['POST'])
+def get_most():
+
+    data = request.get_json()
+    if data is not None:
+       if "data" in data and "values" in data:
+            if len(data["values"]) == 0:
+               data["values"] = data["data"]
+            if len(data["data"]) == 0:
+                return(jsonify({"most":"","occurences":0}))
+            m=-1
+            most = ""
+            for l in data["values"]:
+                x = data["data"].count(l)
+                if x > m:
+                    m=x
+                    most = l
+            if "quorum" in data:
+                return(jsonify({"most":most,"occurences":m,"quorum":m >= data["quorum"]}))
+            return(jsonify({"most":most,"occurences":m}))
     
     abort(400)
 
