@@ -301,7 +301,7 @@ newMicrobit(20458004765.9999998);
 //const input = "Emma"
 //let res = fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({"rules":data['data']});console.log(rules);return fetch(eaas + 'parse/rulestolist', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){console.debug(data)}).catch(function(error){console.debug(error)});
               
-/*
+
 let user_setup = {
     'temperature': [],
     'light': []
@@ -365,15 +365,35 @@ thing.readAllProperties().then((props) => {
                         'data':user_setup['temperature'],
                         'values':["very_low","low","medium","high","very_high"]
                     })
-                })
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                resolve(data)
-            }).catch((e) => {
+                mediation['temperature']=data['avg']
+            })
+            .catch((e) => {
                 console.debug(e);
-            });
+            })
+            .finally(
+                fetch(eaas + 'mediate/avg', {
+                    'method': 'POST',
+                    'headers': {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'data':user_setup['light'],
+                        'values':['low','medium','high'],
+                        'rounding':'floor'
+                    })
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                mediation['light']=data['avg']
+            })
+            );
+        }).catch((e) => {
+                console.debug(e);
+            }).finally(resolve(mediation));
         };
     });
 });
-*/
