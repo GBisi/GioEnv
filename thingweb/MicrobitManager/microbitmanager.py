@@ -25,7 +25,10 @@ class MicrobitManager:
         print("MICROBIT MANAGER SEND TO "+self.SERVER)
 
 
-        self.add_thing(Room(42))
+        self.add_thing(Room(42,'http://131.114.73.148:2000/tetoz','http://131.114.73.148:2000/puvit'))
+        self.add_thing(Microbit(1252840479.9999999))
+        self.add_thing(Microbit(384933164))
+        
 
     def ReadSerial(self,timeout):
         try:

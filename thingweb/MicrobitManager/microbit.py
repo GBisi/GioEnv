@@ -42,9 +42,33 @@ class Microbit():
                             "observable": True,
                             "#input":True
                         }
-                    }
+                    },
+                    "actions":{
+                        "set_temperature": {
+                            "description": "Request a new temperature settings",
+                            "descriptions": {
+                                "it": "Richiedi nuova impostazione della temperatura"
+                            },
+                            "input": { "type": "object" },
+                            "output": { "type": "object" }
+                        },
+                        "set_light": {
+                                "description": "Request a new light settings",
+                                "descriptions": {
+                                    "it": "Richiedi nuova impostazione della luce"
+                                },
+                                "input": { "type": "object" },
+                                "output": { "type": "object" }
+                            }
+                        }
                 },
                 "initialScript":'thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temp", 0);thing.writeProperty("light", 0);',
+                "handlers":{
+                    "actions":{
+                        "set_temperature":"console.debug('TEMPERATURE: '+JSON.stringify(input));",
+                        "set_light":"console.debug('LIGHT: '+JSON.stringify(input));",
+                    },
+                }
             }
 
     def get_thing_description(self):
