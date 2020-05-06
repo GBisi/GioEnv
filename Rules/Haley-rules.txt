@@ -4,6 +4,6 @@ IF temperature(medium) THEN do(temperature(medium)).
 IF temperature(high) THEN do(temperature(medium)).
 IF temperature(very_high) THEN do(temperature(high)).
 
-IF light(high) THEN do(light(low)).
-IF light(medium) THEN do(light(low)).
+IF light(low) THEN do(light(high)).
+IF light(medium) THEN do(light(high)).
 
