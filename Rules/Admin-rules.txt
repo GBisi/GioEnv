@@ -1,0 +1,9 @@
+IF temperature(very_low) THEN do(temperature(18)).
+IF temperature(low) THEN do(temperature(18)).
+IF temperature(medium) THEN do(temperature(22)).
+IF temperature(high) THEN do(temperature(24)).
+IF temperature(very_high) THEN do(temperature(24)).
+
+IF light(low) THEN do(light(180)).
+IF light(medium) THEN do(light(220)).
+IF light(high) THEN do(light(255)).

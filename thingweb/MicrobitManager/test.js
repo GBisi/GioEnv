@@ -850,3 +850,41 @@ thing.readProperty('rooms').then((rooms) => {
             });
                     
 
+                    fetch(s2m+'Admin/rules').then(function(response) {
+                        return response.json()
+                    }).then(function(data) {
+                        let rules = JSON.stringify({
+                            'rules': data['data']
+                        });
+                        return fetch(eaas + 'parse/rulestolist', {
+                            'method': 'POST',
+                            'headers': {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'body': rules
+                        })
+                    }).then(function(response) {
+                        return response.json();
+                    }).then(function(data) {
+                        fetch(eaas + 'infer', {
+                            'method': 'POST',
+                            'headers': {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'body': JSON.stringify({
+                                'rules': data["rules"],
+                                'facts': jsontolist(input)
+                            })
+                        }).then((response) => {
+                            return response.json();
+                        }).then((data) => {resolve(data);});
+                    }).catch(function(error) {
+                        console.debug(error);
+                        resolve("Unable to deploy");
+                    });
+
+
+                    
+            
