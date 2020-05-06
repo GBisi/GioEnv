@@ -652,3 +652,201 @@ thing.readAllProperties().then((props) => {
         };
     });
 });
+
+
+
+let user_setup = {
+    'temperature': [],
+    'light': []
+};
+let mediation = {'temperature': 'medium','light': 'low'};
+let light = 0;
+let temp = 0;
+let arr = [];
+thing.readAllProperties().then((props) => {
+    delete props['temperature_microbit'];
+    delete props['light_microbit'];
+    delete props['last_indoor_update'];
+    delete props['last_outdoor_update'];
+    props['users'] = Object.keys(props['users']).length;
+    props['light'] = props['lightL'].toLowerCase();
+    props['temperature'] = props['temperatureL'].toLowerCase();
+    light = props['light'];
+    temp = props['temperature'];
+    let facts = '[' + jsontolist(props).join().toLowerCase() + ']';
+    console.debug('*** MEDIATE ***:' + facts);
+    thing.readProperty('users').then((users) => {
+        users_len = props['users'];
+        if (users_len == 0) {
+            console.debug('*** MEDIATE ***: no user');
+            resolve(mediation);
+            return;
+        }
+        let timeWait = 0;
+        for (const user in users) {
+            timeWait++;
+            sleep(timeWait * 500).then(() => {
+                console.debug('*** MEDIATE ***: preferences of ' + user + ' getting');
+                fetch(eaas + 'infer', {
+                    'method': 'POST',
+                    'headers': {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'rules': users[user]['rules'],
+                        'facts': facts
+                    })
+                }).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    console.debug('*** MEDIATE ***: preferences of ' + user + ' -> ' + JSON.stringify(data));
+                    actions = data['actions'];
+                    actions = listtojson(actions);
+                    if (!('light' in actions)) {
+                        actions['light'] = light
+                    }
+                    if (!('temperature' in actions)) {
+                        actions['temperature'] = temp
+                    };
+                    user_setup['temperature'].push(actions['temperature']);
+                    user_setup['light'].push(actions['light']);
+                    return user_setup
+                }).catch((e) => {
+                    console.debug(e);
+                    users_len--;
+                    return user_setup;
+                }).then((data) => {
+                    if (data['temperature'].length >= users_len) {
+                        console.debug('*** MEDIATE ***: total preferences ' + JSON.stringify(data));
+                        console.debug('*** MEDIATE ***: mediating');
+                        fetch(eaas + 'mediate/avg', {
+                            'method': 'POST',
+                            'headers': {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'body': JSON.stringify({
+                                'rounding': 'floor',
+                                'data': data['temperature'],
+                                'values': ['very_low', 'low', 'medium', 'high', 'very_high']
+                            })
+                        }).then((response) => {
+                            return response.json();
+                        }).then((data) => {
+                            console.debug('*** MEDIATE ***: temp ' + JSON.stringify(data));
+                            mediation['temperature'] = data['avg']
+                        }).catch((e) => {
+                            console.debug(e);
+                        }).then(fetch(eaas + 'mediate/avg', {
+                            'method': 'POST',
+                            'headers': {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'body': JSON.stringify({
+                                'data': data['light'],
+                                'values': ['low', 'medium', 'high'],
+                                'rounding': 'floor'
+                            })
+                        }).then((response) => {
+                            return response.json();
+                        }).then((data) => {
+                            console.debug('*** MEDIATE ***: light ' + JSON.stringify(data));
+                            mediation['light'] = data['avg'];
+                            console.debug('*** MEDIATE ***: result ' + JSON.stringify(mediation));
+                            resolve(mediation);
+                            fetch('"+temperature_microbit+"/actions/set_temperature', {
+                                'method': 'POST',
+                                'headers': {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'body': JSON.stringify({
+                                    'room': '"+self.number+"',
+                                    'temperature': mediation['temperature']
+                                })
+                            });
+                            fetch('"+light_microbit+"/actions/set_light', {
+                                'method': 'POST',
+                                'headers': {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'body': JSON.stringify({
+                                    'room': '"+self.number+"',
+                                    'light': mediation['light']
+                                })
+                            })
+                        }));
+                    }
+                });
+            }).catch((e) => {
+                console.debug(e);
+            });
+        };
+    });
+});
+
+let mediation = {
+    'temperature': 'medium',
+    'light': 'low'
+};
+thing.readProperty('rooms').then((rooms) => {
+            if (Object.keys(rooms).length == 0) {
+                console.debug('*** MEDIATE ***: no rooms');
+                resolve(mediation);
+                return;
+            };
+            let pref = {
+                'temperature': [],
+                'light': []
+            };
+            for (const r in rooms) {
+                pref['temperature'].push(rooms[r]['temperature']);
+                pref['light'].push(rooms[r]['light']);
+            };
+            console.debug('*** MEDIATE ***: total preferences ' + JSON.stringify(pref));
+            console.debug('*** MEDIATE ***: mediating');
+            fetch(eaas + 'mediate/avg', {
+                    'method': 'POST',
+                    'headers': {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'rounding': 'floor',
+                        'data': pref['temperature'],
+                        'values': ['very_low', 'low', 'medium', 'high', 'very_high']
+                    })
+                }).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    console.debug('*** MEDIATE ***: temp ' + JSON.stringify(data));
+                    mediation['temperature'] = data['avg']
+                }).catch((e) => {
+                    console.debug(e);
+                }).then(()=>{
+                    fetch(eaas + 'mediate/avg', {
+                        'method': 'POST',
+                        'headers': {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        'body': JSON.stringify({
+                            'data': data['light'],
+                            'values': ['low', 'medium', 'high'],
+                            'rounding': 'floor'
+                        })
+                    }).then((response) => {
+                        return response.json();
+                    }).then((data) => {
+                        console.debug('*** MEDIATE ***: light ' + JSON.stringify(data));
+                        mediation['light'] = data['avg'];
+                        console.debug('*** MEDIATE ***: result ' + JSON.stringify(mediation));
+                        resolve(mediation);
+                    });
+                }).catch(()=>{console.debug("Error during mediation"); resolve(mediation);})
+            });
+                    
+

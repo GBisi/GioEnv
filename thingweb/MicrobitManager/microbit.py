@@ -24,6 +24,15 @@ class Microbit():
                         "observable": False,
                         "readOnly": True
                     },
+                    "rooms": {
+                        "type": "object",
+                        "description": "Rooms controlled by this microbit",
+                        "descriptions": {
+                            "it": "Stanze controllate da questo microbit"
+                        },
+                        "observable": True,
+                        "readOnly": True
+                    },
                     "light": {
                             "type": "number",
                             "description": "Value of this Microbit's light sensor",
@@ -50,7 +59,6 @@ class Microbit():
                                 "it": "Richiedi nuova impostazione della temperatura"
                             },
                             "input": { "type": "object" },
-                            "output": { "type": "object" }
                         },
                         "set_light": {
                                 "description": "Request a new light settings",
@@ -58,16 +66,23 @@ class Microbit():
                                     "it": "Richiedi nuova impostazione della luce"
                                 },
                                 "input": { "type": "object" },
-                                "output": { "type": "object" }
-                            }
-                        }
+                            },
+                        "mediateRooms": {
+                        "description": "Mediate rooms preferences",
+                        "descriptions": {
+                            "it": "Media tra le preferenze delle stanze"
+                        },
+                        "output": { "type": "object" }
+                    }
+                        },
                 },
-                "initialScript":'thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temp", 0);thing.writeProperty("light", 0);',
+                "initialScript":'const fetch = require("node-fetch");const eaas = "http://131.114.73.148:1999/";thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temp", 0);thing.writeProperty("light", 0);',
                 "handlers":{
                     "actions":{
-                        "set_temperature":"console.debug('TEMPERATURE: '+JSON.stringify(input));",
-                        "set_light":"console.debug('LIGHT: '+JSON.stringify(input));",
-                    },
+                        "set_light":"thing.readProperty('rooms').then((rooms)=>{if(!(input['room'] in rooms)){rooms[input['room']]={'temperature':'medium', 'light':'low'}}; if(!('light' in input)){resolve('Malformed request');return;} rooms[input['room']]['light'] = input['light']; thing.writeProperty('rooms',rooms); resolve('Request added');}).catch((e)=>{console.debug(e); resolve('Malformed request');});",
+                        "set_temperature":"thing.readProperty('rooms').then((rooms)=>{if(!(input['room'] in rooms)){rooms[input['room']]={'temperature':'medium', 'light':'low'}}; if(!('temperature' in input)){resolve('Malformed request');return;} rooms[input['room']]['temperature'] = input['temperature']; thing.writeProperty('rooms',rooms); resolve('Request added');}).catch((e)=>{console.debug(e); resolve('Malformed request');});",
+                        "mediateRooms":"let mediation = { 'temperature': 'medium', 'light': 'low' }; thing.readProperty('rooms').then((rooms) => { if (Object.keys(rooms).length == 0) { console.debug('*** MEDIATE ***: no rooms'); resolve(mediation); return; }; let pref = { 'temperature': [], 'light': [] }; for (const r in rooms) { pref['temperature'].push(rooms[r]['temperature']); pref['light'].push(rooms[r]['light']); }; console.debug('*** MEDIATE ***: total preferences ' + JSON.stringify(pref)); console.debug('*** MEDIATE ***: mediating'); fetch(eaas + 'mediate/avg', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'rounding': 'floor', 'data': pref['temperature'], 'values': ['very_low', 'low', 'medium', 'high', 'very_high'] }) }).then((response) => { return response.json(); }).then((data) => { console.debug('*** MEDIATE ***: temp ' + JSON.stringify(data)); mediation['temperature'] = data['avg'] }).catch((e) => { console.debug(e); }).then(()=>{ fetch(eaas + 'mediate/avg', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'data': pref['light'], 'values': ['low', 'medium', 'high'], 'rounding': 'floor' }) }).then((response) => { return response.json(); }).then((data) => { console.debug('*** MEDIATE ***: light ' + JSON.stringify(data)); mediation['light'] = data['avg']; console.debug('*** MEDIATE ***: result ' + JSON.stringify(mediation)); resolve(mediation); }); }).catch((e)=>{console.debug(e); resolve(mediation);}) });",
+                        },
                 }
             }
 
