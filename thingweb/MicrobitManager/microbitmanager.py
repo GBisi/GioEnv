@@ -24,12 +24,6 @@ class MicrobitManager:
         print("MICROBIT MANAGER READ "+serialport)
         print("MICROBIT MANAGER SEND TO "+self.SERVER)
 
-
-        self.add_thing(Room(42,'http://131.114.73.148:2000/tetoz','http://131.114.73.148:2000/puvit'))
-        self.add_thing(Microbit(1252840479.9999999))
-        self.add_thing(Microbit(384933164))
-        
-
     def ReadSerial(self,timeout):
         try:
             with Serial(self.MICROBIT_PORT, 115200, timeout=timeout) as s:
@@ -42,17 +36,18 @@ class MicrobitManager:
                         byte = byte.decode().strip()
                         line = json.loads(byte)
                         #print("Serial:",line["s"],line["n"],line["v"])
-                        yield int(line["s"]), line["n"], int(line["v"])
+                        yield float(line["s"]), line["n"], int(line["v"])
                     except ValueError:
                         print("Serial: Value Error:",byte)
         except SerialException:
              print("Serial: Not Connected!")
 
     def update(self,thing,prop,val):
-        
+        if prop == "temp":
+            prop = "temperature"
         try:
             r = requests.patch(self.SERVER+thing+"/properties/"+prop,data=str(val))
-            print("WoT: updated ", thing, r.status_code, r.text)
+            print("WoT: updated ",prop, thing, r.status_code, r.text)
             return r.status_code,r.text
         except requests.ConnectionError:
             print("WoT Server: Connection Error")
@@ -89,12 +84,26 @@ class MicrobitManager:
        with open('./rooms.json') as file:
             self.data = json.load(file)
 
+            rooms = {}
+            for microbit in self.data:
+                for name in self.data[microbit]:
+                    for r in self.data[microbit][name]:
+                        if r not in rooms:
+                            rooms[r] = {}
+                        if name == "ac":
+                            rooms[r]["temperature"] = microbit
+                        if name == "windows":
+                            rooms[r]["light"] = microbit
+
+            for r in rooms:
+                self.rooms[r] = Room(r,rooms[r]["temperature"],rooms[r]["light"])
+            
             for serial_number, name, val in self.ReadSerial(None):
                 
                 if serial_number not in self.microbits:
                     self.microbits[serial_number] = Microbit(serial_number)
-                    if self.get_thing(self.microbits[serial_number].get_friendly_name()) is None:
-                        self.add_thing(self.microbits[serial_number])
+                if self.get_thing(self.microbits[serial_number].get_friendly_name()) is None:
+                    self.add_thing(self.microbits[serial_number])
 
                 microbit = Microbit.get_microbit_name(serial_number)
                 print("Serial: ",microbit,name,val)
@@ -103,14 +112,11 @@ class MicrobitManager:
                 if microbit in self.data:
                     if name in self.data[microbit]:
                         for r in self.data[microbit][name]:
-                            if r not in self.rooms:
-                                self.rooms[r] = Room(r)
                             if self.get_thing(self.rooms[r].get_thing_description()["thing"]["title"]) is None:
                                 if self.add_thing(self.rooms[r]) is None:
                                     print("Impossible to connect with Room "+r)
                                     continue;
                             self.update(self.rooms[r].get_thing_description()["thing"]["title"],name,val)
-
 
 # python Desktop/WoT/clientmanager.py COM7 4201 127.0.0.1 4200
 

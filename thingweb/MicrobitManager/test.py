@@ -1,14 +1,16 @@
-import requests
-import sys
-sys.path.insert(0, "./")
-from microbit import Microbit
-from room import Room
+from serial import Serial, SerialException
 import json
+from microbit import Microbit
 
-uri = "http://131.114.73.148:2000/"
-
-r = requests.get(uri)
-print(r.status_code,r.text)
-m = Room(42)
-r = requests.post(uri,data=json.dumps(m.get_thing_description()))
-print(r.status_code,r.text)
+with Serial("COM7", 115200, timeout=None) as s:
+    print("Serial: Connected!")
+    while True:
+        try:
+            byte = s.readline()
+            if byte is None or byte == b'':
+                continue
+            byte = byte.decode().strip()
+            line = json.loads(byte)
+            print("Serial:",line["s"],Microbit.get_microbit_name(line["s"]),line["n"],line["v"])
+        except ValueError:
+            print("Serial: Value Error:",byte)

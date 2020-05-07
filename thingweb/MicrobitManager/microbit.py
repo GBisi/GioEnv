@@ -42,9 +42,9 @@ class Microbit():
                             "observable": True,
                             "#input":True
                             },
-                    "temp": {
+                    "temperature": {
                             "type": "number",
-                            "description": "Value of this Microbit's temp sensor",
+                            "description": "Value of this Microbit's temperature sensor",
                             "descriptions": {
                                 "it": "Valore del sensore di temperatura di questo Microbit"
                             },
@@ -95,7 +95,7 @@ class Microbit():
                         } 
                     },
                 },
-                "initialScript":'const fetch = require("node-fetch");const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temp", 0);thing.writeProperty("light", 0);function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};',
+                "initialScript":'const fetch = require("node-fetch");const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};',
                 "handlers":{
                     "actions":{
                         "set_light":"thing.readProperty('rooms').then((rooms)=>{if(!(input['room'] in rooms)){rooms[input['room']]={'temperature':'medium', 'light':'low'}}; if(!('light' in input)){resolve('Malformed request');return;} rooms[input['room']]['light'] = input['light']; thing.writeProperty('rooms',rooms); resolve('Request added'); thing.invokeAction('mediateRooms');}).catch((e)=>{console.debug(e); resolve('Malformed request');});",
@@ -141,9 +141,10 @@ class Microbit():
             name = codebook[i][h] + name
 
         return name
-"""
-print(Microbit.get_microbit_name(384933164)) #puvit
-print(Microbit.get_microbit_name(1252840479.9999999)) #tetoz
-print(Microbit.get_microbit_name(671265031)) #tuvov
-print(Microbit.get_microbit_name(20458004765.9999998)) #gezev
-"""
+
+if __name__ == "__main__":
+
+    print(Microbit.get_microbit_name(384933164)) #puvit
+    print(Microbit.get_microbit_name(1252840479.9999999)) #tetoz
+    print(Microbit.get_microbit_name(671265031)) #tuvov
+    print(Microbit.get_microbit_name(20458004765.9999998)) #gezev

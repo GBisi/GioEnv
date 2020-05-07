@@ -1,17 +1,22 @@
 { "tuvov": {
-    "temp": ["329A",284], 
+    "temp": [279], 
     "light":[279],
-    "ac":[278], 
-    "windows":[279,278]
+    "ac":[42,279], 
+    "windows":[279]
 },
 
   "tetoz":{
-    "temp":[279,278,284],
-    "light":[279,278,284]
+    "temp":[42],
+    "light":[42],
+    "ac":[42,279], 
+    "windows":[42]
   },
 
   "gezev": {
-    "temp":["SS4"]
+    "temp":["SS4"],
+    "light":["SS4"],
+    "ac":["SS4"], 
+    "windows":["SS4"]
   }
  }
 
