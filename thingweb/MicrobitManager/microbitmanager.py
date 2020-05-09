@@ -3,9 +3,13 @@ sys.path.insert(0, "./")
 
 from microbit import Microbit
 from room import Room
+from observer import Observer
+from board import Board
 import json
 import sys
 import requests
+import time
+import random
 
 import configparser
 
@@ -13,20 +17,23 @@ from serial import Serial, SerialException
 
 class MicrobitManager:
 
-    def __init__(self, serialport, clientport, server, ip="127.0.0.1"):
+    def __init__(self, serialport, server):
         self.MICROBIT_PORT = serialport
-        self.CLIENT_PORT = clientport
         self.SERVER = "http://"+server[0]+":"+str(server[1])+"/"
         self.microbits = {}
         self.rooms = {}
 
-        print("MICROBIT MANAGER ONLINE @ "+ip+":"+str(clientport))
+        print("MICROBIT MANAGER ONLINE")
         print("MICROBIT MANAGER READ "+serialport)
         print("MICROBIT MANAGER SEND TO "+self.SERVER)
+        self.serial = Serial(self.MICROBIT_PORT, 115200)
+
+        self.waiting = {} #microbit waiting confirmed
+        self.approved = [] #approved microbit
 
     def ReadSerial(self,timeout):
         try:
-            with Serial(self.MICROBIT_PORT, 115200, timeout=timeout) as s:
+            with self.serial as s:
                 print("Serial: Connected!")
                 while True:
                     try:
@@ -35,8 +42,9 @@ class MicrobitManager:
                             continue
                         byte = byte.decode().strip()
                         line = json.loads(byte)
-                        #print("Serial:",line["s"],line["n"],line["v"])
-                        yield float(line["s"]), line["n"], int(line["v"])
+                        token = line["n"].split("$")
+                        #print(float(line["s"]), token[0], int(token[1]))
+                        yield float(line["s"]), token[0], int(token[1])
                     except ValueError:
                         print("Serial: Value Error:",byte)
         except SerialException:
@@ -47,7 +55,7 @@ class MicrobitManager:
             prop = "temperature"
         try:
             r = requests.patch(self.SERVER+thing+"/properties/"+prop,data=str(val))
-            print("WoT: updated ",prop, thing, r.status_code, r.text)
+            print("WoT: updated",prop, thing, r.status_code, r.text)
             return r.status_code,r.text
         except requests.ConnectionError:
             print("WoT Server: Connection Error")
@@ -57,9 +65,9 @@ class MicrobitManager:
             td = thing.get_thing_description()
             r = requests.post(self.SERVER,data=json.dumps(td))
             if r.status_code != 201:
-                print("WoT: not added ",td["thing"]["title"], r.status_code, r.text)
+                print("WoT: not added",td["thing"]["title"], r.status_code, r.text)
             else:
-                print("WoT: added ",td["thing"]["title"], r.status_code)
+                print("WoT: added",td["thing"]["title"], r.status_code)
             return r.status_code,r.text
         except requests.ConnectionError:
             print("WoT Server: Connection Error")
@@ -69,9 +77,9 @@ class MicrobitManager:
         try:
             r = requests.get(self.SERVER+thing)
             if r.status_code != 200:
-                print("WoT: not getted ",thing, r.status_code, r.text)
+                print("WoT: not getted",thing, r.status_code, r.text)
             else:
-                print("WoT: getted ",thing, r.status_code)
+                print("WoT: getted",thing, r.status_code)
             if r.status_code == requests.codes.ok:
                 return r.json()
             return None
@@ -79,10 +87,43 @@ class MicrobitManager:
             print("WoT Server: Connection Error")
             return None
 
+    def make_microbit_observer(self, microbit):
+        def callback(name):
+            s = self.serial
+            def f(state):
+                print(microbit+": ",state)
+                time.sleep(random.randint(1,10))
+                print(microbit+": sending temp")
+                s.write(("temp"+"$"+state["temperature"]+"$"+microbit+"\n").encode())
+                print(microbit+": sended temp")
+                time.sleep(10)
+                print(microbit+": sending light")
+                s.write(("light"+"$"+state["light"]+"$"+microbit+"\n").encode())
+                print(microbit+": sended light")
+            return f 
+        Observer(self.SERVER+microbit+"/events/setup").start(callback(microbit),True)
+        print("Observer: new",microbit,"observer")
+
 
     def run(self):
        with open('./rooms.json') as file:
             self.data = json.load(file)
+
+            if self.get_thing("approved") is None:
+                self.add_thing(Board("approved"))
+
+            def approved(waiting,approved):
+
+                def f(ads):
+                    print("New ads:",ads)
+                    if ads["microbit"] in waiting:
+                        if ads["pass"] == waiting[ads["microbit"]]:
+                            print("Approved:",ads["microbit"])
+                            approved.append(ads["microbit"])
+
+                return f
+
+            Observer(self.SERVER+"approved/events/ads").start(approved(self.waiting,self.approved),True)
 
             rooms = {}
             for microbit in self.data:
@@ -99,13 +140,27 @@ class MicrobitManager:
                 self.rooms[r] = Room(r,rooms[r]["temperature"],rooms[r]["light"])
             
             for serial_number, name, val in self.ReadSerial(None):
+
+                microbit = Microbit.get_microbit_name(serial_number)
+                if name == "syn":
+                    self.waiting[microbit] = str(val)
+                    print("Now Waiting:",microbit,val)
+                    print("Waiting List:",self.waiting)
+                    continue;
+
+                if microbit not in self.approved:
+                    print("Waiting:",microbit)
+                    continue;
+
+                if microbit in self.waiting:
+                    del self.waiting[microbit]
                 
                 if serial_number not in self.microbits:
                     self.microbits[serial_number] = Microbit(serial_number)
+                    self.make_microbit_observer(microbit)
                 if self.get_thing(self.microbits[serial_number].get_friendly_name()) is None:
                     self.add_thing(self.microbits[serial_number])
 
-                microbit = Microbit.get_microbit_name(serial_number)
                 print("Serial: ",microbit,name,val)
 
                 self.update(microbit,name,val)
@@ -128,22 +183,19 @@ def configuration():
     test = config["TEST"].getboolean("TEST")
 
     if test:
-        MY_IP = config["TEST"]["MY_IP"]
         SERVER_IP = config["TEST"]["MY_IP"]
     else:
-        MY_IP = config["CLIENTMANAGER"]["MY_IP"]
         SERVER_IP = config["DEFAULT"]["MY_IP"]
 
     SERVER_PORT = int(config["WOT"]["WOT_PORT"])
     SERIAL_PORT = config["CLIENTMANAGER"]["SERIAL_PORT"]
-    CLIENT_PORT = int(config["CLIENTMANAGER"]["CLIENT_PORT"])
 
-    MicrobitManager(SERIAL_PORT,int(CLIENT_PORT),(str(SERVER_IP),int(SERVER_PORT)), ip=MY_IP).run()
+    MicrobitManager(SERIAL_PORT,(str(SERVER_IP),int(SERVER_PORT))).run()
 
 if __name__ == "__main__":
     
     if len(sys.argv) != 6:
-        print("microbitmanager [serial_port] [my_ip] [my_port] [server_ip] [server_port]")
+        print("microbitmanager [serial_port] [server_ip] [server_port]")
         configuration()
     else:
-        MicrobitManager(str(sys.argv[1]),int(sys.argv[3]),(str(sys.argv[4]),int(sys.argv[5])), ip=sys.argv[2]).run()
+        MicrobitManager(str(sys.argv[1]),(str(sys.argv[4]),int(sys.argv[5]))).run()
