@@ -12,6 +12,17 @@ class Board:
                     "it": "Una lavagna per annunci"
                 },
                 "@context": "https://www.w3.org/2019/wot/td/v1",
+                    "properties":{
+                        "ads": {
+                            "description": "List of ads",
+                            "descriptions": {
+                                "it": "La lista degli annunci"
+                            },
+                            "type":"array",
+                            "readOnly":True,
+                            "observable":"True"
+                        }
+                    },
                     "actions":{
                         "pubblish": {
                             "description": "Pubblish a new ads",
@@ -36,9 +47,10 @@ class Board:
                         } 
                     },
                 },
+                "initialScript":"thing.writeProperty('ads',[]);",
                 "handlers":{
                     "actions":{
-                        "pubblish":"thing.emitEvent('ads',input);resolve('Pubblished!');",
+                        "pubblish":"thing.emitEvent('ads',input);resolve('Pubblished!');let data={}; data['data']=input;data['timestamp']=(new Date()).toISOString();thing.readProperty('ads').then((ls)=>{ls.push(data);thing.writeProperty('ads',ls);});",
                         },
                 }
             }

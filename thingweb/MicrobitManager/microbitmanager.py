@@ -26,6 +26,7 @@ class MicrobitManager:
         print("MICROBIT MANAGER ONLINE")
         print("MICROBIT MANAGER READ "+serialport)
         print("MICROBIT MANAGER SEND TO "+self.SERVER)
+
         self.serial = Serial(self.MICROBIT_PORT, 115200)
 
         self.waiting = {} #microbit waiting confirmed
