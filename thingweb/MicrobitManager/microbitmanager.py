@@ -92,15 +92,18 @@ class MicrobitManager:
         def callback(name):
             s = self.serial
             def f(state):
-                print(microbit+": ",state)
-                time.sleep(random.randint(1,10))
-                print(microbit+": sending temp")
-                s.write(("temp"+"$"+state["temperature"]+"$"+microbit+"\n").encode())
-                print(microbit+": sended temp")
-                time.sleep(10)
-                print(microbit+": sending light")
-                s.write(("light"+"$"+state["light"]+"$"+microbit+"\n").encode())
-                print(microbit+": sended light")
+                try:
+                    print(microbit+": ",state)
+                    time.sleep(random.randint(1,10))
+                    print(microbit+": sending temp")
+                    s.write(("temp"+"$"+state["temperature"]+"$"+microbit+"\n").encode())
+                    print(microbit+": sended temp")
+                    time.sleep(10)
+                    print(microbit+": sending light")
+                    s.write(("light"+"$"+state["light"]+"$"+microbit+"\n").encode())
+                    print(microbit+": sended light")
+                except:
+                    print(microbit+": Observer -> Serial ERROR")
             return f 
         Observer(self.SERVER+microbit+"/events/setup").start(callback(microbit),True)
         print("Observer: new",microbit,"observer")
