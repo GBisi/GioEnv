@@ -60,16 +60,18 @@ class MicrobitManager:
              print("Serial: Not Connected!")
 
     def update(self,thing,prop,val):
+
         if prop == "temp":
             prop = "temperature"
+
+        update_dashboard(thing,prop,val)
+
         try:
             r = requests.patch(self.SERVER+thing+"/properties/"+prop,data=str(val))
             print("WoT: updated",prop, thing, r.status_code, r.text)
             return r.status_code,r.text
         except requests.ConnectionError:
             print("WoT Server: Connection Error")
-
-        update_dashboard(thing,prop,val)
 
     def add_thing(self, thing):
         try:
