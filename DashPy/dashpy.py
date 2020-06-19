@@ -64,7 +64,7 @@ def get_prop_layout(device, prop):
             t = r.split(" ")
             if len(t) == 3:
                 x.append(t[1])
-                y.append(t[2])
+                y.append(float(t[2]))
 
         if prop == "temp" or prop == "temperature":
             layout.append(
@@ -72,7 +72,7 @@ def get_prop_layout(device, prop):
                     daq.Thermometer(
                         id=device+"-"+prop+":thermometer",
                         min=-10,
-                        max=float(max(y))+1,
+                        max=float(max(y))+5,
                         value=float(y[-1]),
                         showCurrentValue=True,
                         label='Current temperature',
@@ -85,7 +85,7 @@ def get_prop_layout(device, prop):
                     daq.Gauge(
                         id=device+"-"+prop+":gauge",
                         min=0,
-                        max=float(max(y))+1,
+                        max=float(max(y))+5,
                         value=float(y[-1]),
                         showCurrentValue=True,
                         label='Current value'
