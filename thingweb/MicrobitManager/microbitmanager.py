@@ -17,7 +17,11 @@ from serial import Serial, SerialException
 
 def update_dashboard(thing,prop,val):
     DashPy = "http://131.114.73.148:2042"
-    requests.patch(DashPy+"/devices/"+thing+"/"+prop,json=float(val))
+    try:
+        requests.patch(DashPy+"/devices/"+thing+"/"+prop,json=float(val))
+        print("Dashboard: updated",thing,prop)
+    except:
+        print("Dashboard: error",thing,prop)
 
 class MicrobitManager:
 
@@ -160,7 +164,7 @@ class MicrobitManager:
 
                 if microbit not in self.approved:
                     print("Waiting:",microbit)
-                    continue;
+                    #continue;
 
                 if microbit in self.waiting:
                     del self.waiting[microbit]
@@ -179,7 +183,8 @@ class MicrobitManager:
                         for r in self.data[microbit][name]:
                             if self.get_thing(self.rooms[r].get_thing_description()["thing"]["title"]) is None:
                                 if self.add_thing(self.rooms[r]) is None:
-                                    print("Impossible to connect with Room "+r)
+                                    print("Impossible to connect with Room "+str(r))
+                                    update_dashboard(self.rooms[r].get_thing_description()["thing"]["title"],name,val)
                                     continue;
                             self.update(self.rooms[r].get_thing_description()["thing"]["title"],name,val)
 
