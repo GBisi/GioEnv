@@ -15,6 +15,15 @@ class Microbit():
                 },
                 "@context": "https://www.w3.org/2019/wot/td/v1",
                 "properties": {
+                    "dashboard": {
+                        "type": "string",
+                        "description": "This Microbit's dashboard url",
+                        "descriptions": {
+                            "it": "Url della dashboard di questo microbit"
+                        },
+                        "observable": False,
+                        "readOnly": True
+                    },
                     "serial_number": {
                         "type": "float",
                         "description": "This Microbit's serial number",
@@ -95,7 +104,7 @@ class Microbit():
                         } 
                     },
                 },
-                "initialScript":'const fetch = require("node-fetch");const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};',
+                "initialScript":'const fetch = require("node-fetch");const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/'+self.friendly_name+'");thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};',
                 "handlers":{
                     "actions":{
                         "set_light":"thing.readProperty('rooms').then((rooms)=>{if(!(input['room'] in rooms)){rooms[input['room']]={'temperature':'medium', 'light':'low'}}; if(!('light' in input)){resolve('Malformed request');return;} rooms[input['room']]['light'] = input['light']; thing.writeProperty('rooms',rooms); resolve('Request added'); thing.invokeAction('mediateRooms');}).catch((e)=>{console.debug(e); resolve('Malformed request');});",

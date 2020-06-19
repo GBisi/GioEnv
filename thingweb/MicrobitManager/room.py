@@ -18,6 +18,15 @@ class Room():
                 },
                 "@context": "https://www.w3.org/2019/wot/td/v1",
                 "properties": {
+                    "dashboard": {
+                        "type": "string",
+                        "description": "This Room's dashboard url",
+                        "descriptions": {
+                            "it": "Url della dashboard di questa stanza"
+                        },
+                        "observable": False,
+                        "readOnly": True
+                    },
                     "temperature_microbit":{
                         "type": "string",
                         "description": "Temperature microbit url",
@@ -104,7 +113,7 @@ class Room():
                     },
                 },
             },
-            "initialScript":'function sleep (time) {return new Promise((resolve) => setTimeout(resolve, time));};const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";const fetch = require("node-fetch");const weatherapi = "https://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "https://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "https://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};',
+            "initialScript":'function sleep (time) {return new Promise((resolve) => setTimeout(resolve, time));};const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";const fetch = require("node-fetch");const weatherapi = "https://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "https://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "https://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/room'+self.number+'");',
             "endScript":"thing.writeProperty('temperature_microbit','"+self.temperature_microbit+"');thing.writeProperty('light_microbit','"+self.light_microbit+"'); thing.writeProperty('users', {});thing.writeProperty('temperature', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temperature', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
             "handlers":{
                 "actions":{
