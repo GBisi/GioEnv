@@ -164,9 +164,9 @@ def configuration():
     test = config["TEST"].getboolean("TEST")
 
     if test:
-        MY_IP = config["TEST"]["MY_IP"]
+        IP = config["TEST"]["MY_IP"]
     else:
-        MY_IP = config["DEFAULT"]["MY_IP"]
+        IP = config["DEFAULT"]["MY_IP"]
 
     PORT = int(config["DASHBOARD"]["PORT"])
     
