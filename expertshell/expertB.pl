@@ -18,11 +18,11 @@ solve(Rules, Facts, NewFacts) :-
 
 continue(_, _, [], _, NewFacts, NewFacts).
 
-continue(_, Facts, _, _, NewFacts, NewFacts) :-
-    same(Facts,NewFacts).
+continue(_, Facts, _, _, Facts, Facts).
 
-continue(_, _, NotAppliedRules, _, NewFacts2, NewFacts) :-
-    solve(NotAppliedRules, NewFacts2, NewFacts).
+continue(_, Facts, [N|Ns], _, NewFacts2, NewFacts) :-
+    Facts \== NewFacts2,
+    solve([N|Ns], NewFacts2, NewFacts).
 
 solve([], Facts, [], [], Facts).
 
