@@ -72,7 +72,7 @@ def get_prop_layout(device, prop):
                     daq.Thermometer(
                         id=device+"-"+prop+":thermometer",
                         min=0,
-                        max=max(y)+1,
+                        max=float(max(y))+1,
                         value=float(y[-1]),
                         showCurrentValue=True,
                         label='Current temperature',
@@ -84,8 +84,8 @@ def get_prop_layout(device, prop):
                 html.Div(
                     daq.Gauge(
                         id=device+"-"+prop+":gauge",
-                        min=0,
-                        max=max(y)+1,
+                        min=-10,
+                        max=float(max(y))+1,
                         value=float(y[-1]),
                         showCurrentValue=True,
                         label='Current value'
