@@ -15,6 +15,10 @@ import configparser
 
 from serial import Serial, SerialException
 
+def update_dashboard(thing,prop,val):
+    DashPy = "http://131.114.73.148:2042"
+    requests.patch(DashPy+"/devices/"+thing+"/"+prop,json=float(val))
+
 class MicrobitManager:
 
     def __init__(self, serialport, server):
@@ -60,6 +64,8 @@ class MicrobitManager:
             return r.status_code,r.text
         except requests.ConnectionError:
             print("WoT Server: Connection Error")
+
+        update_dashboard(thing,prop,val)
 
     def add_thing(self, thing):
         try:
