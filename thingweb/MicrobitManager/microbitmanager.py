@@ -15,7 +15,13 @@ import configparser
 
 from serial import Serial, SerialException
 
+
+PAIRING = True
+
 def update_dashboard(thing,prop,val):
+
+    if prop == "syn":
+        return
 
     if prop == "light":
         val = int(100/255 * val)
@@ -129,7 +135,7 @@ class MicrobitManager:
        with open('./rooms.json') as file:
             self.data = json.load(file)
 
-            if self.get_thing("approved") is None:
+            if PAIRING and self.get_thing("approved") is None:
                 self.add_thing(Board("approved"))
 
             def approved(waiting,approved):
@@ -143,7 +149,8 @@ class MicrobitManager:
 
                 return f
 
-            Observer(self.SERVER+"approved/events/ads").start(approved(self.waiting,self.approved),True)
+            if PAIRING:
+                Observer(self.SERVER+"approved/events/ads").start(approved(self.waiting,self.approved),True)
 
             rooms = {}
             for microbit in self.data:
@@ -162,17 +169,17 @@ class MicrobitManager:
             for serial_number, name, val in self.ReadSerial(None):
 
                 microbit = Microbit.get_microbit_name(serial_number)
-                if name == "syn":
+                if PAIRING and name == "syn":
                     self.waiting[microbit] = str(val)
                     print("Now Waiting:",microbit,val)
                     print("Waiting List:",self.waiting)
                     continue;
 
-                if microbit not in self.approved:
+                if PAIRING and microbit not in self.approved:
                     print("Waiting:",microbit)
-                    #continue;
+                    continue;
 
-                if microbit in self.waiting:
+                if PAIRING and microbit in self.waiting:
                     del self.waiting[microbit]
                 
                 if serial_number not in self.microbits:
