@@ -16,6 +16,10 @@ import configparser
 from serial import Serial, SerialException
 
 def update_dashboard(thing,prop,val):
+
+    if prop == "light":
+        val = int(100/255 * val)
+
     DashPy = "http://131.114.73.148:2042"
     try:
         requests.patch(DashPy+"/devices/"+thing+"/"+prop,json=float(val))
