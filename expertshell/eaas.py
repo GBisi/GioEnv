@@ -89,7 +89,7 @@ def infer():
     
     abort(400)
 
-@app.route('/parse/compilerules', methods=['POST'])
+@app.route('/compilerules', methods=['POST'])
 def compilerules():
 
     data = request.get_json()
