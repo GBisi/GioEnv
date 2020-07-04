@@ -45,7 +45,10 @@ class MicrobitManager:
         print("MICROBIT MANAGER READ "+serialport)
         print("MICROBIT MANAGER SEND TO "+self.SERVER)
 
-        self.serial = Serial(self.MICROBIT_PORT, 115200)
+        try:
+            self.serial = Serial(self.MICROBIT_PORT, 115200)
+        except:
+            print("SERIAL: PORT "+serialport+" NOT OPEN|")
 
         self.waiting = {} #microbit waiting confirmed
         self.approved = [] #approved microbit

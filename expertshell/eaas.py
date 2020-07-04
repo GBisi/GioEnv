@@ -89,8 +89,8 @@ def infer():
     
     abort(400)
 
-@app.route('/parse/rulestolist', methods=['POST'])
-def rulestolist():
+@app.route('/parse/compilerules', methods=['POST'])
+def compilerules():
 
     data = request.get_json()
     
