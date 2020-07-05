@@ -5,6 +5,7 @@ from microbit import Microbit
 from room import Room
 from observer import Observer
 from board import Board
+from mediator import Mediator
 import json
 import sys
 import requests
@@ -16,7 +17,7 @@ import configparser
 from serial import Serial, SerialException
 
 
-PAIRING = True
+PAIRING = False
 
 def update_dashboard(thing,prop,val):
 
@@ -48,7 +49,7 @@ class MicrobitManager:
         try:
             self.serial = Serial(self.MICROBIT_PORT, 115200)
         except:
-            print("SERIAL: PORT "+serialport+" NOT OPEN|")
+            print("SERIAL: PORT "+serialport+" NOT OPEN!")
 
         self.waiting = {} #microbit waiting confirmed
         self.approved = [] #approved microbit
@@ -113,30 +114,47 @@ class MicrobitManager:
             print("WoT Server: Connection Error")
             return None
 
-    def make_microbit_observer(self, microbit):
-        def callback(name):
+    def make_microbit_observer_light(self, microbit):
+        def callback_light(name):
             s = self.serial
-            def f(state):
+            def f_light(state):
                 try:
-                    print(microbit+": ",state)
-                    time.sleep(random.randint(1,10))
-                    print(microbit+": sending temp")
-                    s.write(("temp"+"$"+state["temperature"]+"$"+microbit+"\n").encode())
-                    print(microbit+": sended temp")
-                    time.sleep(10)
-                    print(microbit+": sending light")
-                    s.write(("light"+"$"+state["light"]+"$"+microbit+"\n").encode())
-                    print(microbit+": sended light")
+                    if('light' in state):
+                        print(microbit+": ",state)
+                        print(microbit+": sending light")
+                        time.sleep(random.randint(1,5))
+                        s.write(("light"+"$"+"1"+"$"+microbit+"\n").encode())
+                        print(microbit+": sended light")
                 except:
                     print(microbit+": Observer -> Serial ERROR")
-            return f 
-        Observer(self.SERVER+microbit+"/events/setup").start(callback(microbit),True)
-        print("Observer: new",microbit,"observer")
+            return f_light 
+        Observer(self.SERVER+microbit+"/events/setup_light").start(callback_light(microbit),True)
+        print("Observer: new",microbit,"light observer")
+
+    def make_microbit_observer_temp(self, microbit):
+        def callback_temp(name):
+            s = self.serial
+            def f_temp(state):
+                try:
+                    if('temperature' in state):
+                        print(microbit+": ",state)
+                        print(microbit+": sending temp")
+                        time.sleep(random.randint(1,5))
+                        s.write(("temp"+"$"+"1"+"$"+microbit+"\n").encode())
+                        print(microbit+": sended temp")
+                except:
+                    print(microbit+": Observer -> Serial ERROR")
+            return f_temp 
+        Observer(self.SERVER+microbit+"/events/setup_temperature").start(callback_temp(microbit),True)
+        print("Observer: new",microbit,"temperature observer")
 
 
     def run(self):
        with open('./rooms.json') as file:
             self.data = json.load(file)
+
+            if self.get_thing("mediator") is None:
+                self.add_thing(Mediator())
 
             if PAIRING and self.get_thing("approved") is None:
                 self.add_thing(Board("approved"))
@@ -168,6 +186,7 @@ class MicrobitManager:
 
             for r in rooms:
                 self.rooms[r] = Room(r,rooms[r]["temperature"],rooms[r]["light"])
+                self.add_thing(self.rooms[r])
             
             for serial_number, name, val in self.ReadSerial(None):
 
@@ -187,7 +206,8 @@ class MicrobitManager:
                 
                 if serial_number not in self.microbits:
                     self.microbits[serial_number] = Microbit(serial_number)
-                    self.make_microbit_observer(microbit)
+                    self.make_microbit_observer_light(microbit)
+                    self.make_microbit_observer_temp(microbit)
                 if self.get_thing(self.microbits[serial_number].get_friendly_name()) is None:
                     self.add_thing(self.microbits[serial_number])
 

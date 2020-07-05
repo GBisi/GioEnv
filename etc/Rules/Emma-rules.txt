@@ -1,0 +1,4 @@
+IF light(high) THEN set_light(low).
+IF light(medium) THEN set_light(low).
+
+IF temperature(medium) THEN set_temperature(low).

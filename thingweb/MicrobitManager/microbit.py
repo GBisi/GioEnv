@@ -61,11 +61,31 @@ class Microbit():
                             "#input":True
                         }
                     },
-                    "events": {
-                        "setup": {
-                            "description": "A new setup of the enviroment",
+                    "actions": {
+                        "set": {
+                            "description": "Set a parameter",
                             "descriptions": {
-                                "it": "un nuovo setup dell'ambiente"
+                                "it": "Imposta un parametro"
+                            },
+                            "input": {
+                                "type": 'object',
+                            },
+                        }
+                    },
+                    "events": {
+                        "setup_temperature": {
+                            "description": "A new setup of the temp enviroment",
+                            "descriptions": {
+                                "it": "Un nuovo setup della temperatura dell'ambiente"
+                            },
+                            "data": {
+                                "type": 'object',
+                            },
+                        },
+                        "setup_light": {
+                            "description": "A new setup of the light enviroment",
+                            "descriptions": {
+                                "it": "Un nuovo setup della luminosità dell'ambiente"
                             },
                             "data": {
                                 "type": 'object',
@@ -73,7 +93,12 @@ class Microbit():
                         } 
                     },
                 },
-                "initialScript":'const fetch = require("node-fetch");const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/'+self.friendly_name+'");thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};',
+                "initialScript":'thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/'+self.friendly_name+'");thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);',
+                 "handlers":{
+                    "actions":{
+                        "set":"console.debug('Set:');console.debug(input);setup={}; if(input['param']=='temperature'){setup['temperature']=input['val']} if(input['param']=='light'){setup['light']=input['val']} console.debug('Event:'); console.debug(setup); thing.emitEvent('setup_'+input['param'],setup);",
+                        },
+                }
             }
 
     def get_thing_description(self):

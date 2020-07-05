@@ -121,8 +121,66 @@ def configuration():
     
     PREFIX = "http://"+MY_IP+":"+str(PORT)+"/"  
 
+
 if __name__ == '__main__':
     
+
+    solve(
+"""
+:- use_module(library(assert)).
+:- use_module(library(lists)).
+:- use_module(library(apply)).
+
+user(u11).
+set(u11, R, temperature, very_high):- inRoom(u11,R), temperature(R, low).
+set(u11, R, temperature, high):- inRoom(u11,R), temperature(R, low), outdoor_temperature(very_low).
+set(u11, R, temperature, low) :- inRoom(u11,R), temperature(R, high), outdoor_temperature(very_high).
+set(u11, R, light, medium) :- inRoom(u11,R), light(R, low), outdoor_light(medium).
+set(u11, R, light, high) :- inRoom(u11,R), light(R, low), outdoor_light(low).
+user(u12).
+set(u12, R, temperature, medium) :- inRoom(u12,R), temperature(R, low).
+temperature(room1, low).
+outdoor_temperature(very_high).
+light(room1,low).
+outdoor_light(high).
+inRoom(u11, room1).
+inRoom(u12, room1).
+inRoom(u21, room2).
+room(room1).
+room(room2).
+actuator(tetoz,temperature,room1).
+actuator(tetoz,temperature,room2).
+actuator(tuvov,light,room1).
+
+go :- 
+	findall((A,Type),actuator(A,Type,_),As),
+	sort(As,SAs),
+	decideActions(SAs).
+decideActions([]).
+decideActions([(A,Type)|As]) :-
+        findall((U,A,Type,V), (user(U),inRoom(U,R),actuator(A,Type,R),set(U,R,Type,V)), UATVs),
+	decideAction(UATVs),
+      	decideActions(As).
+decideAction([]).
+decideAction([X|Xs]) :- mediate([X|Xs],A),assertz(A).
+mediate(UATVs,todo(A,Type,V)) :- member((U,A,Type,V),UATVs), headOfDpt(U).			
+headOfDpt(gf).
+mediate(UATVs,todo(A,temperature,very_high)) :- member((_,A,temperature,very_high),UATVs). 	
+mediate([(U,A,Type,V)|UATVs],todo(A,Type,W)) :-
+	getStats([(U,A,Type,V)|UATVs],Stats),
+    	getMax(Stats,(W,_)).       
+getStats([],[]).
+getStats([(_,_,_,T)|L], SS) :- getStats(L,S), add(T,S,SS).
+add(T,[],[(T,1)]).
+add(T,[(T,N)|L], [(T,NewN)|L]) :- NewN is N+1.
+add(T,[(T1,N1)|L], [(T1,N1)|NewL]) :- T \== T1, add(T,L,NewL).
+getMax([(V,N)|L],M) :- myGetMax((V,N),L,M).
+myGetMax((V,N),[],(V,N)).
+myGetMax((V,N),[(_,N1)|L],M) :- N>=N1, myGetMax((V,N),L,M).
+myGetMax((_,N),[(V1,N1)|L],M) :- N<N1, myGetMax((V1,N1),L,M).
+""","""""",["go.","todo(A,B,C)."]
+)
+
     configuration()
     print("EaaS ONLINE @ "+MY_IP+":"+str(PORT))
     app.run(host=MY_IP,port=PORT)

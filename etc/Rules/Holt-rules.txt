@@ -1,0 +1,9 @@
+IF temperature(very_low) THEN set_temperature(low).
+IF temperature(medium) and outdoor_temperature(medium) THEN set_temperature(low).
+IF temperature(medium) and outdoor_temperature(low) THEN set_temperature(low).
+IF temperature(medium) and outdoor_temperature(very_low) THEN set_temperature(low).
+IF temperature(high) THEN set_temperature(very_low).
+IF temperature(very_high) THEN set_temperature(very_low).
+
+IF light(low) THEN set_light(high).
+IF light(medium) THEN set_light(high).

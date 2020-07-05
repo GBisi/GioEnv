@@ -1,9 +1,0 @@
-IF temperature(very_low) THEN do(temperature(low)).
-IF temperature(medium) and outdoor_temperature(medium) THEN do(temperature(low)).
-IF temperature(medium) and outdoor_temperature(low) THEN do(temperature(low)).
-IF temperature(medium) and outdoor_temperature(very_low) THEN do(temperature(low)).
-IF temperature(high) THEN do(temperature(very_low)).
-IF temperature(very_high) THEN do(temperature(very_low)).
-
-IF light(low) THEN do(light(high)).
-IF light(medium) THEN do(light(high)).

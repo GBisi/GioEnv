@@ -1,2 +1,0 @@
-IF light(high) THEN do(light(low)).
-IF light(medium) THEN do(light(low)).

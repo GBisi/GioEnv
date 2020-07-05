@@ -66,10 +66,10 @@ class Room():
                         },
 
                     "users": {
-                        "type":"object",
-                        "description": "Users in the room with their preferences",
+                        "type":"array",
+                        "description": "Users in the room",
                             "descriptions": {
-                                "it": "Utenti nella stanza con le loro preferenze"
+                                "it": "Utenti nella stanza"
                             },
                             "observable": True,
                             "readOnly": True
@@ -83,7 +83,7 @@ class Room():
                         },
                         "output": { "type": "object" }
                     },
-                    "mediateUsers": {
+                    "mediate": {
                         "description": "Mediate users preferences",
                         "descriptions": {
                             "it": "Media tra le preferenze degli utenti"
@@ -104,26 +104,17 @@ class Room():
                         },
                         "input": { "type": "string" }
                     },
-                    "newRules": {
-                        "description": "Get new rules of a user",
-                        "descriptions": {
-                            "it": "Ottieni le nuove regole di un utente"
-                        },
-                        "input": { "type": "string" }
-                    },
                 },
             },
             "initialScript":'function sleep (time) {return new Promise((resolve) => setTimeout(resolve, time));};const eaas = "http://131.114.73.148:1999/";const s2m = "http://131.114.73.148:2048/";const fetch = require("node-fetch");const weatherapi = "https://api.weatherapi.com/v1/current.json?q=43,10&key=e5dec06056da4e81be1171342200504";const openweathermap = "https://api.openweathermap.org/data/2.5/weather?units=metric&lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";const openweathermap_uvi = "https://api.openweathermap.org/data/2.5/uvi?lat=43&lon=10&appid=647aa595e78b34e517dad92e1cf5e65c";function listtojson(ls){obj={};if(ls != "[]" && ls !=""){ls = ls.replace("[","").replace("]","").split(", ");for(let elem in ls){elem=ls[elem].split("(");name = elem[0];value=elem[1];obj[name]=value.replace(")","")}}return obj};function jsontolist(obj){ls = [];for(key in obj){val = obj[key];if(typeof val === "object"){val = jsontolist(val)}ls.push(key +"("+val+")")}return ls};thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/room'+self.number+'");',
-            "endScript":"thing.writeProperty('temperature_microbit','"+self.temperature_microbit+"');thing.writeProperty('light_microbit','"+self.light_microbit+"'); thing.writeProperty('users', {});thing.writeProperty('temperature', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temperature', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
+            "endScript":"thing.writeProperty('temperature_microbit','"+self.temperature_microbit+"');thing.writeProperty('light_microbit','"+self.light_microbit+"'); thing.writeProperty('users', []);thing.writeProperty('temperature', 0);thing.writeProperty('light', 0);thing.writeProperty('time', (new Date()).getHours());thing.writeProperty('outdoor_temperature', 0);thing.writeProperty('outdoor_light', 0);thing.writeProperty('last_indoor_update', 0);thing.writeProperty('last_outdoor_update', 0);",
             "handlers":{
                 "actions":{
-                    "newRules":"thing.readProperty('users').then((users) => { if (!(users.hasOwnProperty(input))) { resolve('User not in the room'); return; }; fetch(s2m + input + '/rules').then(function(response) { return response.json() }).then(function(data) { let rules = JSON.stringify({ 'rules': data['data'] }); return fetch(eaas + 'compilerules', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': rules }) }).then(function(response) { return response.json(); }).then(function(data) { users[input] = data; resolve('User rules updated'); thing.invokeAction('mediateUsers'); }).catch(function(error) { console.debug(error); resolve('Error: user rules not updated'); }); });",
                     "refresh":"thing.readAllProperties().then((map) => {resolve(map)})",
-                    "enter":"thing.readProperty('users').then((users) => {if (!(users.hasOwnProperty(input))) {users[input] = {'rules':'[]'}; fetch(s2m + input + '/rules').then(function(response){return response.json()}).then(function(data){let rules = JSON.stringify({'rules':data['data']});return fetch(eaas + 'compilerules', {'method': 'POST','headers':{'Accept': 'application/json','Content-Type': 'application/json'},'body': rules})}).then(function(response){return response.json();}).then(function(data){users[input]=data; resolve('User registered'); thing.invokeAction('mediateUsers'); }).catch(function(error){console.debug(error);resolve('User registered w\o rules');});}else{resolve('User already in the room');};});", 
-                    "leave":"thing.readProperty('users').then((users) => {if(users.hasOwnProperty(input)){delete users[input];resolve('User removed'); thing.invokeAction('mediateUsers');}else{resolve('User not in the room');}});",
-                    "mediateUsers":"let user_setup = { 'temperature': [], 'light': [] }; let mediation = { 'temperature': 'medium', 'light': 'low' }; let light = 0; let temp = 0; let arr = []; thing.readAllProperties().then((props) => { delete props['dashboard']; delete props['temperature_microbit']; delete props['light_microbit']; delete props['last_indoor_update']; delete props['last_outdoor_update']; props['users'] = Object.keys(props['users']).length; props['time'] = props['timeL'].toLowerCase(); props['light'] = props['lightL'].toLowerCase(); props['outdoor_light'] = props['outdoor_lightL'].toLowerCase(); props['temperature'] = props['temperatureL'].toLowerCase(); props['outdoor_temperature'] = props['outdoor_temperatureL'].toLowerCase(); props['room'] = "+self.number+";light = props['light']; temp = props['temperature']; let facts = '[' + jsontolist(props).join().toLowerCase() + ']'; console.debug('*** MEDIATE "+self.number+" ***:' + facts); thing.readProperty('users').then((users) => { users_len = props['users']; if (users_len == 0) { console.debug('*** MEDIATE "+self.number+" ***: no user'); resolve(mediation); return; } let timeWait = 0; for (const user in users) {timeWait++; sleep(timeWait*1000).then(()=>{ console.debug('*** MEDIATE "+self.number+" ***: preferences of ' + user + ' getting'); fetch(eaas + 'infer', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'rules': users[user]['rules'], 'facts': facts }) }).then((response) => { return response.json(); }).then((data) => { console.debug('*** MEDIATE "+self.number+" ***: preferences of ' + user + ' -> ' + JSON.stringify(data)); actions = data['actions']; actions = listtojson(actions); if (!('light' in actions)) { actions['light'] = light } if (!('temperature' in actions)) { actions['temperature'] = temp }; user_setup['temperature'].push(actions['temperature']); user_setup['light'].push(actions['light']); return user_setup }).catch((e) => { console.debug(e); users_len--; return user_setup; }).then((data) => { if (data['temperature'].length >= users_len) { console.debug('*** MEDIATE "+self.number+" ***: total preferences ' + JSON.stringify(data)); console.debug('*** MEDIATE "+self.number+" ***: mediating'); fetch(eaas + 'mediate/avg', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'rounding': 'floor', 'data': data['temperature'], 'values': ['very_low', 'low', 'medium', 'high', 'very_high'] }) }).then((response) => { return response.json(); }).then((data) => { console.debug('*** MEDIATE "+self.number+" ***: temp ' + JSON.stringify(data)); mediation['temperature'] = data['avg'] }).catch((e) => { console.debug(e); }).then(fetch(eaas + 'mediate/avg', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'data': data['light'], 'values': ['low', 'medium', 'high'], 'rounding': 'floor' }) }).then((response) => { return response.json(); }).then((data) => { console.debug('*** MEDIATE "+self.number+" ***: light ' + JSON.stringify(data)); mediation['light'] = data['avg']; console.debug('*** MEDIATE "+self.number+" ***: result ' + JSON.stringify(mediation)); resolve(mediation); fetch('"+self.temperature_microbit+"/actions/set_temperature', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'room': '"+self.number+"', 'temperature': mediation['temperature'] }) }).then(()=>{ sleep(1000).then(()=>{fetch('"+self.light_microbit+"/actions/set_light', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'room': '"+self.number+"', 'light': mediation['light'] }) }) }) }) })); } }); }).catch((e) => { console.debug(e); }); }; }); }); ",
-                    },
-                
+                    "enter":"thing.readProperty('users').then((users) => { if (!(users.includes(input))) { users.push(input); resolve('User registered'); thing.invokeAction('mediate'); } else { resolve('User already in the room'); }; });",
+                    "leave":"thing.readProperty('users').then((users) => { if (!(users.includes(input))) { resolve('User not in the room'); } else { const index = users.indexOf(input); users.splice(index, 1); resolve('User removed'); thing.invokeAction('mediate'); }; });",
+                    "mediate":"data = []; thing.readAllProperties().then((props) => {data.push('users_num(' + props['users'].length + ',"+self.number.lower()+").'); data.push('time(' + props['timeL'].toLowerCase() + ', "+self.number.lower()+").'); data.push('light(' + props['lightL'].toLowerCase() + ', "+self.number.lower()+").'); data.push('outdoor_light(' + props['outdoor_lightL'].toLowerCase() + ', "+self.number.lower()+").'); data.push('temperature(' + props['temperatureL'].toLowerCase() + ', "+self.number.lower()+").'); data.push('outdoor_temperature(' + props['outdoor_temperatureL'].toLowerCase() + ', "+self.number.lower()+").'); data.push('room(' + "+self.number.lower()+" + ').'); data.push('actuator("+self.temperature_microbit.split("/")[-1].lower()+",temperature, "+self.number.lower()+").'); data.push('actuator("+self.light_microbit.split("/")[-1].lower()+",light, "+self.number.lower()+").'); for (const u in props['users']) { data.push('user('+props['users'][u].toLowerCase()+').'); data.push('inRoom(' + props['users'][u].toLowerCase() + ',"+self.number.lower()+").'); }; console.debug(data); resolve(data); fetch('http://131.114.73.148:2000/mediator/actions/mediate', { 'method': 'POST', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'body': JSON.stringify({ 'room':{ 'number': '"+self.number.lower()+"', 'facts': data, 'users':props['users'] } }) }) });"
+                    }, 
                 "properties":{
                     "time":{
                         "read":"resolve((new Date()).getHours())"
@@ -180,9 +171,9 @@ class Room():
         nameL_handler = ""
 
         for i in range(len(thresholds)):
-            nameL_handler += 'if(value < '+str(thresholds[i])+'){resolve("'+labels[i]+'");thing.invokeAction("mediateUsers");return;}'
+            nameL_handler += 'if(value < '+str(thresholds[i])+'){resolve("'+labels[i]+'");thing.invokeAction("mediate");return;}'
 
-        nameL_handler += 'resolve("'+labels[len(thresholds)]+'");thing.invokeAction("mediateUsers");';
+        nameL_handler += 'resolve("'+labels[len(thresholds)]+'");thing.invokeAction("mediate");';
         
         self.room["handlers"]["properties"][name+"L"]["write"] = nameL_handler
 

@@ -5,6 +5,7 @@ from microbitmanager import *
 import configparser
 import random
 import time
+from mediator import Mediator
 
 config = configparser.ConfigParser()
 config.read('../../config.ini')
@@ -22,8 +23,10 @@ SERIAL_PORT = config["CLIENTMANAGER"]["SERIAL_PORT"]
 mm = MicrobitManager(SERIAL_PORT,(str(SERVER_IP),int(SERVER_PORT)))
 
 mm.add_thing(Room(270,"tetoz","tuvov"))
-mm.add_thing(Microbit(1252840479.9999999))
+mm.add_thing(Room(271,"tetoz","gezev"))
 
-for i in range(400):
-    mm.update("room"+str(i),"light",random.randint(0,150))
-    #mm.update("room"+str(i),"temperature",random.randint(20,23))
+mm.add_thing(Mediator())
+mm.add_thing(Microbit(1252840479.9999999))
+mm.add_thing(Microbit(384933164))
+mm.add_thing(Microbit(671265031))
+mm.add_thing(Microbit(20458004765.9999998))

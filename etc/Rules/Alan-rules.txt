@@ -1,4 +1,5 @@
-IF temperature(very_low) THEN do(temperature(low)).
+IF temperature(very_low) and room(42) THEN do(temperature(low)).
+IF temperature(very_low) and room(270) THEN do(temperature(high)).
 IF temperature(low) and outdoor_temperature(medium) THEN do(temperature(medium)).
 IF temperature(low) and outdoor_temperature(low) THEN do(temperature(medium)).
 IF temperature(low) and outdoor_temperature(very_low) THEN do(temperature(medium)).
