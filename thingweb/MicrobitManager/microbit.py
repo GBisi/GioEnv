@@ -33,15 +33,6 @@ class Microbit():
                         "observable": False,
                         "readOnly": True
                     },
-                    "rooms": {
-                        "type": "object",
-                        "description": "Rooms controlled by this microbit",
-                        "descriptions": {
-                            "it": "Stanze controllate da questo microbit"
-                        },
-                        "observable": True,
-                        "readOnly": True
-                    },
                     "light": {
                             "type": "number",
                             "description": "Value of this Microbit's light sensor",
@@ -93,7 +84,7 @@ class Microbit():
                         } 
                     },
                 },
-                "initialScript":'thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/'+self.friendly_name+'");thing.writeProperty("rooms",{});thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);',
+                "initialScript":'thing.writeProperty("dashboard","http://131.114.73.148:2042/dash/'+self.friendly_name+'");thing.writeProperty("serial_number", '+str(serial_number)+');thing.writeProperty("temperature", 0);thing.writeProperty("light", 0);',
                  "handlers":{
                     "actions":{
                         "set":"console.debug('Set:');console.debug(input);setup={}; if(input['param']=='temperature'){setup['temperature']=input['val']} if(input['param']=='light'){setup['light']=input['val']} console.debug('Event:'); console.debug(setup); thing.emitEvent('setup_'+input['param'],setup);",
